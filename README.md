@@ -39,6 +39,13 @@ site reads as a site, and the advisor is there when it's wanted.
 - Demo reset controls, so the prototype can be presented repeatedly from a clean
   slate
 
+## Picking this up
+
+[`CLAUDE.md`](CLAUDE.md) holds the working context: the client brief and how
+each of its requirements is met, the design direction, how the advisor is
+wired, the two-build gotcha, and what is still open. A Claude Code session
+started in this directory loads it automatically.
+
 ## Running it
 
 It is a single self-contained `index.html`. Open the file directly, or:
