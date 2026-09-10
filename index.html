@@ -1,0 +1,1419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iskra Services — Build your business in the UK</title>
+
+<!-- Concept prototype for Iskra Services. Kept out of search results so it
+     cannot compete with or be mistaken for the live iskra.services site. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Concept prototype: set-up, visa, accounts and growth for international founders building a company in the UK, guided by an AI advisor.">
+<meta name="theme-color" content="#0E1E3A">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Iskra Services — Build your business in the UK">
+<meta property="og:description" content="Concept prototype: an AI advisor that scores your routes into the UK and builds one case file from the conversation.">
+<meta name="twitter:card" content="summary">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#129517;</text></svg>">
+
+<style>
+  /* Carried over from the artifact host. The widget, modal, launcher, toast
+     and nudge are all toggled via the `hidden` attribute, and the page's own
+     display rules would otherwise out-specify the browser default. */
+  [hidden]:not([hidden="until-found"]){display:none!important}
+  img{max-width:100%}
+</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap">
+
+<style>
+/* ============================================================
+   ISKRA SERVICES — site prototype v2
+   One visual world, painted explicitly: deep navy bands, off-white body.
+   ============================================================ */
+:root{
+  --navy:#0E1E3A;
+  --navy-2:#13294D;
+  --light:#F4F4F4;
+  --white:#FFFFFF;
+  --black:#121212;
+  --grey:#6B6F76;
+  --grey-2:#9A9EA5;
+  --line:#E0E2E6;
+  --line-dark:rgba(255,255,255,.13);
+  --gold:#E9B949;
+  --gold-2:#F6D983;
+  --sky:#7FB3FF;
+  --ok:#1E8A5A;
+  --warn:#B7791F;
+
+  --font:"Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --wrap:1200px;
+  --r:6px;
+  --r-lg:14px;
+  --shadow:0 1px 2px rgba(18,18,18,.04), 0 12px 32px -18px rgba(18,18,18,.22);
+  --shadow-lg:0 4px 12px rgba(18,18,18,.06), 0 30px 70px -30px rgba(18,18,18,.35);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--light);color:var(--black);
+  font-family:var(--font);font-size:16px;line-height:1.5;
+  font-stretch:100%;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,p{margin:0}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 40px}
+section[id]{scroll-margin-top:84px}
+
+/* ---------- type roles ---------- */
+.display{
+  font-weight:300;font-stretch:118%;letter-spacing:-.01em;line-height:1.02;
+  text-wrap:balance;
+}
+.eyebrow{
+  font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+}
+.lede{font-size:18px;line-height:1.5;font-weight:400;max-width:52ch;text-wrap:pretty}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 22px;border-radius:var(--r);border:1px solid transparent;
+  font-size:15.5px;font-weight:500;line-height:1;white-space:nowrap;
+  transition:background .18s,color .18s,border-color .18s,transform .18s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-white{background:var(--white);color:var(--black);border-color:var(--white)}
+.btn-white:hover{background:#ECECEC;border-color:#ECECEC}
+.btn-black{background:var(--black);color:var(--white);border-color:var(--black)}
+.btn-black:hover{background:#2B2B2B;border-color:#2B2B2B}
+.btn-outline-light{background:transparent;color:var(--white);border-color:rgba(255,255,255,.35)}
+.btn-outline-light:hover{border-color:var(--white)}
+.link{font-weight:500;display:inline-flex;align-items:center;gap:8px;background:none;border:none;padding:0;font-size:inherit}
+.link::after{content:"→";transition:transform .18s}
+.link:hover::after{transform:translateX(3px)}
+
+/* ============================================================
+   DARK BANDS (nav, hero, intro, cta, footer)
+   ============================================================ */
+.dark{background:var(--navy);color:var(--white);position:relative;overflow:hidden}
+.blob{
+  position:absolute;pointer-events:none;border-radius:50%;
+  filter:blur(70px);opacity:.85;
+}
+.blob-gold{
+  width:640px;height:640px;right:-120px;top:-140px;
+  background:radial-gradient(circle at 60% 40%, var(--gold-2) 0%, var(--gold) 38%, rgba(233,185,73,0) 72%);
+}
+.blob-sky{
+  width:520px;height:520px;right:340px;top:80px;
+  background:radial-gradient(circle, rgba(127,179,255,.55) 0%, rgba(127,179,255,0) 68%);
+  opacity:.7;
+}
+.hairlines{position:absolute;inset:0;pointer-events:none}
+.hairlines i{position:absolute;left:0;right:0;height:1px;background:var(--line-dark)}
+
+/* ---------- nav ---------- */
+.nav-wrap{position:sticky;top:0;z-index:50;background:var(--navy);color:var(--white)}
+.nav{
+  display:flex;align-items:center;gap:40px;height:78px;
+  border-bottom:1px solid var(--line-dark);
+}
+.logo{display:flex;flex-direction:column;gap:7px;align-items:flex-start}
+.logo-name{font-weight:700;font-size:21px;letter-spacing:.06em;text-transform:uppercase;line-height:.92;display:block}
+.logo-name i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-left:4px}
+.logo-tag{display:inline-flex;align-items:center;gap:7px;font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:500;opacity:.78;line-height:1;white-space:nowrap}
+.logo-tag svg{width:18px;height:12px;stroke:var(--gold);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- login / account ---------- */
+.nav-login{background:none;border:none;font-size:15.5px;font-weight:500;opacity:.92;padding:0;margin-left:4px;color:inherit}
+.nav-login:hover{opacity:1;text-decoration:underline;text-underline-offset:6px}
+.nav-login[hidden]{display:none}
+.account{position:relative;margin-left:4px}
+.account[hidden]{display:none}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--navy);border:none;font-weight:700;font-size:15px;display:grid;place-items:center}
+.avatar:hover{background:var(--gold-2)}
+.acct-menu{position:absolute;right:0;top:48px;background:var(--white);color:var(--black);border-radius:12px;box-shadow:var(--shadow-lg);min-width:230px;padding:8px;z-index:60}
+.acct-menu[hidden]{display:none}
+.acct-who{padding:10px 12px 12px;border-bottom:1px solid var(--line);margin-bottom:6px;display:flex;flex-direction:column;gap:2px}
+.acct-who b{font-size:14.5px}
+.acct-who span{font-size:12.5px;color:var(--grey);overflow-wrap:anywhere}
+.acct-menu button{display:block;width:100%;text-align:left;background:none;border:none;padding:9px 12px;border-radius:8px;font-size:14.5px}
+.acct-menu button:hover{background:var(--light)}
+
+.modal-back{position:fixed;inset:0;z-index:100;background:rgba(14,30,58,.55);backdrop-filter:blur(6px);display:grid;place-items:center;padding:20px;overflow-y:auto}
+.modal-back[hidden]{display:none}
+.modal{position:relative;width:100%;max-width:440px;background:var(--white);color:var(--black);border-radius:18px;padding:36px 36px 26px;box-shadow:var(--shadow-lg);animation:rise .3s cubic-bezier(.2,.8,.2,1) both}
+@media (prefers-reduced-motion:reduce){.modal{animation:none}}
+.modal-x{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:50%;border:none;background:none;font-size:22px;color:var(--grey);display:grid;place-items:center;line-height:1}
+.modal-x:hover{background:var(--light);color:var(--black)}
+.auth-mark{width:40px;height:40px;border-radius:50%;background:var(--navy);display:grid;place-items:center;margin-bottom:18px}
+.auth-mark i{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.auth-title{font-size:28px;font-weight:300;font-stretch:112%;line-height:1.1;letter-spacing:-.01em}
+.auth-sub{font-size:14.5px;color:var(--grey);margin-top:8px;line-height:1.5}
+.btn-google{width:100%;justify-content:center;background:var(--white);border-color:var(--line);color:var(--black);margin-top:22px}
+.btn-google:hover{border-color:var(--black)}
+.btn-google[hidden]{display:none}
+.btn-google svg{width:18px;height:18px}
+.or{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--grey-2);font-size:12.5px}
+.or[hidden]{display:none}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field[hidden]{display:none}
+.field > span{font-size:12.5px;font-weight:500;color:var(--grey)}
+.field input{font:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--white);color:var(--black);width:100%}
+.field input:focus{outline:none;border-color:var(--black)}
+.field input[aria-invalid="true"]{border-color:#B3261E}
+.pw{position:relative}
+.pw input{padding-right:64px}
+.pw-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:12.5px;font-weight:500;color:var(--grey);padding:6px 8px;border-radius:6px}
+.pw-toggle:hover{color:var(--black);background:var(--light)}
+.auth-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:-2px 0 16px;font-size:13.5px}
+.auth-row[hidden]{display:none}
+.check{display:inline-flex;align-items:center;gap:8px;color:var(--grey)}
+.check input{accent-color:var(--black);width:15px;height:15px;margin:0}
+.auth-link{background:none;border:none;padding:0;font-size:inherit;font-weight:500;color:var(--black);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+.auth-link:hover{text-decoration-color:var(--black)}
+.auth-legal{font-size:12px;color:var(--grey);line-height:1.45;margin:-2px 0 16px}
+.auth-legal[hidden]{display:none}
+.auth-err{font-size:13px;color:#B3261E;margin:-6px 0 12px;line-height:1.4}
+.auth-err[hidden]{display:none}
+.auth-submit{width:100%;justify-content:center;position:relative}
+.auth-submit.busy{color:transparent;pointer-events:none}
+.auth-submit.busy::after{content:"";position:absolute;left:50%;top:50%;margin:-9px 0 0 -9px;width:18px;height:18px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.auth-switch{font-size:13.5px;color:var(--grey);text-align:center;margin-top:18px}
+.auth-note{font-size:11.5px;color:var(--grey-2);text-align:center;margin-top:16px;line-height:1.45}
+.auth-done{text-align:center;padding:6px 0 4px}
+.auth-done[hidden]{display:none}
+.auth-done .tick{width:56px;height:56px;border-radius:50%;background:var(--gold);display:grid;place-items:center;margin:0 auto 18px}
+.auth-done .tick svg{width:24px;height:24px;stroke:var(--navy);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#auth-main[hidden]{display:none}
+
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:110;background:var(--black);color:var(--white);border-radius:100px;padding:11px 18px;font-size:14px;box-shadow:var(--shadow-lg);animation:rise .3s both;white-space:nowrap}
+.toast[hidden]{display:none}
+
+.c-login{background:var(--navy);color:var(--white);border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.45;display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.c-login b{font-weight:600}
+.c-login .btn{align-self:flex-start;background:var(--white);color:var(--black);border-color:var(--white)}
+.c-saved{font-size:12.5px;color:var(--grey);display:flex;align-items:center;gap:7px;margin-bottom:14px}
+.c-saved i{width:6px;height:6px;border-radius:50%;background:var(--ok)}
+.nav-links{display:flex;gap:34px;margin-left:auto}
+.nav-links a{font-size:15.5px;font-weight:500;opacity:.92}
+.nav-links a:hover{opacity:1;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
+.nav .btn{margin-left:8px}
+.nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--line-dark);border-radius:var(--r);padding:8px 12px;font-size:14px}
+
+/* ---------- hero ---------- */
+.hero{padding:150px 0 130px;position:relative;z-index:1}
+.hero h1{font-size:clamp(48px,7.4vw,104px);max-width:12ch}
+.hero .lede{margin-top:26px;opacity:.9;font-size:19px}
+.hero-actions{display:flex;gap:12px;margin-top:44px;flex-wrap:wrap}
+
+/* ---------- intro ---------- */
+.intro{padding:86px 0 80px;border-top:1px solid var(--line-dark);position:relative;z-index:1}
+.intro .eyebrow{opacity:.75;margin-bottom:22px}
+.intro p{font-size:22px;line-height:1.45;max-width:34ch;font-weight:400;text-wrap:pretty}
+.stats{
+  display:inline-flex;align-items:stretch;margin-top:44px;
+  background:rgba(255,255,255,.14);border-radius:var(--r);overflow:hidden;
+}
+.stat{padding:12px 22px;display:flex;align-items:baseline;gap:8px;font-size:17px}
+.stat + .stat{border-left:1px solid rgba(255,255,255,.28)}
+.stat b{font-weight:700;font-size:19px}
+
+/* ---------- marquee ---------- */
+.marquee{border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);padding:26px 0;overflow:hidden;position:relative;z-index:1}
+.marquee-track{display:flex;gap:64px;width:max-content;animation:slide 44s linear infinite}
+.marquee-track span{font-size:20px;font-weight:500;letter-spacing:.01em;white-space:nowrap;opacity:.85;font-stretch:108%}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;width:auto;gap:28px 48px}}
+.marquee-label{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;margin-bottom:18px;font-weight:600}
+
+/* ============================================================
+   LIGHT SECTIONS
+   ============================================================ */
+.section{padding:120px 0}
+.section + .section{padding-top:0}
+.sec-title{font-size:clamp(34px,4.2vw,58px);max-width:16ch}
+.sec-sub{font-size:18px;color:var(--grey);margin-top:18px;max-width:44ch;line-height:1.5}
+.rule{height:1px;background:var(--black);opacity:.85;margin:0 0 120px}
+
+/* how it works */
+.how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:80px;align-items:start}
+.how-cards{display:flex;flex-direction:column;gap:18px}
+.card{
+  background:var(--white);border-radius:var(--r-lg);padding:34px 36px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;
+}
+.card .eyebrow{color:var(--black)}
+.card p{font-size:19px;line-height:1.42;max-width:38ch;text-wrap:pretty}
+.card .btn{align-self:flex-start;margin-top:10px}
+
+/* services */
+.svc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px 80px;margin-top:72px}
+.svc{display:grid;grid-template-columns:64px minmax(0,1fr);gap:26px;align-items:start}
+.svc svg{width:56px;height:56px;stroke:var(--black);fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.svc h3{font-size:23px;font-weight:500;line-height:1.2;margin-bottom:8px}
+.svc p{font-size:16.5px;color:var(--grey);line-height:1.5;max-width:40ch}
+.svc .link{margin-top:14px;font-size:15.5px}
+
+/* routes carousel */
+.routes-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:34px}
+.arrows{display:flex;gap:10px}
+.arrow{
+  width:38px;height:38px;border-radius:50%;background:var(--black);color:var(--white);
+  border:none;display:grid;place-items:center;font-size:16px;
+}
+.arrow:hover{background:#2B2B2B}
+.routes{
+  display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 4px 24px;margin:0 -4px;scrollbar-width:none;
+}
+.routes::-webkit-scrollbar{display:none}
+.route{
+  flex:0 0 min(384px,84vw);scroll-snap-align:start;
+  border:1px solid var(--black);border-radius:var(--r-lg);padding:26px 28px 28px;
+  display:flex;flex-direction:column;gap:22px;background:var(--light);min-height:330px;
+}
+.route:hover{background:var(--white)}
+.chips{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--black);flex-wrap:nowrap;white-space:nowrap}
+.chips span{display:inline-flex;align-items:center;gap:6px}
+.chips .tag{margin-left:auto;flex:none;background:var(--black);color:var(--white);border-radius:5px;padding:4px 9px;font-size:12.5px;font-weight:500}
+.chips .tag.soft{background:transparent;color:var(--grey);border:1px solid var(--line)}
+.route h3{font-size:36px;font-weight:300;font-stretch:112%;line-height:1.06;letter-spacing:-.01em;margin-top:auto}
+.route p{font-size:16px;color:var(--grey);line-height:1.5}
+.route .link{font-size:15.5px}
+
+/* advisor cta */
+.cta{padding:130px 0}
+.cta h2{font-size:clamp(40px,5.4vw,76px);max-width:14ch}
+.cta .lede{margin-top:24px;opacity:.88}
+.cta .btn{margin-top:40px}
+
+/* about strip */
+.about{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:60px;align-items:start;padding:80px 0 100px}
+.about p{font-size:18px;color:var(--grey);line-height:1.55;max-width:46ch}
+.about-facts{display:grid;grid-template-columns:1fr 1fr;gap:22px 32px}
+.about-facts div{display:flex;flex-direction:column;gap:5px}
+.about-facts small{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-2);font-weight:600}
+.about-facts span{font-size:16px}
+
+/* footer */
+.foot{padding:70px 0 40px;position:relative;z-index:1}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+.foot h4{font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:16px;font-weight:600}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px}
+.foot ul a{opacity:.9}
+.foot ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
+.foot-tag{font-size:15px;opacity:.8;max-width:30ch;margin-top:16px;line-height:1.5}
+.foot-legal{
+  margin-top:56px;padding-top:24px;border-top:1px solid var(--line-dark);
+  display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  font-size:12.5px;opacity:.6;line-height:1.6;
+}
+.proto{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;
+  border:1px solid rgba(255,255,255,.3);border-radius:100px;padding:4px 11px;opacity:.85;
+}
+.proto i{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.foot-tools{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap}
+.foot-reset{
+  background:none;border:1px solid rgba(255,255,255,.25);border-radius:100px;
+  padding:4px 11px;font-size:12px;opacity:.7;color:inherit;line-height:1.5;
+}
+.foot-reset:hover{opacity:1;border-color:rgba(255,255,255,.6)}
+.foot-reset.confirm{background:var(--gold);color:var(--navy);border-color:var(--gold);opacity:1;font-weight:600}
+
+/* ============================================================
+   CHAT WIDGET
+   ============================================================ */
+.launcher{
+  position:fixed;right:24px;bottom:24px;z-index:90;
+  display:flex;align-items:center;gap:10px;
+  background:var(--black);color:var(--white);border:none;border-radius:100px;
+  padding:14px 20px 14px 16px;font-size:15px;font-weight:500;
+  box-shadow:var(--shadow-lg);transition:transform .18s,background .18s;
+}
+.launcher:hover{background:#2B2B2B;transform:translateY(-1px)}
+.launcher svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.launcher[hidden]{display:none}
+
+.nudge{
+  position:fixed;right:24px;bottom:88px;z-index:89;
+  background:var(--white);color:var(--black);border-radius:12px;
+  padding:14px 40px 14px 16px;font-size:14.5px;max-width:280px;line-height:1.4;
+  box-shadow:var(--shadow-lg);
+  animation:rise .45s cubic-bezier(.2,.8,.2,1) both;
+}
+.nudge button{
+  position:absolute;right:8px;top:8px;background:none;border:none;
+  color:var(--grey);font-size:18px;line-height:1;padding:4px;
+}
+.nudge[hidden]{display:none}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.nudge{animation:none}}
+
+.widget{
+  position:fixed;right:24px;bottom:24px;z-index:95;
+  width:392px;height:min(660px,calc(100vh - 48px));
+  background:var(--white);color:var(--black);border-radius:18px;
+  box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:hidden;
+  animation:rise .3s cubic-bezier(.2,.8,.2,1) both;
+}
+.widget[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){.widget{animation:none}}
+
+.w-head{
+  display:flex;align-items:center;gap:12px;padding:14px 14px 12px 18px;
+  border-bottom:1px solid var(--line);
+}
+.w-avatar{
+  width:36px;height:36px;border-radius:50%;background:var(--navy);
+  display:grid;place-items:center;flex:none;
+}
+.w-avatar i{width:8px;height:8px;border-radius:50%;background:var(--gold);display:block}
+.w-title{font-size:15px;font-weight:600;line-height:1.15}
+.w-status{font-size:12px;color:var(--grey);display:flex;align-items:center;gap:6px;margin-top:2px}
+.w-status i{width:6px;height:6px;border-radius:50%;background:var(--grey-2);display:inline-block}
+.w-status[data-mode="live"] i{background:var(--ok)}
+.w-status[data-mode="script"] i{background:var(--warn)}
+.w-close{
+  margin-left:2px;background:none;border:none;width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;font-size:20px;color:var(--grey);line-height:1;
+}
+.w-reset{
+  margin-left:auto;background:none;border:none;width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;color:var(--grey);line-height:1;padding:0;
+}
+.w-reset:hover{background:var(--light);color:var(--black)}
+.w-reset svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.w-reset.confirm{width:auto;padding:0 12px;border-radius:100px;background:var(--gold);color:var(--navy);font-size:12.5px;font-weight:600}
+.w-close:hover{background:var(--light);color:var(--black)}
+
+.w-tabs{display:flex;padding:0 18px;border-bottom:1px solid var(--line);gap:22px}
+.w-tab{
+  background:none;border:none;padding:11px 0 10px;font-size:14px;font-weight:500;
+  color:var(--grey);border-bottom:2px solid transparent;margin-bottom:-1px;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.w-tab[aria-selected="true"]{color:var(--black);border-bottom-color:var(--black)}
+.w-tab .cnt{
+  font-size:11px;font-weight:600;background:var(--light);color:var(--black);
+  border-radius:100px;padding:2px 7px;min-width:20px;text-align:center;
+}
+.w-tab .cnt.hot{background:var(--gold)}
+
+.w-body{flex:1;min-height:0;display:flex;flex-direction:column}
+.w-pane{flex:1;min-height:0;display:flex;flex-direction:column}
+.w-pane[hidden]{display:none}
+
+/* chat pane */
+.w-thread{flex:1;min-height:0;overflow-y:auto;padding:18px 18px 8px;display:flex;flex-direction:column;gap:12px}
+.bub{max-width:88%;padding:11px 14px;border-radius:14px;font-size:14.5px;line-height:1.48;white-space:pre-wrap;overflow-wrap:anywhere}
+.bub-ai{background:var(--light);color:var(--black);border-bottom-left-radius:4px;align-self:flex-start}
+.bub-me{background:var(--black);color:var(--white);border-bottom-right-radius:4px;align-self:flex-end}
+.bub-sys{
+  align-self:stretch;max-width:none;background:#FFF7E4;color:#7A5410;
+  border:1px solid #F1DFAF;border-radius:8px;font-size:12.5px;padding:9px 12px;
+}
+.bub-sys.err{background:#FDECEA;color:#8A2A22;border-color:#F3C8C2}
+.typing{display:inline-flex;gap:4px;align-items:center;padding:4px 2px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--grey-2);animation:blink 1.2s ease-in-out infinite}
+.typing i:nth-child(2){animation-delay:.15s}
+.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.typing i{animation:none;opacity:.6}}
+
+.w-chips{display:flex;flex-wrap:wrap;gap:7px;padding:8px 18px 10px}
+.w-chip{
+  background:var(--white);border:1px solid var(--line);border-radius:100px;
+  padding:7px 12px;font-size:13px;color:var(--black);text-align:left;line-height:1.25;
+}
+.w-chip:hover{border-color:var(--black)}
+.w-compose{border-top:1px solid var(--line);padding:12px 12px 10px 16px;display:flex;gap:10px;align-items:flex-end}
+.w-compose textarea{
+  flex:1;resize:none;border:none;outline:none;font:inherit;font-size:14.5px;line-height:1.45;
+  padding:8px 0;max-height:120px;background:transparent;color:var(--black);
+}
+.w-compose textarea::placeholder{color:var(--grey-2)}
+.w-send{
+  width:38px;height:38px;border-radius:50%;background:var(--black);color:var(--white);
+  border:none;display:grid;place-items:center;flex:none;
+}
+.w-send:disabled{background:var(--line);color:var(--grey-2);cursor:default}
+.w-send svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.w-stop{
+  height:38px;border-radius:100px;border:1px solid var(--line);background:var(--white);
+  padding:0 12px;font-size:13px;flex:none;
+}
+.w-stop[hidden]{display:none}
+.w-foot{font-size:11.5px;color:var(--grey-2);padding:0 18px 12px;line-height:1.4}
+
+/* case pane */
+.w-case{flex:1;min-height:0;overflow-y:auto;padding:18px}
+.c-block{padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.c-block:last-child{border-bottom:none;margin-bottom:0}
+.c-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.c-head h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);font-weight:600}
+.c-head small{font-size:12px;color:var(--grey-2)}
+.c-empty{font-size:13.5px;color:var(--grey);line-height:1.5}
+.c-row{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:6px 0;font-size:13.5px;line-height:1.4}
+.c-row span:first-child{color:var(--grey);font-size:12.5px}
+.c-row.fresh span:last-child{animation:flash 1.4s ease-out}
+@keyframes flash{from{background:#FFF1C8}to{background:transparent}}
+.c-meter{height:5px;background:var(--light);border-radius:100px;overflow:hidden;margin-top:4px}
+.c-meter b{display:block;height:100%;background:var(--black);border-radius:100px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.c-meter b.gold{background:var(--gold)}
+@media (prefers-reduced-motion:reduce){.c-meter b{transition:none}}
+
+.c-route{padding:12px 0;border-top:1px solid var(--line)}
+.c-route:first-of-type{border-top:none;padding-top:0}
+.c-route-top{display:flex;align-items:baseline;gap:10px}
+.c-route-top b{font-size:15px;font-weight:600}
+.c-route-top .score{margin-left:auto;font-size:15px;font-variant-numeric:tabular-nums;font-weight:600}
+.c-route-top .v{font-size:11.5px;color:var(--grey);letter-spacing:.06em;text-transform:uppercase}
+.c-route details{margin-top:8px}
+.c-route summary{font-size:13px;color:var(--grey);cursor:pointer;list-style:none}
+.c-route summary::-webkit-details-marker{display:none}
+.c-route summary::before{content:"+ ";}
+.c-route details[open] summary::before{content:"– ";}
+.c-route .why{font-size:13.5px;line-height:1.5;margin-top:8px;color:var(--black)}
+.c-route ul{margin:8px 0 0;padding-left:16px;font-size:13px;color:var(--grey);line-height:1.5}
+
+.c-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.c-list li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;font-size:13.5px;line-height:1.45}
+.c-list li b{font-weight:600;color:var(--black)}
+.c-list li span{color:var(--grey);display:block;font-size:12.5px;margin-top:2px}
+.c-list .n{font-weight:600;color:var(--grey-2);font-variant-numeric:tabular-nums}
+
+.c-svcs{display:flex;flex-wrap:wrap;gap:7px}
+.c-svcs span{font-size:12.5px;border:1px solid var(--line);border-radius:100px;padding:5px 11px}
+.c-svcs span.now{background:var(--black);color:var(--white);border-color:var(--black)}
+
+.c-alert{background:#FFF7E4;border:1px solid #F1DFAF;border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;color:#5C3E0B}
+.c-alert b{display:block;margin-bottom:4px;color:#7A5410}
+.c-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn-sm{padding:9px 14px;font-size:13.5px;border-radius:var(--r)}
+.btn-line{background:var(--white);border-color:var(--line);color:var(--black)}
+.btn-line:hover{border-color:var(--black)}
+
+.brief{
+  font-size:12.5px;line-height:1.6;white-space:pre-wrap;background:var(--light);
+  border-radius:10px;padding:14px;margin-top:12px;color:var(--black);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+.brief b{font-weight:700}
+.brief-note{font-size:12px;color:var(--grey);margin-top:8px}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1000px){
+  .how{grid-template-columns:1fr;gap:40px}
+  .svc-grid{grid-template-columns:1fr;gap:44px}
+  .about{grid-template-columns:1fr;gap:36px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .nav-links,.nav > .btn-white{display:none}
+  .nav{gap:16px}
+  .nav-login{margin-left:auto}
+  .account{margin-left:auto}
+  .nav-login:not([hidden]) ~ .account{margin-left:0}
+  .nav-burger{display:inline-flex;margin-left:0}
+  .blob-gold{width:460px;height:460px;right:-160px;top:-100px}
+  .blob-sky{display:none}
+}
+@media (max-width:640px){
+  .wrap{padding:0 22px}
+  .hero{padding:96px 0 84px}
+  .hero h1{font-size:clamp(40px,12vw,64px)}
+  .section{padding:84px 0}
+  .rule{margin-bottom:84px}
+  .stats{display:flex;flex-direction:column}
+  .stat + .stat{border-left:none;border-top:1px solid rgba(255,255,255,.28)}
+  .card{padding:26px 24px}
+  .svc{grid-template-columns:48px 1fr;gap:18px}
+  .svc svg{width:42px;height:42px}
+  .cta{padding:90px 0}
+  .foot-grid{grid-template-columns:1fr}
+  .widget{right:0;bottom:0;width:100%;height:100%;border-radius:0}
+  .launcher{right:16px;bottom:16px}
+  .nudge{right:16px;bottom:80px}
+}
+</style>
+
+<!-- ============================================================ NAV ============================================================ -->
+<div class="nav-wrap">
+  <div class="wrap">
+    <nav class="nav">
+      <a class="logo" href="#top" aria-label="Iskra Services — Empowering businesses">
+        <span class="logo-name">Iskra<br>Services<i></i></span>
+        <span class="logo-tag"><svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 11V8M5 11V5M9 11V2"/><path d="M12 7l5-5M13 2h4v4"/></svg>Empowering businesses</span>
+      </a>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#services">Services</a>
+        <a href="#routes">Routes</a>
+        <a href="#about">About</a>
+      </div>
+      <button class="nav-login" id="nav-login" data-auth-open="login">Log in</button>
+      <div class="account" id="account" hidden>
+        <button class="avatar" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Account"><span id="acct-initial">A</span></button>
+        <div class="acct-menu" id="acct-menu" role="menu" hidden>
+          <div class="acct-who"><b id="acct-name"></b><span id="acct-email"></span></div>
+          <button role="menuitem" data-menu="case">My case</button>
+          <button role="menuitem" data-menu="logout">Log out</button>
+        </div>
+      </div>
+      <button class="btn btn-white" data-open-chat>Ask the advisor</button>
+      <button class="nav-burger" data-open-chat>Ask</button>
+    </nav>
+  </div>
+</div>
+
+<main id="top">
+
+<!-- ============================================================ HERO ============================================================ -->
+<header class="dark">
+  <div class="blob blob-gold"></div>
+  <div class="blob blob-sky"></div>
+  <div class="hairlines" aria-hidden="true">
+    <i style="top:228px"></i><i style="top:456px"></i>
+  </div>
+  <div class="wrap">
+    <div class="hero">
+      <h1 class="display">Build your business in the UK.</h1>
+      <p class="lede">Set-up, visa, accounts and growth — one team from your first question to your first hire.</p>
+      <div class="hero-actions">
+        <button class="btn btn-white" data-open-chat>Ask the advisor</button>
+        <a class="btn btn-outline-light" href="#how">How it works</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="intro">
+      <div class="eyebrow">For international founders</div>
+      <p>Iskra helps founders from anywhere start and run a company in Britain — business plan to endorsement, incorporation to payroll, with the same people throughout.</p>
+      <div class="stats">
+        <div class="stat"><b>20+</b> years' experience</div>
+        <div class="stat"><b>6</b> services, one team</div>
+        <div class="stat"><b>1</b> case file, never repeated</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-label="What we help you navigate">
+    <div class="wrap"><div class="marquee-label">What we help you navigate</div></div>
+    <div class="marquee-track" id="marquee">
+      <span>Innovator Founder Visa</span><span>Global Talent</span><span>Companies House</span><span>SEIS &amp; EIS</span><span>R&amp;D Tax Relief</span><span>PAYE &amp; VAT</span><span>Endorsement</span><span>Self-sponsorship</span><span>Corporation Tax</span><span>Expansion Worker</span>
+      <span>Innovator Founder Visa</span><span>Global Talent</span><span>Companies House</span><span>SEIS &amp; EIS</span><span>R&amp;D Tax Relief</span><span>PAYE &amp; VAT</span><span>Endorsement</span><span>Self-sponsorship</span><span>Corporation Tax</span><span>Expansion Worker</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ HOW IT WORKS ============================================================ -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="how">
+      <div>
+        <div class="eyebrow" style="color:var(--grey);margin-bottom:22px">How it works</div>
+        <h2 class="display sec-title">Three steps. One case file.</h2>
+        <p class="sec-sub">Tell us once. Every stage — from route to registration — reads the same record.</p>
+      </div>
+      <div class="how-cards">
+        <div class="card">
+          <div class="eyebrow">01 &nbsp;Assess</div>
+          <p>A short conversation scores your routes into the UK and tells you exactly what's missing.</p>
+          <button class="btn btn-black" data-open-chat data-prefill="I want to move to the UK and start a company.">Start assessment</button>
+        </div>
+        <div class="card">
+          <div class="eyebrow">02 &nbsp;Set up</div>
+          <p>Endorsement, visa application and incorporation, handled with registered advisers.</p>
+          <a class="btn btn-black" href="#services">See services</a>
+        </div>
+        <div class="card">
+          <div class="eyebrow">03 &nbsp;Grow</div>
+          <p>Accounts, payroll, funding and compliance from day one, so nothing is retrofitted later.</p>
+          <button class="btn btn-black" data-open-chat data-prefill="What do I need in place in my first year of trading in the UK?">Talk to us</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SERVICES ============================================================ -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="rule"></div>
+    <div class="eyebrow" style="color:var(--grey);margin-bottom:22px">What we do</div>
+    <h2 class="display sec-title">Everything a new UK company needs.</h2>
+
+    <div class="svc-grid">
+      <div class="svc">
+        <svg viewBox="0 0 56 56" aria-hidden="true"><path d="M28 46V22"/><path d="M28 30c0-8 6-14 16-14 0 8-6 14-16 14z"/><path d="M28 36c0-7-5-12-14-12 0 7 5 12 14 12z"/><path d="M14 46h28"/></svg>
+        <div>
+          <h3>UK business incubation</h3>
+          <p>From an idea to a company an endorsing body can back and an investor can fund.</p>
+          <button class="link" data-open-chat data-prefill="Tell me about the incubation programme.">Learn more</button>
+        </div>
+      </div>
+      <div class="svc">
+        <svg viewBox="0 0 56 56" aria-hidden="true"><rect x="12" y="8" width="32" height="40" rx="3"/><circle cx="28" cy="24" r="6"/><path d="M18 40c2-5 6-7 10-7s8 2 10 7"/></svg>
+        <div>
+          <h3>Immigration support</h3>
+          <p>Innovator Founder and business routes, with IAA-registered advisers for the regulated parts.</p>
+          <button class="link" data-open-chat data-prefill="Which visa routes could a founder use?">Learn more</button>
+        </div>
+      </div>
+      <div class="svc">
+        <svg viewBox="0 0 56 56" aria-hidden="true"><rect x="10" y="10" width="36" height="36" rx="3"/><path d="M18 22h20M18 30h20M18 38h12"/></svg>
+        <div>
+          <h3>Accounting &amp; tax</h3>
+          <p>Bookkeeping, payroll, Corporation Tax and VAT — the floor a new company stands on.</p>
+          <button class="link" data-open-chat data-prefill="What are the accounting and tax obligations for a new UK company?">Learn more</button>
+        </div>
+      </div>
+      <div class="svc">
+        <svg viewBox="0 0 56 56" aria-hidden="true"><path d="M10 42l12-12 8 8 16-18"/><path d="M38 20h8v8"/></svg>
+        <div>
+          <h3>Funding &amp; R&amp;D relief</h3>
+          <p>SEIS and EIS seed rounds, advance assurance, and R&amp;D tax relief on what you've already built.</p>
+          <button class="link" data-open-chat data-prefill="How do SEIS and EIS work for a new UK startup?">Learn more</button>
+        </div>
+      </div>
+      <div class="svc">
+        <svg viewBox="0 0 56 56" aria-hidden="true"><rect x="8" y="12" width="40" height="26" rx="3"/><path d="M20 46h16M28 38v8"/></svg>
+        <div>
+          <h3>Web &amp; marketing</h3>
+          <p>A website and a pipeline for a company that has only just started trading.</p>
+          <button class="link" data-open-chat data-prefill="What does the web and digital marketing service include?">Learn more</button>
+        </div>
+      </div>
+      <div class="svc">
+        <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="18"/><path d="M10 28h36M28 10c6 6 6 30 0 36M28 10c-6 6-6 30 0 36"/></svg>
+        <div>
+          <h3>Remote staffing</h3>
+          <p>Qualified accountants and engineers, wherever they happen to be.</p>
+          <button class="link" data-open-chat data-prefill="How does remote staffing work?">Learn more</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ ROUTES ============================================================ -->
+<section class="section" id="routes">
+  <div class="wrap">
+    <div class="rule"></div>
+    <div class="routes-head">
+      <div>
+        <div class="eyebrow" style="color:var(--grey);margin-bottom:22px">Routes into the UK</div>
+        <h2 class="display sec-title">Which one fits you?</h2>
+      </div>
+      <div class="arrows">
+        <button class="arrow" id="prev" aria-label="Previous">←</button>
+        <button class="arrow" id="next" aria-label="Next">→</button>
+      </div>
+    </div>
+    <div class="routes" id="routes">
+      <div class="route">
+        <div class="chips"><span>Endorsement</span><span>Settle in 3 yrs</span><span class="tag">Most common</span></div>
+        <h3>Innovator Founder</h3>
+        <p>For a new, viable, scalable business. No minimum investment — the endorsement is the test.</p>
+        <button class="link" data-open-chat data-prefill="Am I a fit for the Innovator Founder visa?">Check my fit</button>
+      </div>
+      <div class="route">
+        <div class="chips"><span>Endorsement</span><span>Recognition-led</span><span class="tag soft">Selective</span></div>
+        <h3>Global Talent</h3>
+        <p>For founders with a track record others can already vouch for.</p>
+        <button class="link" data-open-chat data-prefill="Could I qualify for Global Talent?">Check my fit</button>
+      </div>
+      <div class="route">
+        <div class="chips"><span>Sponsor licence</span><span>Company first</span><span class="tag soft">Fallback</span></div>
+        <h3>Self-sponsorship</h3>
+        <p>Your own UK company sponsors you. Lawful, but harder to make stick pre-revenue.</p>
+        <button class="link" data-open-chat data-prefill="How does self-sponsorship through my own UK company work?">Check my fit</button>
+      </div>
+      <div class="route">
+        <div class="chips"><span>Overseas business</span><span>Branch route</span><span class="tag soft">Expansion</span></div>
+        <h3>Expansion Worker</h3>
+        <p>Open a UK branch of a company you already run abroad.</p>
+        <button class="link" data-open-chat data-prefill="I already run a company abroad and want to expand to the UK.">Check my fit</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CTA ============================================================ -->
+<section class="dark cta" id="ask">
+  <div class="blob blob-gold" style="right:-200px;top:-60px"></div>
+  <div class="wrap">
+    <h2 class="display">Not sure where to start? Ask.</h2>
+    <p class="lede">The advisor asks what a consultant would ask, remembers your answers, and hands you to a person the moment it should.</p>
+    <button class="btn btn-white" data-open-chat>Ask the advisor</button>
+  </div>
+</section>
+
+<!-- ============================================================ ABOUT ============================================================ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about">
+      <div>
+        <div class="eyebrow" style="color:var(--grey);margin-bottom:22px">About</div>
+        <p>Iskra Services is a UK business-services firm in Harrow, London, working mainly with international founders. The team brings more than twenty years' experience across incubation, immigration support, accounting and digital — and works with registered solicitors on immigration matters.</p>
+      </div>
+      <div class="about-facts">
+        <div><small>Office</small><span>79 College Road, Harrow HA1 1BD</span></div>
+        <div><small>Telephone</small><span>020 8123 3218</span></div>
+        <div><small>Email</small><span><a href="mailto:info.iskraservices@gmail.com">info.iskraservices@gmail.com</a></span></div>
+        <div><small>Company</small><span>Indigenous Consultants Ltd · 16043340</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============================================================ FOOTER ============================================================ -->
+<footer class="dark foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#top" aria-label="Iskra Services — Empowering businesses">
+        <span class="logo-name">Iskra<br>Services<i></i></span>
+        <span class="logo-tag"><svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 11V8M5 11V5M9 11V2"/><path d="M12 7l5-5M13 2h4v4"/></svg>Empowering businesses</span>
+      </a>
+        <p class="foot-tag">Empowering businesses — set-up, immigration, accounting and growth for founders building in the UK.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul><li><a href="#services">Incubation</a></li><li><a href="#services">Immigration</a></li><li><a href="#services">Accounting &amp; tax</a></li><li><a href="#services">Funding</a></li></ul>
+      </div>
+      <div>
+        <h4>Routes</h4>
+        <ul><li><a href="#routes">Innovator Founder</a></li><li><a href="#routes">Global Talent</a></li><li><a href="#routes">Self-sponsorship</a></li><li><a href="#routes">Expansion Worker</a></li></ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul><li><a href="#about">About</a></li><li><a href="#about">Contact</a></li><li><a href="https://iskra.services/" target="_blank" rel="noopener">Current site</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <div>Iskra.services is a trading name of Indigenous Consultants Limited, registered in England and Wales, no. 16043340.<br>The advisor gives general information, not regulated immigration advice. Figures are indicative.</div>
+      <span class="foot-tools">
+        <span class="proto"><i></i>Concept prototype — not a live service</span>
+        <button class="foot-reset" id="foot-reset" type="button" title="Clear the saved case, sign out and start fresh">Reset demo</button>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================ LOGIN ============================================================ -->
+<div class="modal-back" id="auth" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <button class="modal-x" id="auth-x" aria-label="Close">×</button>
+    <div class="auth-mark" aria-hidden="true"><i></i></div>
+    <div id="auth-main">
+      <h2 class="auth-title" id="auth-title">Welcome back</h2>
+      <p class="auth-sub" id="auth-sub"></p>
+      <button class="btn btn-google" id="auth-google" type="button" data-auth="google">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4c-.2 1.2-.9 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6C4.8 19.8 8.1 22 12 22z"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1C2.4 8.8 2 10.4 2 12s.4 3.2 1.1 4.6L6.4 14z"/><path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.8-2.8C17 3 14.7 2 12 2 8.1 2 4.8 4.2 3.1 7.4L6.4 10c.8-2.3 3-4.1 5.6-4.1z"/></svg>
+        Continue with Google
+      </button>
+      <div class="or" id="auth-or"><span>or</span></div>
+      <form id="auth-form" novalidate>
+        <label class="field" id="f-name" hidden><span>Full name</span><input type="text" name="name" autocomplete="name"></label>
+        <label class="field" id="f-email"><span>Email</span><input type="email" name="email" autocomplete="email" inputmode="email"></label>
+        <label class="field" id="f-pw"><span>Password</span><div class="pw"><input type="password" name="password" autocomplete="current-password"><button type="button" class="pw-toggle" id="pw-toggle">Show</button></div></label>
+        <div class="auth-row" id="auth-row">
+          <label class="check"><input type="checkbox" name="remember" checked>Keep me logged in</label>
+          <button type="button" class="auth-link" data-auth="forgot">Forgot password?</button>
+        </div>
+        <p class="auth-legal" id="auth-legal" hidden>By continuing you agree to Iskra's terms and privacy policy.</p>
+        <p class="auth-err" id="auth-err" hidden></p>
+        <button class="btn btn-black auth-submit" id="auth-submit" type="submit">Log in</button>
+      </form>
+      <p class="auth-switch" id="auth-switch"></p>
+    </div>
+    <div class="auth-done" id="auth-done" hidden>
+      <div class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></svg></div>
+      <h2 class="auth-title" id="done-title"></h2>
+      <p class="auth-sub" id="done-sub"></p>
+      <button class="btn btn-black" id="done-btn" type="button" style="margin-top:22px;width:100%;justify-content:center"></button>
+    </div>
+    <p class="auth-note">Prototype — no account is created and nothing you type leaves this page.</p>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<!-- ============================================================ CHAT WIDGET ============================================================ -->
+<div class="nudge" id="nudge" hidden>
+  Not sure which route fits? Ask me — it takes a couple of minutes.
+  <button aria-label="Dismiss" id="nudge-x">×</button>
+</div>
+
+<button class="launcher" id="launcher" aria-haspopup="dialog" aria-controls="widget">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>
+  Ask the advisor
+</button>
+
+<div class="widget" id="widget" role="dialog" aria-label="Iskra advisor" hidden>
+  <div class="w-head">
+    <div class="w-avatar" aria-hidden="true"><i></i></div>
+    <div>
+      <div class="w-title">Iskra advisor</div>
+      <div class="w-status" id="w-status" data-mode="idle"><i></i><span id="w-status-label">Connecting…</span></div>
+    </div>
+    <button class="w-reset" id="w-reset" type="button" aria-label="Reset the conversation" title="Reset the conversation and case file">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><path d="M3 4.5v5h5"/></svg>
+    </button>
+    <button class="w-close" id="w-close" aria-label="Close">×</button>
+  </div>
+  <div class="w-tabs" role="tablist">
+    <button class="w-tab" role="tab" aria-selected="true" data-tab="chat">Chat</button>
+    <button class="w-tab" role="tab" aria-selected="false" data-tab="case">Your case <span class="cnt" id="case-cnt">0</span></button>
+  </div>
+  <div class="w-body">
+    <div class="w-pane" id="pane-chat">
+      <div class="w-thread" id="thread" role="log" aria-live="polite"></div>
+      <div class="w-chips" id="chips"></div>
+      <div class="w-compose">
+        <textarea id="input" rows="1" placeholder="Ask anything about starting in the UK…" aria-label="Message"></textarea>
+        <button class="w-stop" id="stop" hidden>Stop</button>
+        <button class="w-send" id="send" aria-label="Send">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="w-foot" id="w-foot">General information, not regulated immigration advice.</div>
+    </div>
+    <div class="w-pane" id="pane-case" hidden>
+      <div class="w-case" id="case"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   REFERENCE DATA
+   ============================================================ */
+const STAGES = ["objective","discovery","profile","pathway","business","readiness","plan","gaps","referral","formation","ongoing"];
+const FIELDS = [
+  {key:"name",label:"Name"},{key:"nationality",label:"Nationality"},{key:"location",label:"Located in"},
+  {key:"venture",label:"Business"},{key:"sector",label:"Sector"},{key:"stage",label:"Stage"},{key:"traction",label:"Traction"},
+  {key:"experience",label:"Experience"},{key:"team",label:"Team"},{key:"english",label:"English"},
+  {key:"funding",label:"Funding"},{key:"timeline",label:"Timeline"},{key:"ukTies",label:"UK presence"}
+];
+const SERVICES = ["Business Plan","Endorsement Readiness","Immigration Assistance","Company Formation","Accounting","Tax","Payroll","Compliance","Insurance","Business Growth"];
+const VERDICT = {strong:"Strong fit", watch:"Possible", possible:"Possible", unlikely:"Unlikely"};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const LS = "iskra-case-v2";
+let S, sampleFn = null, downloadsFn = null, mode = "idle", busy = false, ctl = null, scriptStep = 0, seen = new Set();
+
+function blank(){
+  return {ref:"ISK-" + String(Math.floor(1000+Math.random()*8999)), opened:new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}),
+    stage:"objective", profile:{}, pathways:[], assessment:null, actions:[], services:[], regulated:{triggered:false}, turns:[]};
+}
+function load(){
+  try{ const r = localStorage.getItem(LS); if(r){ const p = JSON.parse(r); if(p && p.profile) return p; } }catch(e){}
+  return blank();
+}
+function save(){ try{ localStorage.setItem(LS, JSON.stringify(S)); }catch(e){} }
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+/* ============================================================
+   GROUNDING
+   ============================================================ */
+const GROUNDING = [
+"You are the Iskra advisor — the assistant on Iskra Services' website, and the guide for a founder's whole journey into the UK. You are not a generic Q&A bot.",
+"",
+"ISKRA SERVICES (trading name of Indigenous Consultants Limited, Harrow, London; company no. 16043340) helps international entrepreneurs establish and grow companies in the UK: business incubation and planning, UK company formation, Innovator Founder visa support, accounting/tax/bookkeeping/payroll, SEIS/EIS and R&D tax relief, web development and digital marketing, remote staffing. Immigration matters are handled with registered solicitors and IAA-registered advisers.",
+"",
+"KNOWLEDGE — answer from this; say when something is outside it:",
+"• Routes for founders. Innovator Founder: endorsement by a Home Office-approved endorsing body (Envestors, UK Endorsing Services, Innovator International) on innovation, viability and scalability; no minimum investment funds; contact-point meetings at 12 and 24 months; three years to settlement; English at B2; £1,270 maintenance held 28 days. Also Global Talent, Skilled Worker and self-sponsorship, UK Expansion Worker, switching from Student/Graduate.",
+"• Company setup: Companies House incorporation, SIC codes, registered office, share structure, PSC register, confirmation statement, business banking before residency.",
+"• Endorsement and planning: evidenced demand over asserted demand, financial model, market sizing, competitive position, founder credibility, IP, UK-facing go-to-market.",
+"• Accounting, tax, compliance: Corporation Tax, VAT registration threshold, PAYE/RTI, director payroll, statutory accounts, R&D relief, SEIS/EIS advance assurance.",
+"• Iskra's own services, listed above.",
+"",
+"HOW YOU BEHAVE:",
+"1. Converse; never present a form. Ask at most two questions per message, chosen dynamically — the ones that most change your recommendation given what is already known.",
+"2. Never re-ask anything in the CASE FILE below. It is one profile shared across the whole site.",
+"3. Keep `reply` SHORT — it is shown in a small chat window. 1–3 short paragraphs, under 110 words, plain prose, no bullet lists, no markdown. Structured detail goes in the JSON fields.",
+"4. Explain every score in plain words: what raised it, what held it down, what would move it.",
+"5. Adapt to the stage: before a route is chosen, explain options; after, drill into that route; during business assessment, challenge and sharpen the idea; during gap analysis, name the deficiency and the fix; before referral, say what the professional will do.",
+"6. You do not give regulated immigration advice. When a question turns on prior refusals, overstays, adverse history, dependants' status, in-country switching, appeals, or anything legally consequential and case-specific, set regulated.triggered, explain why you are stopping, and route to an IAA-registered adviser — while saying what the adviser will need.",
+"7. Figures, fees and timescales are indicative; say so once when it matters.",
+"8. British English. Address the user as 'you'. Never invent facts about the user.",
+"",
+"OUTPUT — reply with ONE JSON object and nothing else. Put \"reply\" first. Include ONLY keys you are adding or changing this turn.",
+"{",
+'  "reply": "short message to the user",',
+'  "suggestions": ["up to 3 short things the user might say next, first person"],',
+'  "stage": "objective | discovery | profile | pathway | business | readiness | plan | gaps | referral | formation | ongoing",',
+'  "profile": {"name":"","nationality":"","location":"","venture":"","sector":"","stage":"","traction":"","experience":"","team":"","english":"","funding":"","timeline":"","ukTies":""},',
+'  "pathways": [{"name":"","score":0-100,"verdict":"strong|watch|unlikely","why":"2-3 sentences","missing":[""],"next":[""]}],',
+'  "assessment": {"score":0-100,"strengths":[""],"weaknesses":[""],"missing":[""],"risks":[""]},',
+'  "actions": [{"priority":1,"title":"","why":"one line","owner":"You|Iskra|Adviser"}],',
+'  "services": [{"name":"one of the Iskra services","relevance":"now|next|later","why":"one line"}],',
+'  "regulated": {"triggered":true|false,"reason":"","specialism":""}',
+"}",
+"Only fill `profile` keys you actually learned. Send `pathways` once you can score at least one route; resend the full list when any of it changes. One line per list item. Services must come from: " + SERVICES.join(", ") + "."
+].join("\n");
+
+function context(){
+  const p = S.profile;
+  const known = FIELDS.filter(f => p[f.key]).map(f => "  " + f.label + ": " + p[f.key]);
+  return ["", "CASE FILE — already known, do not ask again:", known.length ? known.join("\n") : "  (nothing yet)",
+    "Still unknown: " + FIELDS.filter(f => !p[f.key]).map(f => f.label).join(", "),
+    "Stage: " + S.stage,
+    S.pathways.length ? "Routes scored: " + S.pathways.map(x => x.name + " " + x.score).join("; ") : "No routes scored yet.",
+    S.regulated.triggered ? "Already escalated for regulated advice: " + (S.regulated.specialism || "") : ""].join("\n");
+}
+
+/* pull the reply string out of a partially-streamed JSON object */
+function streamReply(raw){
+  const m = /"reply"\s*:\s*"/.exec(raw); if(!m) return null;
+  let out = "", i = m.index + m[0].length;
+  while(i < raw.length){
+    const c = raw[i];
+    if(c === "\\"){ const n = raw[i+1]; if(n === undefined) break;
+      if(n === "n") out += "\n"; else if(n === "t") out += "\t"; else if(n === "r"){}
+      else if(n === "u"){ const h = raw.slice(i+2,i+6); if(h.length < 4) break; out += String.fromCharCode(parseInt(h,16)); i += 6; continue; }
+      else out += n; i += 2; continue; }
+    if(c === '"') break; out += c; i++;
+  }
+  return out;
+}
+
+function apply(env){
+  if(!env || typeof env !== "object") return;
+  if(env.profile && typeof env.profile === "object") Object.keys(env.profile).forEach(k => {
+    const v = env.profile[k]; if(typeof v === "string" && v.trim() && FIELDS.some(f => f.key === k)) S.profile[k] = v.trim();
+  });
+  if(typeof env.stage === "string" && STAGES.includes(env.stage)) S.stage = env.stage;
+  if(Array.isArray(env.pathways) && env.pathways.length) S.pathways = env.pathways;
+  if(env.assessment && typeof env.assessment === "object") S.assessment = env.assessment;
+  if(Array.isArray(env.actions) && env.actions.length) S.actions = env.actions;
+  if(Array.isArray(env.services) && env.services.length) S.services = env.services;
+  if(env.regulated && typeof env.regulated === "object" && (env.regulated.triggered || !S.regulated.triggered)) S.regulated = env.regulated;
+}
+
+/* ============================================================
+   SCRIPTED FALLBACK (labelled honestly in the header)
+   ============================================================ */
+const COUNTRIES = ["indian","india","nigerian","nigeria","pakistani","pakistan","chinese","china","brazilian","brazil","turkish","turkey","egyptian","egypt","kenyan","kenya","south african","american","canadian","australian","german","french","spanish","italian","polish","ukrainian","emirati","uae","saudi","singaporean","malaysian","indonesian","filipino","vietnamese","bangladeshi","sri lankan","nepali","ghanaian","moroccan","mexican","colombian","japanese","korean"];
+const SECTORS = {fintech:"Fintech",payments:"Fintech / payments",saas:"B2B SaaS",software:"Software",ai:"AI",health:"Health tech",edtech:"Edtech",ecommerce:"E-commerce","e-commerce":"E-commerce",logistics:"Logistics",proptech:"Proptech",legaltech:"Legaltech",agritech:"Agritech",energy:"Energy / cleantech",biotech:"Biotech",gaming:"Games",food:"Food & beverage",restaurant:"Food & beverage",manufacturing:"Manufacturing",consulting:"Consulting",retail:"Retail",marketing:"Marketing",travel:"Travel",insurance:"Insurtech"};
+function extract(text){
+  const t = " " + text.toLowerCase() + " ", got = {};
+  const c = COUNTRIES.find(k => t.includes(" " + k)); if(c) got.nationality = c[0].toUpperCase() + c.slice(1);
+  const sk = Object.keys(SECTORS).find(k => t.includes(k)); if(sk) got.sector = SECTORS[sk];
+  const m = /£\s?([\d,]+)\s?(k|m)?/i.exec(text); if(m) got.funding = "£" + m[1] + (m[2] || "");
+  if(/prototype|mvp|beta/.test(t)) got.stage = "Working prototype"; else if(/revenue|paying|customers|trading/.test(t)) got.stage = "Trading with customers"; else if(/idea|concept/.test(t)) got.stage = "Idea stage";
+  const y = /(\d{1,2})\s*\+?\s*years?/i.exec(text); if(y) got.experience = y[1] + " years in the field";
+  const loc = /(?:based|living|located|live|am)\s+in\s+([A-Z][A-Za-z\-]+(?:\s[A-Z][A-Za-z\-]+)?)/.exec(text); if(loc) got.location = loc[1];
+  const v = /(?:start|build|launch|run|found|set up|setting up|starting|building)(?:ing)?\s+(?:a|an|my|our)\s+([a-z0-9][a-z0-9 \-&\/]{2,40}?)\s+(?:company|business|startup|start-up|firm|venture)/i.exec(text);
+  if(v) got.venture = v[1].trim().replace(/^(new|own)\s+/i,"") + " company";
+  return got;
+}
+const DEMO_PATHWAYS = [
+  {name:"Innovator Founder",score:71,verdict:"strong",why:"Genuinely new to the UK market, and you have direct operating experience — the two things endorsing bodies weigh most. No minimum investment, so money is not the constraint. Evidence is: interest is not demand.",missing:["English test result","36-month financial model","Demand beyond letters of intent"],next:["Book the B2 English test","Pick an endorsing body and read its criteria","Turn one LOI into a paid pilot"]},
+  {name:"Global Talent",score:38,verdict:"watch",why:"Rewards public recognition — awards, published work, senior roles others can cite. Your record reads as strong experience rather than recognition. Revisit if the company gains profile.",missing:["Any public recognition","References from recognised figures"],next:["Park for now"]},
+  {name:"Self-sponsorship",score:44,verdict:"watch",why:"Lawful, but single-founder, pre-revenue sponsor licences are scrutinised hard and refused often. More expensive to set up than endorsement. A fallback, not a first choice.",missing:["A UK entity","Evidence of a genuine vacancy"],next:["Reassess once trading in the UK"]}
+];
+const DEMO_ACTIONS = [
+  {priority:1,title:"Convert one letter of intent into a paid pilot",why:"Turns asserted demand into evidenced demand — the commonest reason endorsements fail.",owner:"You"},
+  {priority:2,title:"Build a 36-month financial model",why:"Viability cannot be argued without one.",owner:"Iskra"},
+  {priority:3,title:"Sit the B2 English test",why:"A hard requirement with a booking lead time.",owner:"You"},
+  {priority:4,title:"Take regulated advice on your immigration history",why:"Outside the advisor's remit.",owner:"Adviser"}
+];
+const DEMO_SERVICES = [
+  {name:"Endorsement Readiness",relevance:"now",why:"The case is not yet evidenced to the standard endorsing bodies apply."},
+  {name:"Business Plan",relevance:"now",why:"Needed for endorsement and the financial model."},
+  {name:"Immigration Assistance",relevance:"now",why:"A registered adviser must handle the application."},
+  {name:"Company Formation",relevance:"next",why:"Once the route is settled — share structure affects SEIS."},
+  {name:"Accounting",relevance:"next",why:"From incorporation."},{name:"Tax",relevance:"next",why:"Structure before you raise."},
+  {name:"Payroll",relevance:"later",why:"On the first hire."},{name:"Compliance",relevance:"later",why:"Confirmation statement, PSC register, contact-point meetings."},
+  {name:"Insurance",relevance:"later",why:"Once you handle client data."},{name:"Business Growth",relevance:"later",why:"SEIS/EIS, then R&D relief."}
+];
+const SCRIPT = [
+  {reply:"Good — that gives me something to work from.\n\nTo place you against the right route I need three things: your nationality and where you live now, roughly what the business does, and how far it has got — idea, prototype, or paying customers.",stage:"discovery",suggestions:["I'm Indian, based in Bengaluru","It's a B2B SaaS product at prototype stage","I already have paying customers"]},
+  {reply:"That helps — I've started your case under 'Your case' above, and I won't ask for any of it twice.\n\nTwo things move the assessment most: your own background in this field, and what money is behind the business. Endorsing bodies weigh founder credibility heavily, so start with your experience.",stage:"profile",suggestions:["I've worked in this sector for 7 years","I have about £40,000 of my own money","I'm a first-time founder"]},
+  {reply:"I have enough to score the routes now — they're in 'Your case', each with the reasoning behind the number.\n\nShort version: Innovator Founder is the realistic primary route. It scores well on innovation and founder fit, and is held down by evidence — interest isn't demand. Global Talent needs recognition you don't yet have. Self-sponsorship is a fallback.",stage:"pathway",pathways:DEMO_PATHWAYS,suggestions:["What would move my score?","Explain the endorsement criteria","What do I need before I incorporate?"]},
+  {reply:"Let me be direct about the business rather than agreeable.\n\nThe strong parts are real: relevant experience and something that exists. The weak part is that demand is asserted, not evidenced — the single commonest reason endorsements fail. One paid pilot, however small, changes the case. I've put the next steps in priority order in 'Your case'.",stage:"gaps",actions:DEMO_ACTIONS,assessment:{score:54,strengths:["Relevant founder experience","Working prototype"],weaknesses:["No paid customers"],missing:["Financial model","English test"],risks:["Demand asserted, not evidenced"]},suggestions:["How do I turn an LOI into a pilot?","Which Iskra services do I need now?","I had a visa refused before — does that matter?"]},
+  {reply:"I have to stop there, and it's worth saying why.\n\nAnything turning on a previous refusal, an overstay, dependants, or switching from inside the UK is regulated immigration advice — only a registered adviser may give it. I've flagged your case and prepared a handover brief in 'Your case', so you won't repeat any of this. Everything outside that, I can carry on with now.",stage:"referral",regulated:{triggered:true,reason:"The question turns on prior immigration history or in-country switching — regulated immigration advice.",specialism:"prior history · in-country switching"},services:DEMO_SERVICES,suggestions:["What will the adviser need from me?","Carry on with the business plan","What does incorporation involve?"]},
+  {reply:"From here the work splits: the regulated half sits with the adviser — route decision, application, anything about history. The rest is where Iskra does most of the work: endorsement readiness, the plan and financial model, then incorporation, then the accounting and compliance floor.\n\nThe services marked 'now' in 'Your case' are the ones actually blocking you.",stage:"ongoing",suggestions:["What does endorsement readiness involve?","Talk me through incorporation","Start over"]}
+];
+function runScript(text){
+  const env = JSON.parse(JSON.stringify(SCRIPT[Math.min(scriptStep, SCRIPT.length-1)])); scriptStep++;
+  env.profile = Object.assign({}, extract(text), env.profile || {});
+  return env;
+}
+
+/* ============================================================
+   WIDGET UI
+   ============================================================ */
+function bubble(role, text){
+  const d = document.createElement("div");
+  d.className = "bub " + (role === "user" ? "bub-me" : role === "sys" ? "bub-sys" : role === "err" ? "bub-sys err" : "bub-ai");
+  d.textContent = text; return d;
+}
+function scrollThread(){ const t = $("#thread"); t.scrollTop = t.scrollHeight; }
+function renderThread(){
+  const t = $("#thread"); t.innerHTML = "";
+  if(!S.turns.length){
+    t.appendChild(bubble("ai","Hello — I'm the Iskra advisor. Tell me what you want to do in the UK and I'll work out the route, what's missing, and what to do first.\n\nA sentence is enough. I'll ask for the rest as we go."));
+  } else S.turns.forEach(x => t.appendChild(bubble(x.role === "user" ? "user" : "ai", x.content)));
+  scrollThread();
+}
+function renderChips(list){
+  const chips = (list && list.length) ? list : (S.turns.length
+    ? ["What would move my score?","Which services do I need now?","Explain the Innovator Founder route"]
+    : ["I want to move to the UK and start a company","I already run a company abroad","Which visa routes could a founder use?"]);
+  $("#chips").innerHTML = chips.slice(0,3).map(c => '<button class="w-chip" type="button">' + esc(c) + '</button>').join("");
+  $("#chips").querySelectorAll(".w-chip").forEach(b => b.addEventListener("click", () => { $("#input").value = b.textContent; send(); }));
+}
+
+function renderCase(flash){
+  const p = S.profile, filled = FIELDS.filter(f => p[f.key]);
+  const cnt = $("#case-cnt"); cnt.textContent = filled.length; cnt.className = "cnt" + (S.regulated.triggered ? " hot" : "");
+  const pct = Math.round(filled.length / FIELDS.length * 100);
+  let h = "";
+
+  if(user) h += '<div class="c-saved"><i></i>Saved to ' + esc(user.email) + '</div>';
+  else if(filled.length) h += '<div class="c-login"><div><b>Keep this case.</b> Log in and it follows you to every stage — nothing to re-enter.</div><button class="btn btn-sm" type="button" data-auth-open="signup">Create an account</button></div>';
+
+  h += '<div class="c-block"><div class="c-head"><h4>Profile</h4><small>' + filled.length + ' of ' + FIELDS.length + '</small></div>';
+  h += '<div class="c-meter"><b style="width:' + pct + '%"></b></div>';
+  h += filled.length ? '<div style="margin-top:10px">' + filled.map(f => '<div class="c-row' + (flash && !seen.has(f.key) ? " fresh" : "") + '"><span>' + esc(f.label) + '</span><span>' + esc(p[f.key]) + '</span></div>').join("") + '</div>'
+                     : '<p class="c-empty" style="margin-top:12px">Nothing captured yet. Everything you tell the advisor lands here, once, and is reused at every stage.</p>';
+  h += '</div>';
+
+  h += '<div class="c-block"><div class="c-head"><h4>Routes</h4>' + (S.pathways.length ? '<small>scored from your profile</small>' : '') + '</div>';
+  h += S.pathways.length ? S.pathways.map(r => {
+    const sc = Math.max(0, Math.min(100, Number(r.score) || 0));
+    return '<div class="c-route"><div class="c-route-top"><b>' + esc(r.name) + '</b><span class="v">' + esc(VERDICT[(r.verdict||"watch").toLowerCase()] || "Assessed") + '</span><span class="score">' + sc + '</span></div>' +
+      '<div class="c-meter"><b class="' + (sc >= 65 ? "" : "gold") + '" style="width:' + sc + '%"></b></div>' +
+      '<details><summary>Why this score</summary><p class="why">' + esc(r.why || "") + '</p>' +
+      (r.missing && r.missing.length ? '<ul>' + r.missing.map(m => '<li>Missing: ' + esc(m) + '</li>').join("") + '</ul>' : "") +
+      (r.next && r.next.length ? '<ul>' + r.next.map(m => '<li>Next: ' + esc(m) + '</li>').join("") + '</ul>' : "") + '</details></div>';
+  }).join("") : '<p class="c-empty">Routes appear once the advisor knows enough to score them — usually after two or three messages.</p>';
+  h += '</div>';
+
+  const acts = S.actions.slice().sort((a,b) => (a.priority||9)-(b.priority||9)).slice(0,4);
+  h += '<div class="c-block"><div class="c-head"><h4>Next steps</h4>' + (S.assessment && S.assessment.score != null ? '<small>readiness ' + S.assessment.score + '/100</small>' : '') + '</div>';
+  h += acts.length ? '<ol class="c-list">' + acts.map((a,i) => '<li><span class="n">' + (a.priority || i+1) + '</span><div><b>' + esc(a.title) + '</b>' + (a.why ? '<span>' + esc(a.why) + (a.owner ? ' · ' + esc(a.owner) : '') + '</span>' : '') + '</div></li>').join("") + '</ol>'
+                   : '<p class="c-empty">Your prioritised plan is written once the business has been assessed.</p>';
+  h += '</div>';
+
+  const now = S.services.filter(s => s.relevance === "now"), next = S.services.filter(s => s.relevance === "next");
+  h += '<div class="c-block"><div class="c-head"><h4>Recommended for you</h4></div>';
+  h += (now.length || next.length) ? '<div class="c-svcs">' + now.map(s => '<span class="now" title="' + esc(s.why) + '">' + esc(s.name) + '</span>').join("") + next.map(s => '<span title="' + esc(s.why) + '">' + esc(s.name) + '</span>').join("") + '</div>'
+                                    : '<p class="c-empty">Services are matched to your case, not listed as a menu.</p>';
+  h += '</div>';
+
+  h += '<div class="c-block">';
+  if(S.regulated.triggered){
+    h += '<div class="c-alert"><b>Handed to a registered adviser</b>' + esc(S.regulated.reason || "This needs regulated immigration advice.") + '</div>';
+    h += '<div class="c-actions"><button class="btn btn-black btn-sm" id="brief-show">Show handover brief</button></div>';
+    h += '<div id="brief-wrap" hidden><div class="brief" id="brief"></div><div class="c-actions"><button class="btn btn-line btn-sm" id="brief-copy">Copy</button><button class="btn btn-line btn-sm" id="brief-save" hidden>Save .md</button></div><p class="brief-note" id="brief-note">Built from the case file — nothing to re-key.</p></div>';
+  } else {
+    h += '<p class="c-empty">If a question needs regulated immigration advice, the advisor stops and hands your case to an IAA-registered adviser — with everything above attached.</p>';
+  }
+  h += '<div class="c-actions"><button class="btn btn-line btn-sm" id="case-reset">Start over</button></div></div>';
+
+  $("#case").innerHTML = h;
+  seen = new Set(filled.map(f => f.key));
+
+  const reset = $("#case-reset"); if(reset) reset.addEventListener("click", () => { S = blank(); scriptStep = 0; seen = new Set(); save(); renderThread(); renderChips(); renderCase(false); switchTab("chat"); });
+  const show = $("#brief-show"); if(show) show.addEventListener("click", () => { $("#brief").innerHTML = brief(true); $("#brief-wrap").hidden = false; show.hidden = true; if(downloadsFn) $("#brief-save").hidden = false; });
+  const copy = $("#brief-copy"); if(copy) copy.addEventListener("click", async () => {
+    try{ await navigator.clipboard.writeText(brief(false)); $("#brief-note").textContent = "Copied."; }
+    catch(e){ const r = document.createRange(); r.selectNodeContents($("#brief")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); $("#brief-note").textContent = "Selected — press ⌘C / Ctrl+C."; }
+  });
+  const sv = $("#brief-save"); if(sv) sv.addEventListener("click", async () => {
+    sv.disabled = true;
+    try{ const res = await downloadsFn.save({filename:"iskra-handover-" + S.ref + ".md", data:brief(false)}); $("#brief-note").textContent = res && res.status === "saved" ? "Saved." : "Sent."; }
+    catch(err){ if(err && err.code === "unavailable") sv.hidden = true; else if(!err || err.code !== "cancelled") $("#brief-note").textContent = "Couldn't save — use Copy."; }
+    finally{ sv.disabled = false; }
+  });
+}
+
+function brief(html){
+  const p = S.profile, L = [], B = s => html ? "<b>" + esc(s) + "</b>" : s, E = s => html ? esc(s) : s;
+  L.push(B("ISKRA ADVISER HANDOVER — " + S.ref) ); L.push(E("Opened " + S.opened)); L.push("");
+  L.push(B("WHO")); const f = FIELDS.filter(x => p[x.key]); L.push(f.length ? f.map(x => E("  " + x.label + ": " + p[x.key])).join("\n") : E("  Nothing captured yet")); L.push("");
+  if(S.pathways.length){ L.push(B("ROUTES SCORED")); S.pathways.forEach(r => L.push(E("  " + r.name + " — " + r.score + "/100"))); L.push(""); }
+  if(S.regulated.triggered){ L.push(B("WHY ESCALATED")); L.push(E("  " + (S.regulated.specialism || ""))); L.push(E("  " + (S.regulated.reason || ""))); L.push(""); }
+  const adv = S.actions.filter(a => a.owner === "Adviser"); if(adv.length){ L.push(B("ASKED OF THE ADVISER")); adv.forEach(a => L.push(E("  · " + a.title))); L.push(""); }
+  L.push(B("RECENT CONVERSATION")); const tail = S.turns.slice(-6);
+  L.push(tail.length ? tail.map(t => E("  " + (t.role === "user" ? "CLIENT" : "ADVISOR") + ": " + String(t.content).replace(/\n+/g," ").slice(0,220) + (t.content.length > 220 ? "…" : ""))).join("\n") : E("  None yet"));
+  L.push(""); L.push(E("Prepared automatically. Figures indicative."));
+  return L.join("\n");
+}
+
+function setMode(m){
+  mode = m; const st = $("#w-status"); st.dataset.mode = m === "live" ? "live" : m === "script" ? "script" : "idle";
+  $("#w-status-label").textContent = m === "live" ? "Online · answers generated live" : m === "script" ? "Scripted demo · replies are pre-written" : "Connecting…";
+  $("#w-foot").textContent = m === "script" ? "Scripted walkthrough — not generated, not regulated advice." : "General information, not regulated immigration advice.";
+}
+function setBusy(b){ busy = b; $("#send").disabled = b; $("#input").disabled = b; $("#stop").hidden = !b || mode !== "live"; }
+
+const ERR = {rate_limited:"Too many requests just now — wait a minute and send it again.",session_expired:"Your session expired. Sign in again, then resend.",refused:"That one was declined. Try asking a different way.",empty_completion:"No answer came back. Ask for a bit less in one go.",invalid_json:"The answer came back malformed. Send it again.",upstream_error:"The connection dropped. Send it again when you're ready.",prompt_too_large:"This conversation is too long to send. Start over to continue.",invalid_request:"That couldn't be sent as written."};
+const FATAL = new Set(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"]);
+
+async function send(){
+  if(busy) return;
+  const box = $("#input"), text = box.value.trim(); if(!text) return;
+  box.value = ""; box.style.height = "auto";
+  S.turns.push({role:"user",content:text});
+  const t = $("#thread"); t.appendChild(bubble("user", text));
+  const ai = bubble("ai",""); ai.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>'; t.appendChild(ai);
+  scrollThread(); setBusy(true);
+
+  const finish = env => {
+    const reply = (env && typeof env.reply === "string" && env.reply.trim()) ? env.reply.trim() : "I didn't manage to put that into words — ask me again, or narrow it down.";
+    ai.textContent = reply; S.turns.push({role:"assistant",content:reply}); apply(env); save(); renderCase(true); renderChips(env && env.suggestions); scrollThread();
+  };
+
+  if(mode !== "live"){ await new Promise(r => setTimeout(r, 600)); finish(runScript(text)); setBusy(false); return; }
+
+  ctl = new AbortController(); let streamed = false;
+  try{
+    const input = [{role:"user",content:GROUNDING + "\n" + context()}].concat(S.turns.slice(-14).map(x => ({role:x.role,content:x.content})));
+    const env = await sampleFn.json(input, {cache:false, signal:ctl.signal, onText:({text:raw}) => { const r = streamReply(raw); if(r) { streamed = true; ai.textContent = r; scrollThread(); } }});
+    finish(env);
+  }catch(err){
+    const code = (err && err.code) || "upstream_error";
+    if(code === "cancelled"){ if(streamed){ S.turns.push({role:"assistant",content:ai.textContent}); save(); } else ai.remove(); }
+    else if(FATAL.has(code)){
+      ai.remove(); setMode("script");
+      t.appendChild(bubble("sys","Claude isn't available in this view, so the advisor has switched to a scripted walkthrough. Replies from here are pre-written."));
+      const env = runScript(text); const d = bubble("ai", env.reply); t.appendChild(d);
+      S.turns.push({role:"assistant",content:env.reply}); apply(env); save(); renderCase(true); renderChips(env.suggestions);
+    } else {
+      if(err && err.text && err.text.trim()){ const partial = streamReply(err.text) || err.text; ai.textContent = partial; S.turns.push({role:"assistant",content:partial}); save(); } else ai.remove();
+      t.appendChild(bubble("err", ERR[code] || ERR.upstream_error));
+    }
+  }finally{ ctl = null; setBusy(false); scrollThread(); }
+}
+
+/* ---------- open / close / tabs ---------- */
+function openChat(prefill){
+  $("#widget").hidden = false; $("#launcher").hidden = true; $("#nudge").hidden = true;
+  switchTab("chat");
+  if(prefill){ $("#input").value = prefill; }
+  setTimeout(() => { $("#input").focus(); scrollThread(); }, 60);
+}
+function closeChat(){ $("#widget").hidden = true; $("#launcher").hidden = false; }
+function switchTab(name){
+  document.querySelectorAll(".w-tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === name ? "true" : "false"));
+  $("#pane-chat").hidden = name !== "chat"; $("#pane-case").hidden = name !== "case";
+}
+
+/* ============================================================
+   LOGIN (prototype — nothing leaves the page; passwords are never stored)
+   ============================================================ */
+const SESSION = "iskra-session";
+let user = null;
+try{ user = JSON.parse(localStorage.getItem(SESSION) || sessionStorage.getItem(SESSION) || "null"); }catch(e){}
+let authMode = "login";
+const AUTH = {
+  login: {title:"Welcome back", sub:"Log in to pick up your case where you left it.", submit:"Log in", name:false, pw:true, google:true, row:true, legal:false,
+          sw:'New to Iskra? <button type="button" class="auth-link" data-auth="signup">Create an account</button>'},
+  signup:{title:"Create your account", sub:"Your case file follows you through every stage.", submit:"Create account", name:true, pw:true, google:true, row:false, legal:true,
+          sw:'Already have an account? <button type="button" class="auth-link" data-auth="login">Log in</button>'},
+  google:{title:"Continue with Google", sub:"Enter the email on your Google account.", submit:"Continue", name:false, pw:false, google:false, row:false, legal:false,
+          sw:'<button type="button" class="auth-link" data-auth="login">Back to log in</button>'},
+  forgot:{title:"Reset your password", sub:"We'll email you a link to set a new one.", submit:"Send reset link", name:false, pw:false, google:false, row:false, legal:false,
+          sw:'<button type="button" class="auth-link" data-auth="login">Back to log in</button>'}
+};
+function setAuth(mode){
+  authMode = AUTH[mode] ? mode : "login"; const c = AUTH[authMode];
+  $("#auth-main").hidden = false; $("#auth-done").hidden = true;
+  $("#auth-title").textContent = c.title; $("#auth-sub").textContent = c.sub;
+  $("#auth-google").hidden = !c.google; $("#auth-or").hidden = !c.google;
+  $("#f-name").hidden = !c.name; $("#f-pw").hidden = !c.pw; $("#auth-row").hidden = !c.row; $("#auth-legal").hidden = !c.legal;
+  $("#auth-form").password.autocomplete = authMode === "signup" ? "new-password" : "current-password";
+  $("#auth-submit").textContent = c.submit; $("#auth-switch").innerHTML = c.sw;
+  authError("");
+  setTimeout(() => { const first = [...$("#auth-form").querySelectorAll("input")].find(i => !i.closest(".field").hidden); if(first) first.focus(); }, 30);
+}
+function authError(msg, field){
+  const e = $("#auth-err"); e.textContent = msg; e.hidden = !msg;
+  $("#auth-form").querySelectorAll("input").forEach(i => i.removeAttribute("aria-invalid"));
+  if(field) field.setAttribute("aria-invalid","true");
+}
+function openAuth(mode){ setAuth(mode); $("#auth").hidden = false; $("#acct-menu").hidden = true; }
+function closeAuth(){ $("#auth").hidden = true; $("#auth-form").reset(); }
+function showDone(title, sub, btn, onBtn){
+  $("#auth-main").hidden = true; $("#auth-done").hidden = false;
+  $("#done-title").textContent = title; $("#done-sub").textContent = sub;
+  const b = $("#done-btn"); b.textContent = btn; b.onclick = onBtn; setTimeout(() => b.focus(), 30);
+}
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(() => { t.hidden = true; }, 2600); }
+function renderAccount(){
+  const on = !!user;
+  $("#nav-login").hidden = on; $("#account").hidden = !on; $("#acct-menu").hidden = true;
+  $("#acct-btn").setAttribute("aria-expanded","false");
+  if(on){ $("#acct-initial").textContent = (user.name || user.email || "?").trim()[0].toUpperCase(); $("#acct-name").textContent = user.name; $("#acct-email").textContent = user.email; }
+}
+function signIn(u, remember){
+  user = u;
+  try{ localStorage.removeItem(SESSION); sessionStorage.removeItem(SESSION); (remember ? localStorage : sessionStorage).setItem(SESSION, JSON.stringify(u)); }catch(e){}
+  renderAccount(); renderCase(false);
+}
+function signOut(){
+  user = null; try{ localStorage.removeItem(SESSION); sessionStorage.removeItem(SESSION); }catch(e){}
+  renderAccount(); renderCase(false); toast("Logged out");
+}
+function wireAuth(){
+  document.addEventListener("click", e => {
+    const o = e.target.closest("[data-auth-open]"); if(o){ openAuth(o.dataset.authOpen); return; }
+    const a = e.target.closest("[data-auth]"); if(a && a.closest("#auth")){ setAuth(a.dataset.auth); return; }
+    const m = e.target.closest("[data-menu]"); if(m){ $("#acct-menu").hidden = true; if(m.dataset.menu === "logout") signOut(); else { openChat(""); switchTab("case"); } return; }
+    if(!e.target.closest("#account")){ $("#acct-menu").hidden = true; $("#acct-btn").setAttribute("aria-expanded","false"); }
+  });
+  $("#acct-btn").addEventListener("click", e => { e.stopPropagation(); const m = $("#acct-menu"); m.hidden = !m.hidden; $("#acct-btn").setAttribute("aria-expanded", String(!m.hidden)); });
+  $("#auth-x").addEventListener("click", closeAuth);
+  $("#auth").addEventListener("click", e => { if(e.target === $("#auth")) closeAuth(); });
+  $("#pw-toggle").addEventListener("click", () => { const i = $("#auth-form").password; i.type = i.type === "password" ? "text" : "password"; $("#pw-toggle").textContent = i.type === "password" ? "Show" : "Hide"; });
+
+  $("#auth-form").addEventListener("submit", async e => {
+    e.preventDefault();
+    const f = $("#auth-form"), c = AUTH[authMode];
+    const name = f.name.value.trim(), email = f.email.value.trim(), pw = f.password.value, remember = !!f.remember.checked;
+    if(c.name && !name) return authError("Tell us your name.", f.name);
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return authError("That email doesn't look right.", f.email);
+    if(c.pw && pw.length < 8) return authError("Your password needs at least 8 characters.", f.password);
+    authError("");
+    const btn = $("#auth-submit"); btn.classList.add("busy");
+    await new Promise(r => setTimeout(r, 900));
+    btn.classList.remove("busy");
+    if(authMode === "forgot"){ showDone("Check your inbox", "We've sent a reset link to " + email + ". It expires in 30 minutes.", "Back to log in", () => setAuth("login")); return; }
+    const display = name || email.split("@")[0].replace(/[._-]+/g," ").replace(/\b\w/g, ch => ch.toUpperCase());
+    signIn({name:display, email}, authMode === "login" ? remember : true);
+    f.reset();
+    showDone(authMode === "signup" ? "Account created" : "You're in",
+             "Signed in as " + email + ". Your case is now saved to your account.",
+             S.turns.length ? "Open my case" : "Continue",
+             () => { closeAuth(); if(S.turns.length){ openChat(""); switchTab("case"); } });
+  });
+}
+
+/* ============================================================
+   DEMO RESET
+   State lives in the viewer's own browser, so a demo needs a way back
+   to a clean slate: ?demo / ?reset on the URL, the widget header, or
+   the footer. Destructive buttons arm on the first click.
+   ============================================================ */
+function clearStored(everything){
+  try{ localStorage.removeItem(LS); }catch(e){}
+  if(everything){
+    try{ localStorage.removeItem(SESSION); sessionStorage.removeItem(SESSION); }catch(e){}
+    try{ sessionStorage.removeItem("iskra-nudge"); }catch(e){}
+  }
+}
+function demoResetCheck(){
+  let q = "";
+  try{ q = (location.search || "") + (location.hash || ""); }catch(e){}
+  if(!/(^|[?&#])(demo|reset)\b/i.test(q)) return;
+  clearStored(true); user = null;
+  try{ history.replaceState(null, "", location.pathname); }catch(e){}
+}
+function clearComposer(){
+  const box = $("#input");
+  if(box){ box.value = ""; box.style.height = "auto"; }
+}
+function resetConversation(){
+  S = blank(); scriptStep = 0; seen = new Set();
+  clearStored(false); save(); clearComposer();
+  renderThread(); renderChips(); renderCase(false); switchTab("chat");
+  setTimeout(() => $("#input").focus(), 40);
+}
+function resetEverything(){
+  clearStored(true);
+  user = null; S = blank(); scriptStep = 0; seen = new Set(); save(); clearComposer();
+  renderAccount(); renderThread(); renderChips(); renderCase(false);
+  switchTab("chat"); closeChat(); closeAuth();
+  $("#nudge").hidden = true;
+  toast("Demo reset — clean slate");
+}
+/* first click arms, second confirms, 3s to change your mind */
+function armConfirm(btn, label, go){
+  if(!btn) return;
+  const idle = btn.innerHTML;
+  let armed = false, t = null;
+  const stand = () => { armed = false; btn.classList.remove("confirm"); btn.innerHTML = idle; };
+  btn.addEventListener("click", e => {
+    e.stopPropagation();
+    if(armed){ clearTimeout(t); stand(); go(); return; }
+    armed = true; btn.classList.add("confirm"); btn.textContent = label;
+    t = setTimeout(stand, 3000);
+  });
+}
+
+function boot(){
+  demoResetCheck();
+  S = load();
+  renderAccount(); wireAuth();
+  renderThread(); renderChips(); renderCase(false);
+
+  document.querySelectorAll("[data-open-chat]").forEach(b => b.addEventListener("click", () => openChat(b.dataset.prefill || "")));
+  $("#launcher").addEventListener("click", () => openChat(""));
+  $("#w-close").addEventListener("click", closeChat);
+  armConfirm($("#w-reset"), "Reset?", resetConversation);
+  armConfirm($("#foot-reset"), "Reset everything?", resetEverything);
+  document.querySelectorAll(".w-tab").forEach(b => b.addEventListener("click", () => switchTab(b.dataset.tab)));
+  $("#send").addEventListener("click", send);
+  $("#stop").addEventListener("click", () => { if(ctl) ctl.abort(); });
+  const box = $("#input");
+  box.addEventListener("input", () => { box.style.height = "auto"; box.style.height = Math.min(box.scrollHeight, 120) + "px"; });
+  box.addEventListener("keydown", e => { if(e.key === "Enter" && !e.shiftKey){ e.preventDefault(); send(); } });
+  document.addEventListener("keydown", e => {
+    if(e.key !== "Escape") return;
+    if(!$("#auth").hidden) closeAuth();
+    else if(!$("#acct-menu").hidden) $("#acct-menu").hidden = true;
+    else if(!$("#widget").hidden) closeChat();
+  });
+
+  /* gentle nudge once, only if the visitor hasn't opened the chat */
+  let dismissed = false; try{ dismissed = sessionStorage.getItem("iskra-nudge") === "1"; }catch(e){}
+  if(!dismissed && !S.turns.length) setTimeout(() => { if($("#widget").hidden) $("#nudge").hidden = false; }, 6000);
+  $("#nudge-x").addEventListener("click", () => { $("#nudge").hidden = true; try{ sessionStorage.setItem("iskra-nudge","1"); }catch(e){} });
+  $("#nudge").addEventListener("click", e => { if(e.target.id !== "nudge-x") openChat(""); });
+
+  /* routes carousel */
+  const r = $("#routes"), step = () => (r.querySelector(".route")?.offsetWidth || 360) + 18;
+  $("#prev").addEventListener("click", () => r.scrollBy({left:-step(), behavior:"smooth"}));
+  $("#next").addEventListener("click", () => r.scrollBy({left:step(), behavior:"smooth"}));
+
+  capabilities();
+}
+
+async function capabilities(){
+  if(!window.claude || typeof window.claude.use !== "function"){ setMode("script"); return; }
+  try{ const s = await window.claude.use("sample"); if(s){ sampleFn = s; setMode("live"); } else setMode("script"); }catch(e){ setMode("script"); }
+  try{ const d = await window.claude.use("downloads"); if(d) downloadsFn = d; }catch(e){}
+}
+
+if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
+</script>
+</body>
+</html>
