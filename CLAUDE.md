@@ -1,25 +1,29 @@
 # Iskra Services prototype — working context
 
 Handoff notes so this can be picked up in a fresh session. Read this before
-editing anything.
+editing anything. **v3.0** — pre-login site + post-login founder platform.
 
 ---
 
 ## 1. What this is
 
-A concept website prototype built by **Finfactor** for a client, **Iskra
-Services** — a UK business-services firm in Harrow working mainly with
-international founders (company setup, Innovator Founder visa support,
-accounting/tax, funding, web, remote staffing).
+A concept website **and founder platform** prototype built by **Finfactor** for
+a client, **Iskra Services** — a UK business-services firm in Harrow working
+mainly with international founders.
 
-Their current site (iskra.services) lists six services and leaves the visitor to
-work out which one they need. **The prototype inverts that**: the visitor states
-an objective and an AI advisor works out the services. The advisor is the
-product thesis, but it lives in a closable chat widget — the site reads as a
-site, and the advisor is there when wanted.
+v3 implements the client's updated flow document: **three access levels,
+progressively unlocked** —
 
-Status: **v2.2**, design prototype. Not a live service, no backend, nothing
-regulated.
+```
+PRE-LOGIN  →  FREE ACCOUNT  →  PAID PREPARATION  →  EXTERNAL ENDORSEMENT  →  GROW
+Discover      Assess (P1)      Prepare (P2)          Authorised body          Subscription
+              Review (P3)                            decides independently
+```
+
+Payment unlocks **preparation**, never the endorsement. That single sentence
+governs every screen.
+
+Status: design prototype. No backend, no payment, nothing regulated.
 
 ## 2. Where everything is
 
@@ -29,218 +33,231 @@ regulated.
 | Repo | https://github.com/singhaditya210100-dev/Iskra-Services |
 | Local clone | `~/iskra-services-site` (dir name differs from repo — harmless) |
 | **Artifact build (live AI)** | https://claude.ai/code/artifact/7f93ec36-a07f-48e1-a8a3-366295cbf6e6 |
-| Original client brief | `~/Downloads/Client req.docx` |
-| Costed proposal | `~/Desktop/Iskra Services - Website & AI Advisor Proposal.xlsx` |
+| v1 brief | `~/Downloads/Client req.docx` — the ten chatbot requirements |
+| **v3 brief** | `~/Downloads/Udpated flow - pre login, Post login, Paid services, preparation_incubation narrative .docx` |
+| Costed proposal | `~/Desktop/Iskra Services - Website & AI Advisor Proposal.xlsx` (pre-dates v3 scope) |
 
-**There are two builds of the same page** and the difference matters — see §6.
+## 3. ⚠️ The regulatory boundary (from the v3 brief, §1A and §18)
 
-## 3. Client facts (verified from their site and Companies House)
+**Iskra is NOT an authorised endorsing body.** As of the GOV.UK list checked
+10 Sep 2026, Indigenous Consultants Limited is not listed. Therefore:
 
-- Iskra.services is a trading name of **Indigenous Consultants Limited**,
-  registered in England & Wales, **no. 16043340**
-- 79 College Road, Harrow HA1 1BD · 020 8123 3218 · info.iskraservices@gmail.com
-- Brand marks: deep blue + gold (from the coin-stack chart in their logo),
-  strapline **"Empowering businesses"**
-- Six service areas: incubation, immigration support, accounting & tax, funding
-  & R&D relief, web & marketing, remote staffing
+- Iskra **assesses, prepares, incubates and reviews**. It builds the profile,
+  runs the AI assessment, develops the plan, does a preliminary I/V/S review,
+  finds gaps, organises evidence, and produces a referral pack.
+- An **authorised endorsing body** (UK Endorsing Services, Innovator
+  International, Envestors, GEP) independently assesses, decides, issues the
+  official endorsement letter and notifies the Home Office. £1,000 + VAT, paid
+  to them directly. Contact-point checkpoints at 12/24 months, £500 each.
+- The **Home Office** decides the visa.
 
-⚠️ **Unresolved with the client:** the site claims *"20+ years"* experience while
-the legal entity was incorporated in **2024**. Currently carried as "20+ years
-across the team". Iskra should word this themselves.
+**Never** show "pay £X and unlock your endorsement". **Never** present a
+readiness view as a Home Office score or a guarantee. The 74/100 in Gap
+Analysis is labelled "Iskra Readiness Assessment — preparatory" everywhere it
+appears (`notHO` fragment in the JS). The free tier shows traffic lights, not a
+number, on purpose (§4 of the brief: "I would not show an overly precise
+62.4%-type score").
 
-## 4. Design direction
+Principle: *AI prepares; evidence supports; humans decide; the Home Office
+decides immigration.*
 
-The client rejected the first version (a "case file" treatment — institutional,
-Caslon, hairline rules) as too dense and too obviously AI-generated. **v2 is
-modelled on https://foundersfactory.com/** at the client's explicit request:
+## 4. Client facts
 
-- Full-bleed dark bands (nav, hero, intro, CTA, footer) with a large blurred
-  colour blob, off-white body between them
-- Very light word count. Hero is five words, a one-line lede, two buttons.
-  Every section is a headline, one sentence, a link.
-- One typeface at expanded widths, black pill buttons, outlined card carousel
+- Trading name of **Indigenous Consultants Limited**, England & Wales,
+  **no. 16043340**. 79 College Road, Harrow HA1 1BD · 020 8123 3218 ·
+  info.iskraservices@gmail.com
+- Brand: deep blue + gold (coin-stack chart in their logo), strapline
+  **"Empowering businesses"**
+- ⚠️ Unresolved: site claims "20+ years" vs 2024 incorporation. Carried as
+  "20+ years across the team".
 
-Founders Factory uses forest green; **we use Iskra's navy** so it stays their
-brand rather than a copy. Flip only if the client asks.
+## 5. Design direction
 
-### Tokens (defined in `:root` in `index.html`)
+Client rejected v1 (institutional "case file", Caslon, hairlines) as too dense
+and AI-generated. **v2/v3 are modelled on https://foundersfactory.com/** at the
+client's request: full-bleed navy bands with a blurred gold blob, off-white
+body, very light word count, one typeface (Archivo, variable width), black pill
+buttons, outlined card rows. We use Iskra's navy where FF uses green.
+
+The **app shell** is the same system at UI density: 262px left rail of modules
+with done/current/locked dots, white panels on the light ground, semantic
+traffic lights (`--ok` / `--warn` / `--bad`) kept separate from the gold accent.
 
 ```
---navy   #0E1E3A     --gold   #E9B949     --light  #F4F4F4
---navy-2 #13294D     --gold-2 #F6D983     --white  #FFFFFF
---black  #121212     --grey   #6B6F76     --line   #E0E2E6
---ok     #1E8A5A     --warn   #B7791F     --sky    #7FB3FF
-font: Archivo (Google Fonts), variable width — `font-stretch` 100–118%
+--navy #0E1E3A   --gold #E9B949   --light #F4F4F4   --black #121212
+--ok  #1E8A5A    --warn #B7791F   --bad  #B3261E    (semantic, not accent)
+font: Archivo — display 300/expanded 112–118%, UI 500, tabular nums for scores
 ```
 
-Single visual world, deliberately **not** theme-switched: every colour is painted
-explicitly so the page holds on any host background.
+Single visual world, deliberately not theme-switched.
 
-## 5. The client's 10 requirements → where each lives
+## 6. Build — read before editing
 
-From `Client req.docx`. All ten are implemented; 3–10 render inside the widget's
-**"Your case"** tab rather than as page sections.
-
-| # | Requirement | Implementation |
-| --- | --- | --- |
-| 1 | Chatbot as primary interface | The widget; `GROUNDING` covers immigration routes, endorsement criteria, incorporation, tax, Iskra's services |
-| 2 | Conversational assessment | Prompt rule: max two questions per message, chosen from what's still missing |
-| 3 | Single persistent profile | `S.profile`, 13 fields, persisted to `localStorage`; the prompt is told never to re-ask a captured field |
-| 4 | Pathway recommendation | `S.pathways` — score, verdict, why, missing, next |
-| 5 | Context-aware guidance | `S.stage` (11 stages) sent on every call via `context()` |
-| 6 | Explainable recommendations | "Why this score" disclosure under each route |
-| 7 | Assessment & gap analysis | `S.assessment` + `S.actions` (prioritised, with owner) |
-| 8 | Human-in-the-loop | `S.regulated.triggered` — advisor stops, routes to an IAA-registered adviser |
-| 9 | AI-to-human handoff | `brief()` builds a handover brief from the case file; copy + download |
-| 10 | Personalised services | `S.services` ranked now/next/later |
-
-## 6. ⚠️ The two builds — read before editing
-
-`index.html` in this repo is a **standalone page**. The artifact build is a
-**fragment** — the claude.ai platform supplies `<!doctype>`, `<html>`, `<head>`
-and `<body>` at publish time, so the artifact source starts straight at
-`<title>`.
-
-**Syncing between them means adding or removing that wrapper:**
-
-- Artifact → repo: strip everything up to and including `<body>`, drop the
-  in-body `<title>`, then re-add this repo's `<head>`
-- Repo → artifact: remove the whole `<!doctype>…<body>` prologue and the
-  trailing `</body></html>`
-
-**The one line you must never lose** when moving to standalone:
-
-```css
-[hidden]:not([hidden="until-found"]){display:none!important}
-```
-
-The artifact host provides this. The widget, login modal, launcher, toast and
-nudge are all toggled with the `hidden` attribute, and the page's own
-`display:flex`/`grid` rules out-specify the browser default. Without it,
-everything renders permanently on top of the page.
-
-**Republishing the artifact** needs `capabilities: {sample: {}, downloads: true}`
-— or just omit `capabilities` on a redeploy and the stored declaration carries
-forward.
-
-## 7. How the advisor works
-
-State lives in one object, `S`, keyed to `localStorage` under `iskra-case-v2`.
-
-**Live path** (`mode === "live"`, artifact only):
-
-1. `context()` renders the current case file into text
-2. Input is `[{role:"user", content: GROUNDING + context()}, ...last 14 turns]`
-3. `sampleFn.json(input, {cache:false, signal, onText})` — one call returns both
-   the chat reply and the state updates as a single JSON envelope
-4. `streamReply(raw)` incrementally extracts the `reply` string out of the
-   *partially streamed* JSON so the message types out live rather than appearing
-   after parse
-5. `apply(env)` merges the envelope into `S`; panels re-render
-
-The envelope is `{reply, suggestions, stage, profile, pathways, assessment,
-actions, services, regulated}`. The prompt asks for **only changed keys**, which
-keeps responses small and honest about what's still unknown.
-
-**Fallback path** (`mode === "script"`): `SCRIPT[]` — six pre-written steps
-walking the whole journey, with light keyword extraction (`extract()`) pulling
-nationality, sector, funding, stage and experience out of whatever the user
-actually types, so the case file still fills from their words.
-
-Errors branch on `err.code`. `FATAL` codes (`not_granted`, `sampling_disabled`,
-…) switch to scripted mode and *answer the message that was just sent* so nothing
-is dropped. Everything else surfaces viewer-facing copy from `ERROR_COPY`.
-
-## 8. What is deliberately fake
-
-**The advisor falls back to scripted on GitHub Pages.** It calls Claude through
-`window.claude`, which only exists inside the claude.ai artifact viewer. On any
-other host `claude.use("sample")` resolves null and the widget switches to the
-pre-written walkthrough — and *says so* in its status line
-(*"Scripted demo · replies are pre-written"*). This is intentional and honest;
-never relabel it. **Demo the artifact link when you want the live model.**
-
-**The login is a mock.** No account is created, nothing is sent anywhere. Name
-and email go to browser storage (`iskra-session`); passwords are never stored.
-It exists to demonstrate the flow. Real auth is Phase 3 — and the standing
-recommendation is to rent it (Clerk/Supabase), not build it.
-
-## 9. Demo controls
-
-State is per-browser, so demos need a way back to clean:
-
-| Control | Where | Clears |
-| --- | --- | --- |
-| ↻ | Widget header | Conversation + case, stays signed in |
-| Reset demo | Footer | Everything including the account |
-| `?demo` / `?reset` | URL | Everything on load, then strips the param |
-
-Both buttons arm on first click, act on second (`armConfirm()`). No `confirm()`
-dialogs anywhere — they freeze the page inside a sandboxed artifact frame.
-
-## 10. Editing and deploying
-
-Single self-contained `index.html`. No build step, no dependencies, no
-framework. Archivo comes from Google Fonts; everything else ships in the file.
+`index.html` is **assembled from `parts/`**. Edit the parts, then:
 
 ```sh
 cd ~/iskra-services-site
-python3 -m http.server 8000     # then http://localhost:8000
-# edit, then:
-git add -A && git commit -m "..." && git push
+cat parts/01-head.html parts/02-site.html parts/03-app.html parts/04-js.html > index.html
+python3 -m http.server 8000   # look at it
+git add -A && git commit -m "…" && git push
 ```
 
-Pages rebuilds in ~30–60s. Pushing needs a token with **Contents: write**
-(the account has two GitHub identities — `singhaditya210100-dev` owns this repo;
-the `gh` CLI on this machine is logged in as `adityasingh42069`, which has **no**
-access to it).
+Commit `index.html` *and* `parts/` — Pages serves `index.html` directly.
 
-`noindex, nofollow` is set deliberately so a prototype cannot outrank or be
-mistaken for the live iskra.services. Keep it until the client says otherwise.
+| Part | Holds |
+| --- | --- |
+| `01-head.html` | doctype, head, all CSS. **Contains the `[hidden]{display:none!important}` rule — never lose it** |
+| `02-site.html` | `#site` — pre-login marketing: nav, hero, three tests, ladder, Innovator Founder, for founders, pricing, CTA, about, footer |
+| `03-app.html` | `#app` — top bar, rail, 11 empty `#m-*` panes; checkout modal; login modal; toast; nudge; launcher; `#widget` |
+| `04-js.html` | everything below, then `</body></html>` |
 
-The repo is **public** because GitHub Pages requires that on a free plan. It
-carries the client's name, branding and contact details.
+**Two builds of the same page.** The artifact is a *fragment*: the claude.ai
+platform supplies `<!doctype>…<body>`. To republish the artifact from the repo
+file, strip everything through `<body>` and the trailing `</body></html>`. To
+bring the artifact back to the repo, re-add `01-head.html`'s prologue. Republish
+with `capabilities: {sample: {}, downloads: true}` or omit to carry forward.
 
-## 11. Commercial context
+## 7. State model
 
-A costed proposal exists at
-`~/Desktop/Iskra Services - Website & AI Advisor Proposal.xlsx` — six sheets,
-client-facing, GBP and INR. **Figures are deliberately not repeated here because
-this repo is public.**
+One object `S`, persisted to `localStorage["iskra-case-v3"]`. `user` is
+separate, in `iskra-session` (local or session storage per "keep me logged in").
 
-Shape of the programme:
+```
+S.plan       "free" | "readiness" | "preparation" | "endorsement" | "grow"   (PLAN_RANK orders them)
+S.profile    ~20 keys in PROFILE_GROUPS (Personal / Founder / Business) — one record, reused everywhere
+S.ivs        null | {innovation, viability, scalability: "strong|moderate|weak", note}
+S.pathways / S.assessment / S.actions / S.services / S.regulated   (from the advisor envelope)
+S.turns      chat history       S.gated   pre-login gate shown
+S.bplan      {sectionKey: userText}        S.evidence {key: true}
+S.human      {status: none|pending|approved|returned, note}
+S.external   {status: none|submitted|pending|approved, body: ukes|ii|env|gep}
+S.visa       {submitted, setup}            S.module  current app module
+```
 
-- **Stage 1 (recommended commitment)** — Phase 1 marketing site + Phase 2 AI
-  advisor. 10 weeks.
-- **Stage 2 (indicative)** — Phase 3 accounts & case-file backend + Phase 4
-  adviser console (where handoffs actually land — often forgotten, and it is a
-  whole second app).
-- Legal is a **pass-through, billed at cost**: a DPIA is effectively mandatory
-  (the advisor profiles individuals and touches immigration data), plus an
-  immigration-law review of the regulated-advice boundary.
+`tier()` → `visitor` (no user) / `free` / `paid`. `has(plan)` compares ranks —
+buying Package 3 implies 1 and 2.
 
-Two things that drive the real build cost and are routinely underestimated:
-**knowledge-base curation** (structuring UK immigration + endorsement content),
-and the **evaluation harness** proving the advisor refuses regulated questions
-reliably rather than usually. Neither is optional in this domain. Budget
-knowledge-base refresh as an ongoing retainer item — an advisor quoting last
-year's Home Office rules is worse than no advisor.
+**Journey** (10 stages, `JOURNEY[]`) is *derived* from state, never stored.
+**Module locks** (`NEEDS`): assessment→readiness; plan/gaps/evidence→preparation;
+review→endorsement; post→endorsement *and* external approved. `ivs` is never
+locked — free shows the summary lights, Package 1 adds the criterion detail.
 
-## 12. Open items
+## 8. The v3 brief → where each part lives
 
-- [ ] Proposal needs Finfactor's registered address + VAT/GST on the cover, and
-      the prototype link pasted into Next Steps (currently "supplied separately")
-- [ ] Resolve the "20+ years" vs 2024-incorporation wording with Iskra
-- [ ] Hero is text-on-gradient — ask Iskra for real photography (office, founders)
-- [ ] Firm up Stage 2 pricing if they commit to Stage 1
-- [ ] Decide whether the repo should stay public (private Pages needs GitHub Pro)
+| Brief | Implementation |
+| --- | --- |
+| A. Pre-login homepage + limited free chat | `#site`; widget in `visitor` tier; gate after ~3 scripted / ~5 live exchanges (`gateBubble`) |
+| B. Free account → dashboard, "Your journey" 10 stages | `renderModule("dashboard")`, `JOURNEY[]` |
+| 3. Founder profile (Personal / Founder / Business) | `PROFILE_GROUPS`, editable in **My Profile**, fed by the advisor |
+| 4. Free AI Founder Assessment, traffic lights not a % | `runFreeAssessment()` → `S.ivs`; dashboard "Preliminary readiness" |
+| C. Free vs paid table | Encoded in `NEEDS` + `PACKAGES` + the pricing section |
+| D. Package 1 — 9 areas + I/V/S sub-criteria | `BA_AREAS`, `IVS_DETAIL` → **Business Assessment**, **I/V/S** |
+| E. Package 2 — 17-section plan, AI review, versioning | `BPLAN` → **Business Plan** (editable, `S.bplan`) |
+| F. Package 3 — human review, mock interview, referral pack | **Human Review** module |
+| G. Gap analysis — 74/100, areas, top 5, 30/60/90 | `GAPS` → **Gap Analysis** |
+| H. Human review — approve / return | `S.human`; auto-approves in the demo (labelled) |
+| I/J. Authorised body — pick, submit, independent decision, letter 🔒 | body picker + endorsement tracker in **Human Review** |
+| K. Visa application readiness checklist | **Post-Endorsement**, `VISA_CHECKS` |
+| L. Post-endorsement dashboard, checkpoints | **Post-Endorsement** behind Grow |
+| M. Ten modules | rail in `03-app.html` (+ Dashboard = 11 panes) |
+| N. Paywall ladder Discover→Assess→Prepare→Review→Endorse→Grow | "How it works" ladder + pricing section |
 
-## 13. House rules for this prototype
+The v1 brief's ten chatbot requirements still hold (see git history for the
+v2.2 mapping); they now live inside the widget + Profile module.
 
-- **Never present the scripted fallback as live AI.** The status line is load-
-  bearing honesty.
-- **Never let the advisor give regulated immigration advice.** The escalation
-  path is a product feature and a legal requirement, not a nicety.
-- Any figure, fee or threshold shown is **indicative** and must say so.
-- Keep the "Concept prototype — not a live service" marker in the footer while
-  this is a mockup.
+## 9. The advisor
+
+**Live path** (artifact only): `GROUNDING` + `context()` as a leading user
+turn, then the last 14 turns → `sampleFn.json()`. `streamReply()` extracts the
+`reply` string out of the partially-streamed JSON so it types out live.
+`apply(env)` merges the envelope. **Visitors never get scored** — `apply`
+discards pathways/ivs/assessment/actions for `!user` and only honours `gate`.
+
+`context()` sends a `TIER:` line; `GROUNDING` has explicit rules per tier
+(visitor: general info, no scoring, set `gate` after ~5 exchanges; free:
+preliminary assessment with traffic lights, no number; paid: full detail).
+
+**Scripted fallback** (`mode === "script"`, everywhere except the artifact):
+`VISITOR_SCRIPT` (4 steps, gates on step 3) and `MEMBER_SCRIPT` (4 steps:
+preliminary assessment → direct critique → regulated stop → what's next).
+`scriptStep` resets to 0 on sign-in so the member script starts fresh.
+`extract()` pulls nationality / sector / funding / stage / experience /
+location / venture out of whatever the user actually typed.
+
+The status line says *"Scripted demo · replies are pre-written"* whenever the
+model isn't live. **Never relabel it.**
+
+## 10. What is simulated, and says so
+
+- **Login** — mock; name and email to browser storage, passwords never stored.
+- **Checkout** — mock; "Prototype — no payment is taken". Sets `S.plan`.
+- **Human review** — "Request" → pending → auto-approves after 2.6 s with a
+  reviewer note. Screen shows *"Simulated for the prototype"*.
+- **Endorsing body** — submit → pending → a labelled button *"Simulate the
+  endorsing body's decision"* → approved. Never auto-approves; the click is
+  the point: the decision is theirs.
+- **Evidence uploads** — "Mark as uploaded" records a flag only.
+- **Widget docking** — `dock(true)` physically moves `#widget` into
+  `#advisor-dock` and adds `.docked`; `dock(false)` returns it to `<body>`.
+
+## 11. Demo script (~5 minutes)
+
+1. Land on the site. Click **Start free AI assessment**. Type *"I want to move
+   to the UK and start a fintech company"*, then answer its two questions.
+   Third reply gates: **Create free account**.
+2. Sign up (any name/email, 8+ char password). Dashboard opens: journey 1/10,
+   "Run assessment" as next step.
+3. **Run free Founder Assessment** — widget docks in the Advisor module,
+   preliminary I/V/S appears (🟢 🟡 🔴). Back to dashboard: 2/10, next step
+   "Unlock Package 1".
+4. Click **Unlock Package 3** from Pricing or the dashboard → checkout → Confirm.
+   Rail unlocks. Show **Gap Analysis** (74/100 with the not-a-Home-Office-score
+   label), **Business Plan** (17 sections, "Needs evidence" ones open).
+5. **Human Review** → Request → approved → pick UK Endorsing Services → Submit
+   → "Simulate the endorsing body's decision". Tracker fills; letter unlocks
+   *from them*.
+6. **Post-Endorsement** → visa checklist; Grow lock card for the subscription.
+7. Footer **Reset demo** (click twice) to start over.
+
+## 12. Demo reset
+
+| Control | Clears |
+| --- | --- |
+| ↻ in widget header | conversation + case; keeps plan, module, sign-in |
+| **Reset demo** in site footer | everything, returns to the site |
+| `?demo` / `?reset` on the URL | everything, on load (works when opened directly) |
+
+Both buttons arm on first click, act on second. No `confirm()` dialogs — they
+freeze the artifact frame.
+
+## 13. Commercial context
+
+The costed proposal on the Desktop pre-dates v3 and covers a site + advisor
+(Stage 1) with accounts + adviser console as Stage 2. **v3 scope is materially
+larger** — a founder app with ten modules, three paid packages, an endorsing-body
+handoff and a post-endorsement layer — and the proposal needs re-cutting before
+it goes to Iskra again. Figures are deliberately not repeated here because this
+repo is public.
+
+Package prices on the site (£249 / £749 / £1,490 / £49 pm) are **illustrative
+and labelled so** — the brief gives none. Iskra sets them.
+
+## 14. Open items
+
+- [ ] Re-cut the proposal for v3 scope
+- [ ] Iskra to set real package prices
+- [ ] Resolve "20+ years" vs 2024 incorporation wording
+- [ ] Hero is text-on-gradient — real photography would help
+- [ ] AI mock endorsement interview (Package 3 feature) is listed but not
+      built — only the chat exists
+- [ ] Repo is public (Pages on free plan); private needs GitHub Pro
+- [ ] Rotate any GitHub token that has appeared in a chat transcript
+
+## 15. House rules
+
+- Payment unlocks preparation, never endorsement. Not once, not as a demo shortcut.
+- Readiness views are always labelled preparatory. Free tier: lights, no number.
+- The endorsing body's decision is a *click the presenter makes*, never automatic.
+- Never present the scripted fallback as live AI.
+- Regulated immigration questions stop the advisor and route to an IAA-registered adviser.
+- Keep "Concept prototype — not a live service" in the footer.

@@ -1,0 +1,148 @@
+<!-- ============================================================
+     POST-LOGIN APP — founder dashboard and the ten modules
+     ============================================================ -->
+<div id="app" hidden>
+  <div class="app-top">
+    <div class="app-top-inner">
+      <a class="logo" href="#" data-module-link="dashboard" aria-label="Iskra — dashboard"><span class="logo-name">Iskra<br>Services<i></i></span><span class="logo-tag"><svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 11V8M5 11V5M9 11V2"/><path d="M12 7l5-5M13 2h4v4"/></svg>Founder platform</span></a>
+      <div class="app-progress"><span>Your journey</span><div class="bar"><b id="app-bar" style="width:0%"></b></div><span class="num" id="app-pct">0%</span></div>
+      <span class="plan-badge" id="plan-badge">Free</span>
+      <div class="account" id="account">
+        <button class="avatar" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Account"><span id="acct-initial">A</span></button>
+        <div class="acct-menu" id="acct-menu" role="menu" hidden>
+          <div class="acct-who"><b id="acct-name"></b><span id="acct-email"></span></div>
+          <button role="menuitem" data-menu="site">View website</button>
+          <button role="menuitem" data-menu="logout">Log out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <nav class="rail" aria-label="Modules">
+      <div class="rail-label">Your platform</div>
+      <button class="rail-item" data-module="dashboard"><i class="dot"></i>Dashboard</button>
+      <button class="rail-item" data-module="advisor"><i class="dot"></i>AI Advisor</button>
+      <button class="rail-item" data-module="profile"><i class="dot"></i>My Profile</button>
+      <button class="rail-item" data-module="journey"><i class="dot"></i>My Journey</button>
+      <div class="rail-label">Prepare</div>
+      <button class="rail-item" data-module="assessment"><i class="dot"></i>Business Assessment<span class="lock"></span></button>
+      <button class="rail-item" data-module="ivs"><i class="dot"></i>I/V/S Assessment<span class="lock"></span></button>
+      <button class="rail-item" data-module="plan"><i class="dot"></i>Business Plan<span class="lock"></span></button>
+      <button class="rail-item" data-module="gaps"><i class="dot"></i>Gap Analysis<span class="lock"></span></button>
+      <button class="rail-item" data-module="evidence"><i class="dot"></i>Documents &amp; Evidence<span class="lock"></span></button>
+      <div class="rail-label">Decide</div>
+      <button class="rail-item" data-module="review"><i class="dot"></i>Human Review<span class="lock"></span></button>
+      <button class="rail-item" data-module="post"><i class="dot"></i>Post-Endorsement<span class="lock"></span></button>
+    </nav>
+
+    <!-- every pane is rendered by JS into its #m-* container -->
+    <section class="pane" id="m-dashboard"></section>
+    <section class="pane" id="m-advisor" hidden>
+      <div class="pane-head"><div><h1>AI Advisor</h1><p>Your main conversational interface. Everything it learns lands in your profile once and is reused at every stage.</p></div></div>
+      <div id="advisor-dock"></div>
+    </section>
+    <section class="pane" id="m-profile" hidden></section>
+    <section class="pane" id="m-journey" hidden></section>
+    <section class="pane" id="m-assessment" hidden></section>
+    <section class="pane" id="m-ivs" hidden></section>
+    <section class="pane" id="m-plan" hidden></section>
+    <section class="pane" id="m-gaps" hidden></section>
+    <section class="pane" id="m-evidence" hidden></section>
+    <section class="pane" id="m-review" hidden></section>
+    <section class="pane" id="m-post" hidden></section>
+  </div>
+</div><!-- /#app -->
+
+<!-- ============================================================ CHECKOUT (mock) ============================================================ -->
+<div class="modal-back" id="checkout" hidden>
+  <div class="modal checkout" role="dialog" aria-modal="true" aria-labelledby="co-title">
+    <button class="modal-x" id="co-x" aria-label="Close">×</button>
+    <div class="auth-mark" aria-hidden="true"><i></i></div>
+    <div id="co-main">
+      <h2 class="auth-title" id="co-title">Unlock</h2>
+      <p class="auth-sub" id="co-sub"></p>
+      <div style="margin-top:20px" id="co-rows"></div>
+      <div class="row total"><span>Total today</span><b id="co-total"></b></div>
+      <p class="auth-legal">This unlocks Iskra's preparation services. It does not purchase, guarantee or influence an endorsement, which is decided independently by an authorised endorsing body.</p>
+      <button class="btn btn-black auth-submit" id="co-pay" type="button">Confirm</button>
+    </div>
+    <div class="auth-done" id="co-done" hidden>
+      <div class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></svg></div>
+      <h2 class="auth-title" id="co-done-title">Unlocked</h2>
+      <p class="auth-sub" id="co-done-sub"></p>
+      <button class="btn btn-black" id="co-done-btn" type="button" style="margin-top:22px;width:100%">Open</button>
+    </div>
+    <p class="auth-note">Prototype — no payment is taken and no card details are requested.</p>
+  </div>
+</div>
+
+<!-- ============================================================ LOGIN (mock) ============================================================ -->
+<div class="modal-back" id="auth" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <button class="modal-x" id="auth-x" aria-label="Close">×</button>
+    <div class="auth-mark" aria-hidden="true"><i></i></div>
+    <div id="auth-main">
+      <h2 class="auth-title" id="auth-title">Welcome back</h2>
+      <p class="auth-sub" id="auth-sub"></p>
+      <button class="btn btn-google" id="auth-google" type="button" data-auth="google">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4c-.2 1.2-.9 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6C4.8 19.8 8.1 22 12 22z"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1C2.4 8.8 2 10.4 2 12s.4 3.2 1.1 4.6L6.4 14z"/><path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.8-2.8C17 3 14.7 2 12 2 8.1 2 4.8 4.2 3.1 7.4L6.4 10c.8-2.3 3-4.1 5.6-4.1z"/></svg>
+        Continue with Google
+      </button>
+      <div class="or" id="auth-or"><span>or</span></div>
+      <form id="auth-form" novalidate>
+        <label class="field" id="f-name" hidden><span>Full name</span><input type="text" name="name" autocomplete="name"></label>
+        <label class="field" id="f-email"><span>Email</span><input type="email" name="email" autocomplete="email" inputmode="email"></label>
+        <label class="field" id="f-pw"><span>Password</span><div class="pw"><input type="password" name="password" autocomplete="current-password"><button type="button" class="pw-toggle" id="pw-toggle">Show</button></div></label>
+        <div class="auth-row" id="auth-row">
+          <label class="check"><input type="checkbox" name="remember" checked>Keep me logged in</label>
+          <button type="button" class="auth-link" data-auth="forgot">Forgot password?</button>
+        </div>
+        <p class="auth-legal" id="auth-legal" hidden>By continuing you agree to Iskra's terms and privacy policy.</p>
+        <p class="auth-err" id="auth-err" hidden></p>
+        <button class="btn btn-black auth-submit" id="auth-submit" type="submit">Log in</button>
+      </form>
+      <p class="auth-switch" id="auth-switch"></p>
+    </div>
+    <div class="auth-done" id="auth-done" hidden>
+      <div class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></svg></div>
+      <h2 class="auth-title" id="done-title"></h2>
+      <p class="auth-sub" id="done-sub"></p>
+      <button class="btn btn-black" id="done-btn" type="button" style="margin-top:22px;width:100%"></button>
+    </div>
+    <p class="auth-note">Prototype — no account is created and nothing you type leaves this page.</p>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<!-- ============================================================ CHAT WIDGET ============================================================ -->
+<div class="nudge" id="nudge" hidden>
+  Not sure which route fits? Ask me — it takes a couple of minutes.
+  <button aria-label="Dismiss" id="nudge-x">×</button>
+</div>
+<button class="launcher" id="launcher" aria-haspopup="dialog" aria-controls="widget">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>
+  Ask the advisor
+</button>
+<div class="widget" id="widget" role="dialog" aria-label="Iskra advisor" hidden>
+  <div class="w-head">
+    <div class="w-avatar" aria-hidden="true"><i></i></div>
+    <div>
+      <div class="w-title">Iskra advisor</div>
+      <div class="w-status" id="w-status" data-mode="idle"><i></i><span id="w-status-label">Connecting…</span></div>
+    </div>
+    <button class="w-reset" id="w-reset" type="button" aria-label="Reset the conversation" title="Reset the conversation and case file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><path d="M3 4.5v5h5"/></svg></button>
+    <button class="w-close" id="w-close" aria-label="Close">×</button>
+  </div>
+  <div class="w-tier" id="w-tier">Free preview · <b>general guidance only</b></div>
+  <div class="w-body">
+    <div class="w-thread" id="thread" role="log" aria-live="polite"></div>
+    <div class="w-chips" id="chips"></div>
+    <div class="w-compose">
+      <textarea id="input" rows="1" placeholder="Ask anything about starting in the UK…" aria-label="Message"></textarea>
+      <button class="w-stop" id="stop" hidden>Stop</button>
+      <button class="w-send" id="send" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="w-foot" id="w-foot">General information, not regulated immigration advice.</div>
+  </div>
+</div>

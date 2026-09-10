@@ -1,4 +1,4 @@
-# Iskra Services — website prototype
+# Iskra Services — website & founder platform prototype
 
 A concept website prototype for **Iskra Services** (a trading name of Indigenous
 Consultants Limited, Harrow), a UK business-services firm working with
@@ -16,8 +16,11 @@ The current Iskra site lists six services and leaves the visitor to work out
 which one they need. This prototype inverts that: the visitor states an
 objective, and an AI advisor works out the services.
 
-The advisor sits in a closable chat widget rather than a dedicated section — the
-site reads as a site, and the advisor is there when it's wanted.
+Three access levels, progressively unlocked: a public site with a limited free
+advisor, a free founder account with a dashboard and preliminary assessment, and
+three paid preparation packages — then an external, independent endorsing body.
+The advisor sits in a closable chat widget on the site and docks into its own
+module inside the app.
 
 ### The advisor
 
@@ -48,7 +51,13 @@ started in this directory loads it automatically.
 
 ## Running it
 
-It is a single self-contained `index.html`. Open the file directly, or:
+It is a single self-contained `index.html`, assembled from `parts/`:
+
+```sh
+cat parts/01-head.html parts/02-site.html parts/03-app.html parts/04-js.html > index.html
+```
+
+Edit the parts, rebuild, then open the file directly, or:
 
 ```sh
 python3 -m http.server 8000
@@ -87,11 +96,16 @@ Both buttons arm on the first click and act on the second.
 ## Structure
 
 ```
-index.html    the entire site — markup, styles and behaviour
-.nojekyll     tells GitHub Pages to serve the file as-is
+index.html          the whole site + app — built from parts/, commit both
+parts/01-head.html  head and all CSS
+parts/02-site.html  pre-login marketing site
+parts/03-app.html   post-login app shell, modals, chat widget
+parts/04-js.html    state, advisor, modules, checkout, auth
+CLAUDE.md           working context for the next session
+.nojekyll           tells GitHub Pages to serve the file as-is
 ```
 
 ## Status
 
-Prototype, v2.2. Search engines are excluded via `robots` metadata so this
+Prototype, v3.0. Search engines are excluded via `robots` metadata so this
 cannot be confused with the live iskra.services site.
