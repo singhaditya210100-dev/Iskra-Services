@@ -504,7 +504,7 @@ function renderModule(m){
         g.fields.map(f => '<div class="pf"' + (f.wide ? ' style="grid-column:1/-1"' : '') + '><label for="pf-' + f.key + '">' + esc(f.label) + (S.profile[f.key] ? ' <span class="src">· from conversation</span>' : '') + '</label>' +
           (f.wide ? '<textarea id="pf-' + f.key + '" data-pf="' + f.key + '" rows="2">' + esc(S.profile[f.key] || "") + '</textarea>' : '<input id="pf-' + f.key + '" data-pf="' + f.key + '" type="text" value="' + esc(S.profile[f.key] || "") + '">') + '</div>').join("") +
         '</div></div>').join("") + '</div>';
-    $$("[data-pf]").forEach(i => i.addEventListener("change", () => { const v = i.value.trim(); if(v) S.profile[i.dataset.pf] = v; else delete S.profile[i.dataset.pf]; save(); renderApp(); }));
+    $$("[data-pf]").forEach(i => i.addEventListener("change", () => { const v = i.value.trim(); if(v) S.profile[i.dataset.pf] = v; else delete S.profile[i.dataset.pf]; if(i.dataset.pf === "name") S.nameAuto = false; save(); renderApp(); }));
   }
 
   if(m === "journey"){
@@ -672,7 +672,7 @@ function renderAccount(){
 function signIn(u, remember){
   user = u; S.gated = false; scriptStep = 0;
   try{ localStorage.removeItem(SESSION); sessionStorage.removeItem(SESSION); (remember ? localStorage : sessionStorage).setItem(SESSION, JSON.stringify(u)); }catch(e){}
-  if(u.name && !S.profile.name) S.profile.name = u.name;
+  if(u.name && (!S.profile.name || S.nameAuto)){ S.profile.name = u.name; S.nameAuto = true; }
   save(); renderAccount(); renderThread(); renderChips();
 }
 function signOut(){
@@ -681,6 +681,7 @@ function signOut(){
 }
 function wireAuth(){
   document.addEventListener("click", e => {
+    const oc = e.target.closest("[data-open-chat]"); if(oc){ openChat(oc.dataset.prefill || ""); return; }
     const o = e.target.closest("[data-auth-open]"); if(o){ openAuth(o.dataset.authOpen); return; }
     const a = e.target.closest("[data-auth]"); if(a && a.closest("#auth")){ setAuth(a.dataset.auth); return; }
     const u = e.target.closest("[data-unlock]"); if(u){ openCheckout(u.dataset.unlock); return; }
@@ -744,7 +745,6 @@ function armConfirm(btn, label, go){
 function boot(){
   demoResetCheck(); S = load();
   renderAccount(); wireAuth(); renderThread(); renderChips();
-  $$("[data-open-chat]").forEach(b => b.addEventListener("click", () => openChat(b.dataset.prefill || "")));
   $("#launcher").addEventListener("click", () => openChat(""));
   $("#w-close").addEventListener("click", closeChat);
   armConfirm($("#w-reset"), "Reset?", resetConversation);
