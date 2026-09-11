@@ -261,3 +261,42 @@ and labelled so** — the brief gives none. Iskra sets them.
 - Never present the scripted fallback as live AI.
 - Regulated immigration questions stop the advisor and route to an IAA-registered adviser.
 - Keep "Concept prototype — not a live service" in the footer.
+
+## 16. QA pass — 11 Sep 2026 (v3.1)
+
+Driven against the **deployed Pages build** with in-page assertion scripts
+(~340 checks via `javascript_tool`): every nav link and CTA on the site, the
+chat run to the sign-up gate, the auth modal (validation, all four modes, every
+close path, forgot flow, Google path), sign-up → dashboard, every module locked
+and unlocked, checkout (all close paths, confirm, already-unlocked), Package
+1 → 2 → 3 → Grow, human review → endorsing body → post-endorsement, reload
+persistence, both resets, logout / login with "keep me logged in" off,
+pending-unlock-after-signup, and a 400px pass via a same-origin iframe.
+
+Bugs found and fixed (`3cecf48`, `1286cf9`):
+- `data-open-chat` buttons rendered *by modules* were dead — listeners were
+  bound once at boot. Now delegated with the other `data-*` actions.
+- An auto-filled profile name didn't follow a new account on the same
+  browser → `S.nameAuto`; a name edited in My Profile stays put.
+- The app top bar overflowed at phone width (avatar pushed off-screen, badge
+  wrapping "Grow · Grow" onto three lines) → compact bar under 640px, badge
+  is the plan label only, launcher goes icon-only.
+
+Not bugs — know these before "fixing" them:
+- Smooth-scroll anchors don't visibly move in a **background** Chrome tab
+  (the animation is throttled). Instant scroll and the 84px `scroll-margin`
+  are correct; real users' tabs are foreground.
+- **GitHub Pages caches `index.html`.** After a push, verify with a
+  cache-busting query (`?v=<sha>`) or you will be testing the previous build.
+- `resize_window` will not go to 400px on this machine (it snapped to 1920).
+  Test mobile with a same-origin `<iframe style="width:400px">` and assert
+  inside `iframe.contentDocument`; use `contentWindow.eval()` to reach the
+  script-scope `S`.
+- With classic scrollbars the fullscreen widget measures 385px in a 400px
+  iframe — scrollbar, not layout.
+- The chip *"…start a company"* extracts no venture: there's nothing between
+  "a" and "company" to extract.
+
+The assertion scripts live in the session transcript, not the repo. Shape:
+`const T=(name,cond,detail)=>…` inside `javascript_tool` calls, batched with
+`browser_batch`. Worth lifting into `tools/qa.js` if this gets iterated.
