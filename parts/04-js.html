@@ -452,7 +452,7 @@ function showModule(m){
 function renderApp(){
   const js = journeyState(), done = js.filter(j => j.state === "done").length, pct = Math.round(done / js.length * 100);
   $("#app-bar").style.width = pct + "%"; $("#app-pct").textContent = pct + "%";
-  $("#plan-badge").textContent = PLAN_LABEL[S.plan] + (S.plan === "free" ? "" : " · " + PACKAGES[S.plan].name.split(" ")[0]);
+  $("#plan-badge").textContent = PLAN_LABEL[S.plan];
   const now = js.find(j => j.state === "now");
   $$(".rail-item").forEach(b => {
     const m = b.dataset.module, lk = locked(m) || (m === "post" && S.external.status !== "approved");

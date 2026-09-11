@@ -261,7 +261,7 @@ section[id]{scroll-margin-top:84px}
 .app-progress .bar{width:160px;height:5px;border-radius:100px;background:rgba(255,255,255,.18);overflow:hidden}
 .app-progress .bar b{display:block;height:100%;background:var(--gold);border-radius:100px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
 @media (prefers-reduced-motion:reduce){.app-progress .bar b{transition:none}}
-.plan-badge{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--gold);border:1px solid rgba(233,185,73,.5);border-radius:100px;padding:5px 10px}
+.plan-badge{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--gold);border:1px solid rgba(233,185,73,.5);border-radius:100px;padding:5px 10px;white-space:nowrap;flex:none}
 .app-body{display:grid;grid-template-columns:262px minmax(0,1fr);flex:1;min-height:0}
 .rail{background:var(--white);border-right:1px solid var(--line);padding:22px 14px;position:sticky;top:70px;height:calc(100vh - 70px);overflow-y:auto}
 .rail-label{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--grey-2);padding:10px 12px 8px}
@@ -572,7 +572,12 @@ table.areas-t td:last-child{text-align:right;font-weight:600}
   .widget:not(.docked){right:0;bottom:0;width:100%;height:100%;border-radius:0}
   .launcher{right:16px;bottom:16px}
   .nudge{right:16px;bottom:80px}
-  .app-progress span{display:none}
+  .app-progress{display:none}
+  .app-top-inner{gap:12px;padding:0 16px}
+  .app-top .logo-tag{display:none}
+  .plan-badge{padding:4px 8px;font-size:10.5px}
+  .launcher{padding:14px}
+  .launcher span{display:none}
 }
 </style>
 </head>
