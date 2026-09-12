@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<style>[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Iskra Prototype Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..700&display=swap">
+
+<style>
+:root{
+  --bg:#F4F4F4; --paper:#FFFFFF; --ink:#121212; --ink-2:#646870; --line:#DADDE3;
+  --navy:#0E1E3A; --gold:#D4A63A; --gold-text:#8A6414; --ext:#ECEFF5; --wash:#FBF3DC;
+  --font:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1320; --paper:#121C2E; --ink:#E7ECF5; --ink-2:#A6B4CC; --line:#26344F;
+    --gold:#E9B949; --gold-text:#E9B949; --ext:#172441; --wash:#2A2110;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1320; --paper:#121C2E; --ink:#E7ECF5; --ink-2:#A6B4CC; --line:#26344F;
+  --gold:#E9B949; --gold-text:#E9B949; --ext:#172441; --wash:#2A2110;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+
+/* header band — one visual world, painted explicitly */
+.top{background:#0E1E3A;color:#fff;padding:44px 0 40px}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;opacity:.75}
+.top h1{font-size:clamp(30px,4.2vw,50px);font-weight:300;font-stretch:112%;line-height:1.04;letter-spacing:-.01em;margin-top:14px;max-width:22ch;text-wrap:balance}
+.top p{margin-top:16px;max-width:64ch;opacity:.88;font-size:16.5px;text-wrap:pretty}
+.meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:24px;font-size:13px;opacity:.85}
+.meta a{text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35)}
+.meta a:hover{border-bottom-color:#fff}
+.meta b{font-weight:600}
+
+main{padding:52px 0 40px}
+section + section{margin-top:64px}
+.sec-head{margin-bottom:22px}
+.sec-head h2{font-size:26px;font-weight:300;font-stretch:112%;line-height:1.1}
+.sec-head p{color:var(--ink-2);margin-top:8px;max-width:70ch;text-wrap:pretty}
+
+figure{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px 22px 16px}
+figure svg{display:block;width:100%;height:auto;font-family:var(--font);color:var(--ink)}
+figcaption{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:96ch;text-wrap:pretty}
+figcaption b{color:var(--ink);font-weight:600}
+
+/* svg vocabulary — styled from the page so the fragments stay self-contained */
+.n{fill:var(--paper);stroke:currentColor;stroke-width:1.2}
+.d{fill:var(--paper);stroke:currentColor;stroke-width:1.2}
+.dash{stroke-dasharray:5 4}
+.a{fill:none;stroke:currentColor;stroke-width:1.3}
+.end{fill:none;stroke:currentColor;stroke-width:1.3}
+.lane{fill:var(--ext)}
+.grid{stroke:var(--line);stroke-width:1}
+.bnd{stroke:var(--gold);stroke-width:2.5}
+.t{font-size:12.5px;fill:currentColor}
+.tb{font-size:12.5px;font-weight:600;fill:currentColor}
+.s{font-size:11px;fill:var(--ink-2)}
+.l{font-size:10.5px;fill:var(--ink-2)}
+.h{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;fill:currentColor}
+.g{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;fill:currentColor}
+.gs{font-size:10.5px;fill:var(--ink-2)}
+.bl{font-size:10.5px;font-weight:600;letter-spacing:.06em;fill:var(--gold-text)}
+.big{font-size:13.5px;font-weight:600;fill:currentColor}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;font-size:12.5px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend svg{width:34px;height:20px;color:var(--ink)}
+
+table{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
+th{text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-2);padding:12px 16px;border-bottom:1px solid var(--line)}
+td{padding:11px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td:first-child{font-weight:600;white-space:nowrap}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;border-radius:100px;padding:3px 9px;white-space:nowrap}
+.tag-free{background:var(--ext);color:var(--ink)}
+.tag-p{background:var(--navy);color:#fff}
+.tag-ext{background:var(--wash);color:var(--gold-text)}
+.table-scroll{overflow-x:auto}
+
+.sim{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.sim div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.5}
+.sim b{display:block;font-weight:600;margin-bottom:3px}
+.sim span{color:var(--ink-2)}
+
+.foot{padding:28px 0 36px;font-size:12.5px;color:var(--ink-2);border-top:1px solid var(--line)}
+
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  figure{padding:14px 12px 12px}
+  .top{padding:32px 0 30px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Iskra Services · concept prototype v3.1</div>
+    <h1>How a founder moves through the prototype</h1>
+    <p>Pre-login site → free account → three paid preparation packages → an authorised endorsing body's independent decision → post-endorsement support. Payment unlocks preparation, never the endorsement.</p>
+    <div class="meta">
+      <span><b>Built from</b> the deployed build, 12 Sep 2026</span>
+      <a href="https://singhaditya210100-dev.github.io/Iskra-Services/" target="_blank" rel="noopener">Live prototype</a>
+      <a href="https://claude.ai/code/artifact/7f93ec36-a07f-48e1-a8a3-366295cbf6e6" target="_blank" rel="noopener">Artifact (live AI)</a>
+      <a href="https://github.com/singhaditya210100-dev/Iskra-Services" target="_blank" rel="noopener">Repo</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============================================================ 1. SPINE ============================================================ -->
+<section>
+  <div class="sec-head">
+    <h2>The six stages, and what opens each gate</h2>
+    <p>Five of the six gates are Iskra's. The one that isn't — endorsement — is the one the whole product is built to prepare for.</p>
+  </div>
+  <figure>
+    <svg viewBox="0 0 1200 150" role="img" aria-label="Six stages in a row: Discover (free), Assess (Package 1, £249), Prepare (Package 2, £749), Review (Package 3, £1,490), Endorse (external, £1,000 paid to the endorsing body), Grow (£49 a month). Arrows between them are labelled with what unlocks the next stage.">
+      <defs><marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+
+      <rect class="n" x="0" y="34" width="168" height="64" rx="6"/>
+      <text class="big" x="84" y="60" text-anchor="middle">1 · Discover</text>
+      <text class="s" x="84" y="78" text-anchor="middle">free · chat, profile, lights</text>
+      <text class="l" x="84" y="122" text-anchor="middle">YOU + AI</text>
+
+      <line class="a" x1="171" y1="66" x2="203" y2="66" marker-end="url(#ah1)"/>
+      <text class="l" x="187" y="24" text-anchor="middle">create free account</text>
+
+      <rect class="n" x="206" y="34" width="168" height="64" rx="6"/>
+      <text class="big" x="290" y="60" text-anchor="middle">2 · Assess</text>
+      <text class="s" x="290" y="78" text-anchor="middle">Package 1 · business, I/V/S</text>
+      <text class="l" x="290" y="122" text-anchor="middle">AI</text>
+
+      <line class="a" x1="377" y1="66" x2="409" y2="66" marker-end="url(#ah1)"/>
+      <text class="l" x="393" y="24" text-anchor="middle">£249</text>
+
+      <rect class="n" x="412" y="34" width="168" height="64" rx="6"/>
+      <text class="big" x="496" y="60" text-anchor="middle">3 · Prepare</text>
+      <text class="s" x="496" y="78" text-anchor="middle">Package 2 · plan &amp; evidence</text>
+      <text class="l" x="496" y="122" text-anchor="middle">AI + ISKRA</text>
+
+      <line class="a" x1="583" y1="66" x2="615" y2="66" marker-end="url(#ah1)"/>
+      <text class="l" x="599" y="24" text-anchor="middle">£749</text>
+
+      <rect class="n" x="618" y="34" width="168" height="64" rx="6"/>
+      <text class="big" x="702" y="60" text-anchor="middle">4 · Review</text>
+      <text class="s" x="702" y="78" text-anchor="middle">Package 3 · human review</text>
+      <text class="l" x="702" y="122" text-anchor="middle">ISKRA TEAM</text>
+
+      <line class="a" x1="789" y1="66" x2="821" y2="66" marker-end="url(#ah1)"/>
+      <text class="l" x="805" y="24" text-anchor="middle">£1,490</text>
+
+      <rect class="lane" x="824" y="34" width="168" height="64" rx="6"/>
+      <rect x="824" y="34" width="168" height="64" rx="6" fill="none" class="bnd"/>
+      <text class="big" x="908" y="60" text-anchor="middle">5 · Endorse</text>
+      <text class="s" x="908" y="78" text-anchor="middle">independent decision</text>
+      <text class="bl" x="908" y="122" text-anchor="middle">ENDORSING BODY</text>
+
+      <line class="a" x1="995" y1="66" x2="1027" y2="66" marker-end="url(#ah1)"/>
+      <text class="l" x="1011" y="24" text-anchor="middle">£49 / month</text>
+      <text class="bl" x="908" y="140" text-anchor="middle">SUBMIT · £1,000 + VAT TO THE BODY</text>
+
+      <rect class="n" x="1030" y="34" width="168" height="64" rx="6"/>
+      <text class="big" x="1114" y="60" text-anchor="middle">6 · Grow</text>
+      <text class="s" x="1114" y="78" text-anchor="middle">subscription · checkpoints</text>
+      <text class="l" x="1114" y="122" text-anchor="middle">YOU + ISKRA</text>
+    </svg>
+    <figcaption><b>Payment unlocks the next preparation stage.</b> The endorsement stage is outlined in gold because it sits outside Iskra: the founder submits the prepared case, pays the endorsing body directly, and the body decides. Prices on the prototype are illustrative — Iskra sets them.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ 2. SWIM-LANE FLOW ============================================================ -->
+<section>
+  <div class="sec-head">
+    <h2>The full flow, by who acts</h2>
+    <p>Time runs down the page. The founder's decisions form the spine on the left; each stage's work sits in the lane of whoever does it. Everything right of the gold line is outside Iskra.</p>
+  </div>
+  <figure>
+    <svg viewBox="0 0 1200 1192" role="img" aria-label="Swim-lane flow chart with five lanes — Founder, AI Advisor, Iskra team, Endorsing body, Home Office — and seven stages from pre-login to post-endorsement. The founder's decisions run down the left lane: create free account, unlock Packages 1, 2 and 3, subscribe to Grow. The AI advisor runs the limited chat, free assessment, business and I/V/S assessment, and the plan, gap and evidence work. The Iskra team reviews the case and approves it for referral or returns it. The endorsing body independently assesses, decides, and issues the endorsement letter and Home Office notification. The Home Office receives the visa application and decides. A gold line separates the Iskra lanes from the external lanes.">
+      <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+
+      <!-- external lanes -->
+      <rect class="lane" x="780" y="44" width="420" height="1148"/>
+      <!-- grid -->
+      <line class="grid" x1="0" y1="44" x2="1200" y2="44"/>
+      <line class="grid" x1="150" y1="44" x2="150" y2="1192"/>
+      <line class="grid" x1="360" y1="44" x2="360" y2="1192"/>
+      <line class="grid" x1="570" y1="44" x2="570" y2="1192"/>
+      <line class="grid" x1="990" y1="44" x2="990" y2="1192"/>
+      <line class="grid" x1="0" y1="214" x2="1200" y2="214"/>
+      <line class="grid" x1="0" y1="354" x2="1200" y2="354"/>
+      <line class="grid" x1="0" y1="464" x2="1200" y2="464"/>
+      <line class="grid" x1="0" y1="624" x2="1200" y2="624"/>
+      <line class="grid" x1="0" y1="804" x2="1200" y2="804"/>
+      <line class="grid" x1="0" y1="1014" x2="1200" y2="1014"/>
+      <!-- Iskra's boundary -->
+      <line class="bnd" x1="780" y1="44" x2="780" y2="1192"/>
+      <text class="bl" x="772" y="60" text-anchor="end">ISKRA PREPARES</text>
+      <text class="bl" x="788" y="60">EXTERNAL DECIDES</text>
+
+      <!-- lane headers -->
+      <text class="h" x="255" y="28" text-anchor="middle">Founder</text>
+      <text class="h" x="465" y="28" text-anchor="middle">AI advisor</text>
+      <text class="h" x="675" y="28" text-anchor="middle">Iskra team</text>
+      <text class="h" x="885" y="28" text-anchor="middle">Endorsing body</text>
+      <text class="h" x="1095" y="28" text-anchor="middle">Home Office</text>
+
+      <!-- stage labels -->
+      <text class="g" x="14" y="68">Pre-login</text><text class="gs" x="14" y="84">Discover · free</text>
+      <text class="g" x="14" y="238">Free account</text><text class="gs" x="14" y="254">Dashboard · free</text>
+      <text class="g" x="14" y="378">Package 1</text><text class="gs" x="14" y="394">Assess · £249</text>
+      <text class="g" x="14" y="488">Package 2</text><text class="gs" x="14" y="504">Prepare · £749</text>
+      <text class="g" x="14" y="648">Package 3</text><text class="gs" x="14" y="664">Review · £1,490</text>
+      <text class="g" x="14" y="828">External</text><text class="gs" x="14" y="844">Endorse</text><text class="gs" x="14" y="858">£1,000 to the body</text>
+      <text class="g" x="14" y="1038">Post-endorse.</text><text class="gs" x="14" y="1054">Grow · £49 / mo</text>
+
+      <!-- ======== S1 pre-login ======== -->
+      <rect class="n" x="165" y="74" width="180" height="36" rx="5"/>
+      <text class="t" x="255" y="96" text-anchor="middle">Lands on the site</text>
+
+      <line class="a" x1="345" y1="92" x2="373" y2="92" marker-end="url(#ah2)"/>
+      <text class="l" x="360" y="60" text-anchor="middle">Start free AI assessment</text>
+
+      <rect class="n" x="375" y="66" width="180" height="52" rx="5"/>
+      <text class="t" x="465" y="86" text-anchor="middle">Limited free chat</text>
+      <text class="s" x="465" y="102" text-anchor="middle">route info · first questions</text>
+
+      <line class="a dash" x1="555" y1="92" x2="583" y2="92" marker-end="url(#ah2)"/>
+      <text class="l" x="569" y="60" text-anchor="middle">stops, hands over</text>
+      <rect class="n dash" x="585" y="66" width="180" height="52" rx="5"/>
+      <text class="t" x="675" y="86" text-anchor="middle">IAA-registered adviser</text>
+      <text class="s" x="675" y="102" text-anchor="middle">regulated question · any tier</text>
+
+      <polyline class="a" points="465,118 465,172 337,172" marker-end="url(#ah2)"/>
+      <text class="l" x="471" y="150">after 3–5 exchanges:</text>
+      <text class="l" x="471" y="163">sign-up gate</text>
+
+      <polygon class="d" points="255,142 335,172 255,202 175,172"/>
+      <text class="t" x="255" y="168" text-anchor="middle">Create free</text>
+      <text class="t" x="255" y="182" text-anchor="middle">account?</text>
+      <line class="a" x1="175" y1="172" x2="165" y2="172"/><circle class="end" cx="160" cy="172" r="4"/>
+      <text class="l" x="167" y="192" text-anchor="middle">no · gated</text>
+      <line class="a" x1="255" y1="202" x2="255" y2="220" marker-end="url(#ah2)"/>
+      <text class="l" x="261" y="214">yes</text>
+
+      <!-- ======== S2 free account ======== -->
+      <rect class="n" x="165" y="222" width="180" height="36" rx="5"/>
+      <text class="t" x="255" y="244" text-anchor="middle">Sign up · Google · log in</text>
+      <line class="a" x1="255" y1="258" x2="255" y2="274" marker-end="url(#ah2)"/>
+      <text class="l" x="249" y="269" text-anchor="end">profile carries over</text>
+
+      <rect class="n" x="165" y="276" width="180" height="44" rx="5"/>
+      <text class="t" x="255" y="294" text-anchor="middle">Dashboard</text>
+      <text class="s" x="255" y="309" text-anchor="middle">journey · profile · next step</text>
+
+      <line class="a" x1="345" y1="290" x2="373" y2="290" marker-end="url(#ah2)"/>
+      <text class="l" x="359" y="262" text-anchor="middle">Run free assessment</text>
+      <line class="a" x1="373" y1="306" x2="347" y2="306" marker-end="url(#ah2)"/>
+      <text class="l" x="359" y="344" text-anchor="middle">lights → dashboard</text>
+
+      <rect class="n" x="375" y="270" width="180" height="60" rx="5"/>
+      <text class="t" x="465" y="288" text-anchor="middle">Free Founder Assessment</text>
+      <text class="s" x="465" y="303" text-anchor="middle">routes · I/V/S traffic lights</text>
+      <text class="s" x="465" y="317" text-anchor="middle">no numeric score</text>
+
+      <line class="a" x1="255" y1="320" x2="255" y2="378" marker-end="url(#ah2)"/>
+      <text class="l" x="249" y="345" text-anchor="end">next step</text>
+
+      <!-- ======== S3 package 1 ======== -->
+      <polygon class="d" points="255,380 335,410 255,440 175,410"/>
+      <text class="t" x="255" y="406" text-anchor="middle">Unlock P1?</text>
+      <text class="t" x="255" y="420" text-anchor="middle">£249</text>
+      <line class="a" x1="175" y1="410" x2="165" y2="410"/><circle class="end" cx="160" cy="410" r="4"/>
+      <text class="l" x="167" y="430" text-anchor="middle">no · stays</text>
+
+      <line class="a" x1="335" y1="410" x2="373" y2="410" marker-end="url(#ah2)"/>
+      <text class="l" x="357" y="372" text-anchor="middle">checkout (mock)</text>
+      <rect class="n" x="375" y="384" width="180" height="52" rx="5"/>
+      <text class="t" x="465" y="402" text-anchor="middle">Business Assessment</text>
+      <text class="s" x="465" y="417" text-anchor="middle">9 areas · 16 I/V/S criteria</text>
+
+      <line class="a" x1="255" y1="440" x2="255" y2="482" marker-end="url(#ah2)"/>
+
+      <!-- ======== S4 package 2 ======== -->
+      <polygon class="d" points="255,484 335,514 255,544 175,514"/>
+      <text class="t" x="255" y="510" text-anchor="middle">Unlock P2?</text>
+      <text class="t" x="255" y="524" text-anchor="middle">£749</text>
+      <line class="a" x1="175" y1="514" x2="165" y2="514"/><circle class="end" cx="160" cy="514" r="4"/>
+      <text class="l" x="167" y="534" text-anchor="middle">no · stays</text>
+
+      <line class="a" x1="335" y1="514" x2="373" y2="514" marker-end="url(#ah2)"/>
+      <text class="l" x="357" y="476" text-anchor="middle">checkout (mock)</text>
+      <rect class="n" x="375" y="484" width="180" height="60" rx="5"/>
+      <text class="t" x="465" y="502" text-anchor="middle">Plan · Gaps · Evidence</text>
+      <text class="s" x="465" y="517" text-anchor="middle">17 sections · score 74/100</text>
+      <text class="s" x="465" y="531" text-anchor="middle">AI review flags weak parts</text>
+
+      <polyline class="a" points="465,544 465,582 347,582" marker-end="url(#ah2)"/>
+      <text class="l" x="471" y="566">flags gaps</text>
+      <line class="a" x1="255" y1="544" x2="255" y2="558" marker-end="url(#ah2)"/>
+      <rect class="n" x="165" y="560" width="180" height="44" rx="5"/>
+      <text class="t" x="255" y="578" text-anchor="middle">Edits plan, adds evidence</text>
+      <text class="s" x="255" y="593" text-anchor="middle">closes top-5 gaps · 30/60/90</text>
+
+      <line class="a" x1="255" y1="604" x2="255" y2="636" marker-end="url(#ah2)"/>
+
+      <!-- ======== S5 package 3 / human review ======== -->
+      <polygon class="d" points="255,638 335,668 255,698 175,668"/>
+      <text class="t" x="255" y="664" text-anchor="middle">Unlock P3?</text>
+      <text class="t" x="255" y="678" text-anchor="middle">£1,490</text>
+      <line class="a" x1="175" y1="668" x2="165" y2="668"/><circle class="end" cx="160" cy="668" r="4"/>
+      <text class="l" x="167" y="688" text-anchor="middle">no · stays</text>
+
+      <line class="a" x1="335" y1="668" x2="583" y2="668" marker-end="url(#ah2)"/>
+      <text class="l" x="459" y="660" text-anchor="middle">requests human review</text>
+
+      <rect class="n" x="585" y="640" width="180" height="56" rx="5"/>
+      <text class="t" x="675" y="658" text-anchor="middle">Consultant reviews case</text>
+      <text class="s" x="675" y="673" text-anchor="middle">profile · plan · I/V/S</text>
+      <text class="s" x="675" y="687" text-anchor="middle">evidence · gaps · model</text>
+      <line class="a" x1="675" y1="696" x2="675" y2="714" marker-end="url(#ah2)"/>
+
+      <polygon class="d" points="675,716 755,746 675,776 595,746"/>
+      <text class="t" x="675" y="742" text-anchor="middle">Approve for</text>
+      <text class="t" x="675" y="756" text-anchor="middle">referral?</text>
+
+      <polyline class="a" points="595,746 562,746 562,514 557,514" marker-end="url(#ah2)"/>
+      <text class="l" x="556" y="600" text-anchor="end">return for</text>
+      <text class="l" x="556" y="613" text-anchor="end">remediation</text>
+
+      <polyline class="a" points="675,776 675,790 255,790 255,808" marker-end="url(#ah2)"/>
+      <text class="l" x="465" y="784" text-anchor="middle">approved for referral</text>
+
+      <!-- ======== S6 external ======== -->
+      <rect class="n" x="165" y="810" width="180" height="56" rx="5"/>
+      <text class="t" x="255" y="828" text-anchor="middle">Chooses endorsing body</text>
+      <text class="s" x="255" y="843" text-anchor="middle">UKES · II · Envestors · GEP</text>
+      <text class="s" x="255" y="857" text-anchor="middle">consents · submits pack</text>
+
+      <line class="a" x1="345" y1="838" x2="793" y2="838" marker-end="url(#ah2)"/>
+      <text class="l" x="569" y="830" text-anchor="middle">submits the referral pack · £1,000 + VAT paid to the body, not Iskra</text>
+
+      <rect class="n" x="795" y="810" width="180" height="44" rx="5"/>
+      <text class="t" x="885" y="828" text-anchor="middle">Independent assessment</text>
+      <text class="s" x="885" y="843" text-anchor="middle">of the referral pack</text>
+      <line class="a" x1="885" y1="854" x2="885" y2="874" marker-end="url(#ah2)"/>
+
+      <polygon class="d" points="885,876 965,906 885,936 805,906"/>
+      <text class="t" x="885" y="910" text-anchor="middle">Decision</text>
+
+      <line class="a" x1="805" y1="906" x2="767" y2="906" marker-end="url(#ah2)"/>
+      <text class="l" x="786" y="872" text-anchor="middle">further info</text>
+      <rect class="n dash" x="585" y="884" width="180" height="44" rx="5"/>
+      <text class="t" x="675" y="902" text-anchor="middle">Answers info requests</text>
+      <text class="s" x="675" y="917" text-anchor="middle">no part in the decision</text>
+
+      <line class="a" x1="965" y1="906" x2="979" y2="906"/><circle class="end" cx="983" cy="906" r="4"/>
+      <text class="l" x="972" y="926" text-anchor="end">declines</text>
+
+      <line class="a" x1="885" y1="936" x2="885" y2="952" marker-end="url(#ah2)"/>
+      <text class="l" x="891" y="946">approves</text>
+      <rect class="n" x="795" y="954" width="180" height="44" rx="5"/>
+      <text class="t" x="885" y="972" text-anchor="middle">Issues the official</text>
+      <text class="t" x="885" y="987" text-anchor="middle">endorsement letter</text>
+
+      <line class="a" x1="975" y1="976" x2="1003" y2="976" marker-end="url(#ah2)"/>
+      <text class="l" x="990" y="946" text-anchor="middle">notifies</text>
+      <rect class="n" x="1005" y="954" width="180" height="44" rx="5"/>
+      <text class="t" x="1095" y="972" text-anchor="middle">Notified by the body</text>
+      <text class="s" x="1095" y="987" text-anchor="middle">not by Iskra</text>
+
+      <polyline class="a" points="885,998 885,1030 255,1030 255,1044" marker-end="url(#ah2)"/>
+      <text class="l" x="570" y="1024" text-anchor="middle">endorsement letter to the founder · Post-Endorsement module unlocks</text>
+
+      <!-- ======== S7 post-endorsement ======== -->
+      <rect class="n" x="165" y="1046" width="180" height="56" rx="5"/>
+      <text class="t" x="255" y="1064" text-anchor="middle">Visa checklist</text>
+      <text class="s" x="255" y="1079" text-anchor="middle">letter · passport · English</text>
+      <text class="s" x="255" y="1093" text-anchor="middle">funds · TB · translations</text>
+
+      <line class="a" x1="345" y1="1074" x2="1003" y2="1074" marker-end="url(#ah2)"/>
+      <text class="l" x="674" y="1066" text-anchor="middle">applies · professional immigration referral available from Iskra</text>
+      <rect class="n" x="1005" y="1046" width="180" height="44" rx="5"/>
+      <text class="t" x="1095" y="1064" text-anchor="middle">Visa decision</text>
+      <text class="s" x="1095" y="1079" text-anchor="middle">Home Office, not Iskra</text>
+
+      <line class="a" x1="255" y1="1102" x2="255" y2="1114" marker-end="url(#ah2)"/>
+      <polygon class="d" points="255,1116 335,1146 255,1176 175,1146"/>
+      <text class="t" x="255" y="1142" text-anchor="middle">Subscribe Grow?</text>
+      <text class="t" x="255" y="1156" text-anchor="middle">£49 / month</text>
+      <line class="a" x1="175" y1="1146" x2="165" y2="1146"/><circle class="end" cx="160" cy="1146" r="4"/>
+      <text class="l" x="167" y="1166" text-anchor="middle">no · stays</text>
+
+      <line class="a" x1="335" y1="1146" x2="398" y2="1146" marker-end="url(#ah2)"/>
+      <text class="l" x="366" y="1110" text-anchor="middle">subscribe (mock)</text>
+      <rect class="n" x="400" y="1118" width="340" height="56" rx="5"/>
+      <text class="t" x="570" y="1136" text-anchor="middle">Checkpoint prep · company setup · metrics</text>
+      <text class="s" x="570" y="1151" text-anchor="middle">12 &amp; 24-month evidence · settlement readiness</text>
+
+      <line class="a" x1="740" y1="1146" x2="793" y2="1146" marker-end="url(#ah2)"/>
+      <text class="l" x="766" y="1110" text-anchor="middle">checkpoint evidence</text>
+      <rect class="n" x="795" y="1118" width="180" height="56" rx="5"/>
+      <text class="t" x="885" y="1136" text-anchor="middle">Contact-point checkpoints</text>
+      <text class="s" x="885" y="1151" text-anchor="middle">12 &amp; 24 months · £500 each</text>
+      <text class="s" x="885" y="1165" text-anchor="middle">paid to the body</text>
+    </svg>
+    <div class="legend">
+      <span><svg viewBox="0 0 34 20"><rect class="n" x="2" y="3" width="30" height="14" rx="3"/></svg>screen or action</span>
+      <span><svg viewBox="0 0 34 20"><polygon class="d" points="17,2 32,10 17,18 2,10"/></svg>decision</span>
+      <span><svg viewBox="0 0 34 20"><rect class="n dash" x="2" y="3" width="30" height="14" rx="3"/></svg>supporting role, no decision power</span>
+      <span><svg viewBox="0 0 34 20"><line class="a" x1="2" y1="10" x2="24" y2="10"/><circle class="end" cx="28" cy="10" r="4"/></svg>flow holds or ends</span>
+      <span><svg viewBox="0 0 34 20"><line class="bnd" x1="17" y1="1" x2="17" y2="19"/></svg>where Iskra's authority ends</span>
+      <span><svg viewBox="0 0 34 20"><rect class="lane" x="2" y="2" width="30" height="16"/></svg>external actor</span>
+    </div>
+    <figcaption><b>AI prepares, Iskra reviews, the endorsing body decides, the Home Office decides immigration.</b> Every "no" on a founder decision holds the current stage — nothing is lost and nothing is re-asked. A regulated question stops the advisor at any tier and hands the founder to a registered adviser; the dashed box in the first stage stands for that exit wherever it happens. "Return for remediation" is the one backward arrow: a case the consultant isn't ready to refer goes back to the Package 2 workspace. The endorsing body's three outcomes — approve, further information, decline — are its own; the prototype makes the approval an explicit, labelled click rather than something that happens automatically.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ 3. ADVISOR TIERS ============================================================ -->
+<section>
+  <div class="sec-head">
+    <h2>What the advisor is allowed to do, by tier</h2>
+    <p>The same chat widget behaves differently depending on who's talking to it. This is the mechanism behind the sign-up gate and the free-vs-paid split.</p>
+  </div>
+  <figure>
+    <svg viewBox="0 0 1200 236" role="img" aria-label="Four advisor tiers left to right: Visitor (general route info, initial questions, never scored), Gated (input disabled, general questions only, sign-up prompt), Free account (preliminary assessment, routes, I/V/S as lights, no number), Paid (full detail, criterion by criterion, preparatory score labelled). Arrows: visitor to gated after 3 to 5 exchanges; gated to free on creating an account; visitor directly to free on logging in; free to paid on unlocking Package 1 or above. From every tier a dashed line leads to a box: the advisor stops and hands over to an IAA-registered adviser on a regulated question.">
+      <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+
+      <path class="a" d="M180 60 C 180 4, 740 4, 740 60" marker-end="url(#ah3)"/>
+      <text class="l" x="460" y="12" text-anchor="middle">logs in with an existing account</text>
+
+      <rect class="n" x="70" y="60" width="220" height="74" rx="6"/>
+      <text class="tb" x="180" y="82" text-anchor="middle">Visitor</text>
+      <text class="s" x="180" y="100" text-anchor="middle">route info · initial questions</text>
+      <text class="s" x="180" y="115" text-anchor="middle">never scored</text>
+
+      <line class="a" x1="292" y1="97" x2="346" y2="97" marker-end="url(#ah3)"/>
+      <text class="l" x="319" y="50" text-anchor="middle">after 3–5 exchanges</text>
+
+      <rect class="n" x="350" y="60" width="220" height="74" rx="6"/>
+      <text class="tb" x="460" y="82" text-anchor="middle">Gated</text>
+      <text class="s" x="460" y="100" text-anchor="middle">input disabled · sign-up prompt</text>
+      <text class="s" x="460" y="115" text-anchor="middle">general questions only</text>
+
+      <line class="a" x1="572" y1="97" x2="626" y2="97" marker-end="url(#ah3)"/>
+      <text class="l" x="599" y="50" text-anchor="middle">creates a free account</text>
+
+      <rect class="n" x="630" y="60" width="220" height="74" rx="6"/>
+      <text class="tb" x="740" y="82" text-anchor="middle">Free account</text>
+      <text class="s" x="740" y="100" text-anchor="middle">preliminary assessment · routes</text>
+      <text class="s" x="740" y="115" text-anchor="middle">I/V/S as lights · no number</text>
+
+      <line class="a" x1="852" y1="97" x2="906" y2="97" marker-end="url(#ah3)"/>
+      <text class="l" x="879" y="50" text-anchor="middle">unlocks Package 1+</text>
+
+      <rect class="n" x="910" y="60" width="220" height="74" rx="6"/>
+      <text class="tb" x="1020" y="82" text-anchor="middle">Paid</text>
+      <text class="s" x="1020" y="100" text-anchor="middle">criterion-by-criterion detail</text>
+      <text class="s" x="1020" y="115" text-anchor="middle">preparatory score, always labelled</text>
+
+      <line class="a dash" x1="180" y1="134" x2="180" y2="160"/>
+      <line class="a dash" x1="460" y1="134" x2="460" y2="160"/>
+      <line class="a dash" x1="740" y1="134" x2="740" y2="160"/>
+      <line class="a dash" x1="1020" y1="134" x2="1020" y2="160"/>
+      <line class="a dash" x1="180" y1="160" x2="1020" y2="160"/>
+      <line class="a dash" x1="600" y1="160" x2="600" y2="174" marker-end="url(#ah3)"/>
+      <text class="l" x="600" y="151" text-anchor="middle">regulated question · any tier</text>
+
+      <rect class="n dash" x="360" y="176" width="480" height="50" rx="6"/>
+      <text class="t" x="600" y="196" text-anchor="middle">Advisor stops · hands over to an IAA-registered adviser</text>
+      <text class="s" x="600" y="212" text-anchor="middle">prior refusals · overstays · dependants · in-country switching · appeals</text>
+    </svg>
+    <figcaption><b>The tier is sent to the model on every turn, and the page enforces it too</b> — anything the advisor returns for a visitor beyond conversation (routes, scores, actions) is discarded before it can render. The free account shows the three tests as traffic lights and deliberately no number; a numeric readiness view appears only once a package is unlocked, and only ever labelled as Iskra's preparatory assessment. In the artifact the replies are generated live; everywhere else the same state machine runs on pre-written replies and says so in the widget header.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ 4. MODULES ============================================================ -->
+<section>
+  <div class="sec-head">
+    <h2>Which module opens at which stage</h2>
+    <p>The eleven screens in the founder platform, in rail order. Locked modules show a lock card that goes straight to the checkout for the package they need.</p>
+  </div>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Module</th><th>Opens with</th><th>What it shows</th></tr></thead>
+    <tbody>
+      <tr><td>Dashboard</td><td><span class="tag tag-free">Free</span></td><td>Welcome, the ten-stage journey, the single next step, preliminary I/V/S lights once the free assessment has run</td></tr>
+      <tr><td>AI Advisor</td><td><span class="tag tag-free">Free</span></td><td>The chat widget, docked into its own screen; the tier line under the header says what it may do</td></tr>
+      <tr><td>My Profile</td><td><span class="tag tag-free">Free</span></td><td>Twenty fields in three groups — Personal, Founder, Business — filled by the conversation, editable by hand</td></tr>
+      <tr><td>My Journey</td><td><span class="tag tag-free">Free</span></td><td>All ten stages with done / next / ahead, and who owns each</td></tr>
+      <tr><td>I/V/S Assessment</td><td><span class="tag tag-free">Free</span> summary · <span class="tag tag-p">P1</span> detail</td><td>Three traffic lights for everyone; sixteen criteria with reasons after Package 1</td></tr>
+      <tr><td>Business Assessment</td><td><span class="tag tag-p">Package 1 · £249</span></td><td>Nine areas — problem, solution, market, model, competition, differentiation, founder, funding, UK opportunity — each with a verdict</td></tr>
+      <tr><td>Business Plan</td><td><span class="tag tag-p">Package 2 · £749</span></td><td>Seventeen sections built around the endorsement criteria, editable, with the AI review naming the weak ones</td></tr>
+      <tr><td>Gap Analysis</td><td><span class="tag tag-p">Package 2</span></td><td>Readiness 74 / 100 labelled preparatory, five area lights, the top five gaps with actions, a 30 / 60 / 90-day plan</td></tr>
+      <tr><td>Documents &amp; Evidence</td><td><span class="tag tag-p">Package 2</span></td><td>Ten evidence items, each mapped to the test it supports, with on-file status</td></tr>
+      <tr><td>Human Review</td><td><span class="tag tag-p">Package 3 · £1,490</span></td><td>Request → consultant review → approve or return → choose an endorsing body → submit → the five-row endorsement tracker</td></tr>
+      <tr><td>Post-Endorsement</td><td><span class="tag tag-ext">Body approval</span> then <span class="tag tag-p">Grow · £49 / mo</span></td><td>Visa application checklist immediately; checkpoints, metrics and company setup with the subscription</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============================================================ 5. SIMULATED ============================================================ -->
+<section>
+  <div class="sec-head">
+    <h2>What the prototype simulates</h2>
+    <p>Each of these says so on screen. None of them should be mistaken for the real thing in a demo.</p>
+  </div>
+  <div class="sim">
+    <div><b>Login and account</b><span>No account is created; name and email stay in the browser, passwords are never stored.</span></div>
+    <div><b>Checkout</b><span>No payment is taken and no card details are asked for. Confirm simply sets the plan.</span></div>
+    <div><b>Human review</b><span>"Request" goes to pending and approves itself after a moment, with a reviewer note. The screen says it is simulated.</span></div>
+    <div><b>Endorsing body decision</b><span>Never automatic. The presenter clicks a labelled "Simulate the endorsing body's decision" — because the decision is theirs, not Iskra's.</span></div>
+    <div><b>Evidence uploads</b><span>"Mark as uploaded" records a flag in the case; nothing is transferred.</span></div>
+    <div><b>Advisor replies outside the artifact</b><span>Pre-written walkthrough following the same tier rules; the widget header reads "Scripted demo".</span></div>
+  </div>
+</section>
+
+</main>
+<footer class="foot"><div class="wrap">Iskra Services is a trading name of Indigenous Consultants Limited. Iskra is not an authorised endorsing body; readiness views are preparatory, not Home Office scores. Concept prototype — not a live service.</div></footer>
+
+</body>
+</html>

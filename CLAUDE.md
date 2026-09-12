@@ -36,6 +36,7 @@ Status: design prototype. No backend, no payment, nothing regulated.
 | v1 brief | `~/Downloads/Client req.docx` — the ten chatbot requirements |
 | **v3 brief** | `~/Downloads/Udpated flow - pre login, Post login, Paid services, preparation_incubation narrative .docx` |
 | Costed proposal | `~/Desktop/Iskra Services - Website & AI Advisor Proposal.xlsx` (pre-dates v3 scope) |
+| **Flow chart** | `docs/flow.html` in this repo · https://singhaditya210100-dev.github.io/Iskra-Services/docs/flow.html · artifact: https://claude.ai/code/artifact/ (see /artifacts, "Iskra Prototype Flow") |
 
 ## 3. ⚠️ The regulatory boundary (from the v3 brief, §1A and §18)
 
