@@ -36,7 +36,8 @@ Payment unlocks **preparation**, never the endorsement.
 | Repo | https://github.com/singhaditya210100-dev/Iskra-Services |
 | Local clone | `~/Desktop/Iskra Services/Prototype` (project folder also holds Briefs, Proposal, Flow chart) |
 | **Artifact build (live AI)** | https://claude.ai/code/artifact/7f93ec36-a07f-48e1-a8a3-366295cbf6e6 |
-| Flow chart + step spec (v4.1) | `docs/flow.html` · artifact 5a08d09c-0360-4a45-9361-02c0b3ccc844 (inputs/outputs per step, case variables) |
+| Flow chart, plain language (v4.1) | `docs/flow.html` · artifact 5a08d09c-0360-4a45-9361-02c0b3ccc844 (light palette, no code, for clients) |
+| Flow chart, technical (v4.1) | `docs/flow-technical.html` (inputs/outputs per step, case variables, for the build team) |
 | v1 brief | `~/Desktop/Iskra Services/Briefs/01 Client requirements (v1 brief).docx` |
 | v3 brief | `~/Desktop/Iskra Services/Briefs/02 Updated flow ... (v3 brief).docx` |
 | v4 change request | the user's message of 13 Sep 2026 (12 pre-/post-login items), all implemented |
@@ -185,8 +186,9 @@ with the scripted versions as fallback; the result panel says which.
 
 ## 13. Known gaps / open items
 
-- [x] `docs/flow.html` redrawn for v4.1 (13 Sep 2026) with a step-by-step
-      input/output spec; keep it in step with flow changes.
+- [x] Flow charts redrawn for v4.1 (13 Sep 2026): `docs/flow.html` is the plain-language
+      client version (light, no blue, no code); `docs/flow-technical.html` has the
+      step-by-step input/output spec. Keep both in step with flow changes.
 - [ ] Proposal spreadsheet pre-dates v3/v4 scope, re-cut before it goes out.
 - [ ] Prices (£249 / £749 / £1,490) illustrative; VAT shown at 20%.
 - [ ] Live-mode assessment/plan prompts are untested against a real model in
