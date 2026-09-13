@@ -1,7 +1,9 @@
 # Iskra Services prototype — working context
 
 Handoff notes so this can be picked up in a fresh session. Read this before
-editing anything. **v3.0** — pre-login site + post-login founder platform.
+editing anything. **v4.0** — generic pre-login site, intake-first founder
+platform, merged Business Assessment, AI-generated plan, test-mode checkout,
+PDF documents, specialist requests.
 
 ---
 
@@ -11,19 +13,20 @@ A concept website **and founder platform** prototype built by **Finfactor** for
 a client, **Iskra Services** — a UK business-services firm in Harrow working
 mainly with international founders.
 
-v3 implements the client's updated flow document: **three access levels,
-progressively unlocked** —
+The pre-login site is **route-agnostic** (Innovator Founder, Global Talent,
+Expansion Worker, self-sponsorship). The prototype's *flow* is deliberately
+**Innovator Founder-centric**: the advisor collects basics and recommends that
+route; the platform prepares a case for it.
 
 ```
-PRE-LOGIN  →  FREE ACCOUNT  →  PAID PREPARATION  →  EXTERNAL ENDORSEMENT  →  GROW
-Discover      Assess (P1)      Prepare (P2)          Authorised body          Subscription
-              Review (P3)                            decides independently
+PRE-LOGIN                 FREE ACCOUNT                    PAID                     EXTERNAL
+generic site + limited    9-question intake FIRST →       P1 Business Assessment   authorised
+advisor (answers          free assessment → dashboard     P2 AI plan + gaps + evid body decides
+prefilled) → recommends   focused on the current step     P3 human review + pack
+Innovator Founder → gate  + "strengthen your case"
 ```
 
-Payment unlocks **preparation**, never the endorsement. That single sentence
-governs every screen.
-
-Status: design prototype. No backend, no payment, nothing regulated.
+Payment unlocks **preparation**, never the endorsement.
 
 ## 2. Where everything is
 
@@ -31,273 +34,172 @@ Status: design prototype. No backend, no payment, nothing regulated.
 | --- | --- |
 | Live site (GitHub Pages) | https://singhaditya210100-dev.github.io/Iskra-Services/ |
 | Repo | https://github.com/singhaditya210100-dev/Iskra-Services |
-| Local clone | `~/iskra-services-site` (dir name differs from repo — harmless) |
+| Local clone | `~/iskra-services-site` |
 | **Artifact build (live AI)** | https://claude.ai/code/artifact/7f93ec36-a07f-48e1-a8a3-366295cbf6e6 |
-| v1 brief | `~/Downloads/Client req.docx` — the ten chatbot requirements |
-| **v3 brief** | `~/Downloads/Udpated flow - pre login, Post login, Paid services, preparation_incubation narrative .docx` |
-| Costed proposal | `~/Desktop/Iskra Services - Website & AI Advisor Proposal.xlsx` (pre-dates v3 scope) |
-| **Flow chart** | `docs/flow.html` in this repo · https://singhaditya210100-dev.github.io/Iskra-Services/docs/flow.html · artifact: https://claude.ai/code/artifact/5a08d09c-0360-4a45-9361-02c0b3ccc844 |
+| Flow chart (**reflects v3.1** — see §13) | `docs/flow.html` · artifact 5a08d09c-0360-4a45-9361-02c0b3ccc844 |
+| v1 brief | `~/Downloads/Client req.docx` |
+| v3 brief | `~/Downloads/Udpated flow - pre login, Post login, Paid services, preparation_incubation narrative .docx` |
+| v4 change request | the user's message of 13 Sep 2026 (12 pre-/post-login items) — all implemented |
+| Costed proposal | `~/Desktop/Iskra Services - Website & AI Advisor Proposal.xlsx` (pre-dates v3/v4 scope) |
 
-## 3. ⚠️ The regulatory boundary (from the v3 brief, §1A and §18)
+## 3. ⚠️ The regulatory boundary
 
-**Iskra is NOT an authorised endorsing body.** As of the GOV.UK list checked
-10 Sep 2026, Indigenous Consultants Limited is not listed. Therefore:
-
-- Iskra **assesses, prepares, incubates and reviews**. It builds the profile,
-  runs the AI assessment, develops the plan, does a preliminary I/V/S review,
-  finds gaps, organises evidence, and produces a referral pack.
-- An **authorised endorsing body** (UK Endorsing Services, Innovator
-  International, Envestors, GEP) independently assesses, decides, issues the
-  official endorsement letter and notifies the Home Office. £1,000 + VAT, paid
-  to them directly. Contact-point checkpoints at 12/24 months, £500 each.
-- The **Home Office** decides the visa.
-
-**Never** show "pay £X and unlock your endorsement". **Never** present a
-readiness view as a Home Office score or a guarantee. The 74/100 in Gap
-Analysis is labelled "Iskra Readiness Assessment — preparatory" everywhere it
-appears (`notHO` fragment in the JS). The free tier shows traffic lights, not a
-number, on purpose (§4 of the brief: "I would not show an overly precise
-62.4%-type score").
-
-Principle: *AI prepares; evidence supports; humans decide; the Home Office
-decides immigration.*
+**Iskra is NOT an authorised endorsing body.** It assesses, prepares, incubates
+and reviews. An authorised endorsing body (UK Endorsing Services, Innovator
+International, Envestors, GEP) decides and issues the letter; the Home Office
+decides the visa. Never show "pay to unlock endorsement"; never present a
+readiness view as a Home Office score (`notHO` fragment). Free tier shows
+traffic lights; a numeric readiness (`readinessScore()`, strong 100 / moderate
+55 / weak 20, averaged) appears only inside paid modules, labelled preparatory.
+The endorsing body's approval is an **explicit labelled click**, never automatic.
 
 ## 4. Client facts
 
-- Trading name of **Indigenous Consultants Limited**, England & Wales,
-  **no. 16043340**. 79 College Road, Harrow HA1 1BD · 020 8123 3218 ·
-  info.iskraservices@gmail.com
-- Brand: deep blue + gold (coin-stack chart in their logo), strapline
-  **"Empowering businesses"**
-- ⚠️ Unresolved: site claims "20+ years" vs 2024 incorporation. Carried as
-  "20+ years across the team".
+Trading name of **Indigenous Consultants Limited**, no. **16043340**, 79 College
+Road, Harrow HA1 1BD · 020 8123 3218 · info.iskraservices@gmail.com. Brand:
+navy + gold, "Empowering businesses". ⚠️ "20+ years" vs 2024 incorporation is
+still unresolved with the client.
 
 ## 5. Design direction
 
-Client rejected v1 (institutional "case file", Caslon, hairlines) as too dense
-and AI-generated. **v2/v3 are modelled on https://foundersfactory.com/** at the
-client's request: full-bleed navy bands with a blurred gold blob, off-white
-body, very light word count, one typeface (Archivo, variable width), black pill
-buttons, outlined card rows. We use Iskra's navy where FF uses green.
+Modelled on foundersfactory.com at the client's request (v1 was rejected as
+dense and AI-generated): navy full-bleed bands, blurred gold blob, off-white
+body, Archivo variable-width, black pill buttons. App shell: 250px rail, white
+panels, semantic lights (`--ok/--warn/--bad`) separate from the gold accent.
+Checkout is styled like Stripe Checkout (order summary left, card form right,
+"Powered by stripe", TEST MODE badge) because Stripe is the UK's most common
+online PSP — it is a mock, prefilled with Stripe's 4242 test card.
 
-The **app shell** is the same system at UI density: 262px left rail of modules
-with done/current/locked dots, white panels on the light ground, semantic
-traffic lights (`--ok` / `--warn` / `--bad`) kept separate from the gold accent.
+## 6. Build
 
-```
---navy #0E1E3A   --gold #E9B949   --light #F4F4F4   --black #121212
---ok  #1E8A5A    --warn #B7791F   --bad  #B3261E    (semantic, not accent)
-font: Archivo — display 300/expanded 112–118%, UI 500, tabular nums for scores
-```
-
-Single visual world, deliberately not theme-switched.
-
-## 6. Build — read before editing
-
-`index.html` is **assembled from `parts/`**. Edit the parts, then:
+`index.html` is assembled from `parts/`:
 
 ```sh
 cd ~/iskra-services-site
 cat parts/01-head.html parts/02-site.html parts/03-app.html parts/04-js.html > index.html
-python3 -m http.server 8000   # look at it
-git add -A && git commit -m "…" && git push
+python3 tools/artifact-fragment.py index.html /tmp/frag.html   # artifact build
+git add -A && git commit -m "…" && git push                     # Pages serves index.html
 ```
-
-Commit `index.html` *and* `parts/` — Pages serves `index.html` directly.
 
 | Part | Holds |
 | --- | --- |
-| `01-head.html` | doctype, head, all CSS. **Contains the `[hidden]{display:none!important}` rule — never lose it** |
-| `02-site.html` | `#site` — pre-login marketing: nav, hero, three tests, ladder, Innovator Founder, for founders, pricing, CTA, about, footer |
-| `03-app.html` | `#app` — top bar, rail, 11 empty `#m-*` panes; checkout modal; login modal; toast; nudge; launcher; `#widget` |
-| `04-js.html` | everything below, then `</body></html>` |
+| `01-head.html` | head + all CSS. Keep `[hidden]{display:none!important}`. |
+| `02-site.html` | `#site`: nav, hero, nine-areas band, ladder (5), routes (4), **What you get (9 value cards)**, pricing (Free/P1/P2/P3 + external row), CTA, about, footer |
+| `03-app.html` | `#app`: top bar, **horizontal milestone map** (`#map`), rail (8 modules), 8 `#m-*` panes; Stripe-style checkout; **request modal** (`#req`); auth; toast; nudge; launcher; widget |
+| `04-js.html` | loads jsPDF 2.5.1 from cdnjs, then everything |
 
-**Two builds of the same page.** The artifact is a *fragment*: the claude.ai
-platform supplies `<!doctype>…<body>`. To republish the artifact from the repo
-file, strip everything through `<body>` and the trailing `</body></html>`. To
-bring the artifact back to the repo, re-add `01-head.html`'s prologue. Republish
-with `capabilities: {sample: {}, downloads: true}` or omit to carry forward.
+The artifact is a fragment (platform supplies `<!doctype>…<body>`); the repo
+file is standalone. `tools/artifact-fragment.py` converts. Republish with
+`capabilities: {sample: {}, downloads: true}` or omit to carry forward.
 
-## 7. State model
+## 7. State model (v4)
 
-One object `S`, persisted to `localStorage["iskra-case-v3"]`. `user` is
-separate, in `iskra-session` (local or session storage per "keep me logged in").
+`S` → `localStorage["iskra-case-v4"]`; `user` → `iskra-session`.
 
 ```
-S.plan       "free" | "readiness" | "preparation" | "endorsement" | "grow"   (PLAN_RANK orders them)
-S.profile    ~20 keys in PROFILE_GROUPS (Personal / Founder / Business) — one record, reused everywhere
-S.ivs        null | {innovation, viability, scalability: "strong|moderate|weak", note}
-S.pathways / S.assessment / S.actions / S.services / S.regulated   (from the advisor envelope)
-S.turns      chat history       S.gated   pre-login gate shown
-S.bplan      {sectionKey: userText}        S.evidence {key: true}
-S.human      {status: none|pending|approved|returned, note}
-S.external   {status: none|submitted|pending|approved, body: ukes|ii|env|gep}
-S.visa       {submitted, setup}            S.module  current app module
+S.plan        free | readiness | preparation | endorsement   (PLAN_RANK; buying P3 implies P1+P2)
+S.profile     ~20 keys (PROFILE_GROUPS) filled by the chat + My Profile
+S.turns, S.gated, S.stage, S.regulated              — advisor
+S.intake      {problem, solution, market, model, competition, differentiation, founder, funding, uk}
+S.intakeSeen  first-login intake shown/skipped     S.intakeTouched  demo answers seeded once
+S.assessment  null | {route, overall, areas:[{key, verdict, summary, assessed, evidence[], gaps[], move, answer}], ivs:{innovation|viability|scalability:{verdict,note}}}
+S.assessedLive  bool     S.editIntake  re-answer mode
+S.bplan       null | {sections:{17 keys}, live, version}   S.bplanEdits {key:text}
+S.evidence, S.human {status}, S.external {status, body}, S.requests [{kind, items, at}], S.module
 ```
 
-`tier()` → `visitor` (no user) / `free` / `paid`. `has(plan)` compares ranks —
-buying Package 3 implies 1 and 2.
+`JOURNEY[]` (7: profile, assess, business, plan, gaps, review, endorse) is
+derived, rendered as the map. `currentStep()` drives the dashboard's single
+big card. `NEEDS`: business→readiness; plan/gaps/evidence→preparation;
+review→endorsement.
 
-**Journey** (10 stages, `JOURNEY[]`) is *derived* from state, never stored.
-**Module locks** (`NEEDS`): assessment→readiness; plan/gaps/evidence→preparation;
-review→endorsement; post→endorsement *and* external approved. `ivs` is never
-locked — free shows the summary lights, Package 1 adds the criterion detail.
+## 8. The v4 change request → where each item lives
 
-## 8. The v3 brief → where each part lives
+**Pre-login**
+1. Generic homepage, IF-centric flow — hero/routes/copy in `02-site`; recommendation in `VISITOR_SCRIPT[4]` and the visitor tier rules in `GROUNDING`
+2. Prefilled answers — `prefill` on each script step, `setPrefill()`, `LIVE_PREFILLS` for live mode; `#w-prefill` hint; chips hidden while a prefill is present
+3. Collect basics then recommend — four groups (basics / business / founder+team / funding+UK) then the recommendation + gate
+4. Gate names the parameters — `gateBubble()` lists the nine areas as chips
 
-| Brief | Implementation |
-| --- | --- |
-| A. Pre-login homepage + limited free chat | `#site`; widget in `visitor` tier; gate after ~3 scripted / ~5 live exchanges (`gateBubble`) |
-| B. Free account → dashboard, "Your journey" 10 stages | `renderModule("dashboard")`, `JOURNEY[]` |
-| 3. Founder profile (Personal / Founder / Business) | `PROFILE_GROUPS`, editable in **My Profile**, fed by the advisor |
-| 4. Free AI Founder Assessment, traffic lights not a % | `runFreeAssessment()` → `S.ivs`; dashboard "Preliminary readiness" |
-| C. Free vs paid table | Encoded in `NEEDS` + `PACKAGES` + the pricing section |
-| D. Package 1 — 9 areas + I/V/S sub-criteria | `BA_AREAS`, `IVS_DETAIL` → **Business Assessment**, **I/V/S** |
-| E. Package 2 — 17-section plan, AI review, versioning | `BPLAN` → **Business Plan** (editable, `S.bplan`) |
-| F. Package 3 — human review, mock interview, referral pack | **Human Review** module |
-| G. Gap analysis — 74/100, areas, top 5, 30/60/90 | `GAPS` → **Gap Analysis** |
-| H. Human review — approve / return | `S.human`; auto-approves in the demo (labelled) |
-| I/J. Authorised body — pick, submit, independent decision, letter 🔒 | body picker + endorsement tracker in **Human Review** |
-| K. Visa application readiness checklist | **Post-Endorsement**, `VISA_CHECKS` |
-| L. Post-endorsement dashboard, checkpoints | **Post-Endorsement** behind Grow |
-| M. Ten modules | rail in `03-app.html` (+ Dashboard = 11 panes) |
-| N. Paywall ladder Discover→Assess→Prepare→Review→Endorse→Grow | "How it works" ladder + pricing section |
-
-The v1 brief's ten chatbot requirements still hold (see git history for the
-v2.2 mapping); they now live inside the widget + Profile module.
+**Post-login**
+1. Intake first on first login — `enterApp()` → `showModule("assess",{firstRun:true})`; "Skip for now" sets `intakeSeen`
+2. Rail without AI Advisor / My Journey; journey is the top map — `03-app`, `renderApp()`
+3. Dashboard = current step — `currentStep()` + `.now-card`; future steps only in the map
+4. Nine attributes before assessment — `AREAS`, `intakeForm()`, `runAssessment()` requires 9/9
+5. I/V/S under Business Assessment — `IVS_MAP` + `IVS_DETAIL` rendered inside `business`; no separate module
+6. Post-assessment CTAs — `strengthenPanel()`: company formation, 8 specialists, IAA adviser → `openRequest(kind, spec)`
+7. Post-Endorsement removed — no module; endorsed state offers IAA + formation requests
+8. Dummy payment — `openCheckout()` / `wireCheckout()`, Stripe-style, VAT 20%, test card prefilled, receipt screen
+9. Detailed expandable assessment — `<details class="ba">` per area with assessed / evidence / gaps / move / your answer
+10. AI plan from the assessment, linked — `generatePlan()` (live `sample.json` or `composePlan()`), `PLAN_SECTIONS[].basedOn`, `planStatus()`, "Based on" chips jump to the card
+11. PDF + share — `pdfAssessment()`, `pdfPlan()` via jsPDF; `savePdf()` uses the artifact `downloads` capability or a blob link; `shareDoc()` uses Web Share with a file, else copies a summary + link
+12. Value-adds on pre-login — the **What you get** section (9 cards) and the ladder note
 
 ## 9. The advisor
 
-**Live path** (artifact only): `GROUNDING` + `context()` as a leading user
-turn, then the last 14 turns → `sampleFn.json()`. `streamReply()` extracts the
-`reply` string out of the partially-streamed JSON so it types out live.
-`apply(env)` merges the envelope. **Visitors never get scored** — `apply`
-discards pathways/ivs/assessment/actions for `!user` and only honours `gate`.
+Live (artifact only): `GROUNDING` + `context()` (tier, profile, intake count,
+assessment verdicts) → `sampleFn.json()`; `streamReply()` types the reply out.
+Envelope is now small: `reply, suggestions, gate, stage, profile, regulated` —
+**no scoring in chat**; assessment lives in the platform. `apply()` discards
+`gate` for logged-in users and never scores visitors.
 
-`context()` sends a `TIER:` line; `GROUNDING` has explicit rules per tier
-(visitor: general info, no scoring, set `gate` after ~5 exchanges; free:
-preliminary assessment with traffic lights, no number; paid: full detail).
+Scripted: `VISITOR_SCRIPT` (5 steps + hold) with `prefill`; `MEMBER_SCRIPT`
+(4 steps). `extract()` fills profile gaps from typed text but **never
+overwrites** a value the script or user already set.
 
-**Scripted fallback** (`mode === "script"`, everywhere except the artifact):
-`VISITOR_SCRIPT` (4 steps, gates on step 3) and `MEMBER_SCRIPT` (4 steps:
-preliminary assessment → direct critique → regulated stop → what's next).
-`scriptStep` resets to 0 on sign-in so the member script starts fresh.
-`extract()` pulls nationality / sector / funding / stage / experience /
-location / venture out of whatever the user actually typed.
+## 10. Simulated, and says so
 
-The status line says *"Scripted demo · replies are pre-written"* whenever the
-model isn't live. **Never relabel it.**
+Login · checkout (test mode) · assessment in scripted mode (`DEMO_ASSESSMENT`)
+· plan in scripted mode (`composePlan()` from the intake answers) · human
+review auto-approves after 2.6 s · endorsing body decision is a labelled click
+· evidence uploads are flags · specialist requests are recorded locally.
 
-## 10. What is simulated, and says so
+In the artifact, **assessment and plan generation are live** (`sample.json`)
+with the scripted versions as fallback; the result panel says which.
 
-- **Login** — mock; name and email to browser storage, passwords never stored.
-- **Checkout** — mock; "Prototype — no payment is taken". Sets `S.plan`.
-- **Human review** — "Request" → pending → auto-approves after 2.6 s with a
-  reviewer note. Screen shows *"Simulated for the prototype"*.
-- **Endorsing body** — submit → pending → a labelled button *"Simulate the
-  endorsing body's decision"* → approved. Never auto-approves; the click is
-  the point: the decision is theirs.
-- **Evidence uploads** — "Mark as uploaded" records a flag only.
-- **Widget docking** — `dock(true)` physically moves `#widget` into
-  `#advisor-dock` and adds `.docked`; `dock(false)` returns it to `<body>`.
+## 11. Demo script (~6 minutes)
 
-## 11. Demo script (~5 minutes)
-
-1. Land on the site. Click **Start free AI assessment**. Type *"I want to move
-   to the UK and start a fintech company"*, then answer its two questions.
-   Third reply gates: **Create free account**.
-2. Sign up (any name/email, 8+ char password). Dashboard opens: journey 1/10,
-   "Run assessment" as next step.
-3. **Run free Founder Assessment** — widget docks in the Advisor module,
-   preliminary I/V/S appears (🟢 🟡 🔴). Back to dashboard: 2/10, next step
-   "Unlock Package 1".
-4. Click **Unlock Package 3** from Pricing or the dashboard → checkout → Confirm.
-   Rail unlocks. Show **Gap Analysis** (74/100 with the not-a-Home-Office-score
-   label), **Business Plan** (17 sections, "Needs evidence" ones open).
-5. **Human Review** → Request → approved → pick UK Endorsing Services → Submit
-   → "Simulate the endorsing body's decision". Tracker fills; letter unlocks
-   *from them*.
-6. **Post-Endorsement** → visa checklist; Grow lock card for the subscription.
-7. Footer **Reset demo** (click twice) to start over.
+1. Site → **Start free AI assessment**. The opener is prefilled; press Send
+   five times. Fifth reply recommends Innovator Founder and gates.
+2. **Create free account** → lands on the nine questions (prefilled). Show
+   "Skip for now" exists; click **Run Free Founder Assessment** (≈3 s).
+3. Result: nine lights, three tests, "Where your case is weak", **Strengthen
+   your case** (formation / specialists / IAA). Click a specialist → request.
+4. Dashboard: one big current step. Top map shows the rest.
+5. **Unlock Package 1** → Stripe-style checkout, Pay → Business Assessment:
+   expand a card, **Download PDF**.
+6. Unlock P2 → **Generate business plan** → open a "Needs evidence" section →
+   click its "Based on" chip → lands on the assessment card. Download PDF.
+7. Unlock P3 → Request review → approve → pick a body → Submit → **Simulate
+   the endorsing body's decision** → endorsed; CTAs for IAA adviser and
+   company formation.
+8. Footer **Reset demo** ×2.
 
 ## 12. Demo reset
 
-| Control | Clears |
-| --- | --- |
-| ↻ in widget header | conversation + case; keeps plan, module, sign-in |
-| **Reset demo** in site footer | everything, returns to the site |
-| `?demo` / `?reset` on the URL | everything, on load (works when opened directly) |
+↻ in the widget keeps plan + intake, clears chat + assessment. Footer
+**Reset demo** clears everything. `?demo`/`?reset` on the URL clears on load.
 
-Both buttons arm on first click, act on second. No `confirm()` dialogs — they
-freeze the artifact frame.
+## 13. Known gaps / open items
 
-## 13. Commercial context
+- [ ] `docs/flow.html` still draws **v3.1** (AI Advisor module, My Journey,
+      Post-Endorsement, Grow) — it carries a banner saying so. Redraw for v4
+      when the flow settles.
+- [ ] Proposal spreadsheet pre-dates v3/v4 scope — re-cut before it goes out.
+- [ ] Prices (£249 / £749 / £1,490) illustrative; VAT shown at 20%.
+- [ ] Live-mode assessment/plan prompts are untested against a real model in
+      this session — run once in the artifact before a client demo.
+- [ ] `docs/` is served by Pages; anything put there is public.
+- [ ] Rotate any GitHub token that has appeared in a chat transcript.
 
-The costed proposal on the Desktop pre-dates v3 and covers a site + advisor
-(Stage 1) with accounts + adviser console as Stage 2. **v3 scope is materially
-larger** — a founder app with ten modules, three paid packages, an endorsing-body
-handoff and a post-endorsement layer — and the proposal needs re-cutting before
-it goes to Iskra again. Figures are deliberately not repeated here because this
-repo is public.
+## 14. QA notes (13 Sep 2026)
 
-Package prices on the site (£249 / £749 / £1,490 / £49 pm) are **illustrative
-and labelled so** — the brief gives none. Iskra sets them.
-
-## 14. Open items
-
-- [ ] Re-cut the proposal for v3 scope
-- [ ] Iskra to set real package prices
-- [ ] Resolve "20+ years" vs 2024 incorporation wording
-- [ ] Hero is text-on-gradient — real photography would help
-- [ ] AI mock endorsement interview (Package 3 feature) is listed but not
-      built — only the chat exists
-- [ ] Repo is public (Pages on free plan); private needs GitHub Pro
-- [ ] Rotate any GitHub token that has appeared in a chat transcript
-
-## 15. House rules
-
-- Payment unlocks preparation, never endorsement. Not once, not as a demo shortcut.
-- Readiness views are always labelled preparatory. Free tier: lights, no number.
-- The endorsing body's decision is a *click the presenter makes*, never automatic.
-- Never present the scripted fallback as live AI.
-- Regulated immigration questions stop the advisor and route to an IAA-registered adviser.
-- Keep "Concept prototype — not a live service" in the footer.
-
-## 16. QA pass — 11 Sep 2026 (v3.1)
-
-Driven against the **deployed Pages build** with in-page assertion scripts
-(~340 checks via `javascript_tool`): every nav link and CTA on the site, the
-chat run to the sign-up gate, the auth modal (validation, all four modes, every
-close path, forgot flow, Google path), sign-up → dashboard, every module locked
-and unlocked, checkout (all close paths, confirm, already-unlocked), Package
-1 → 2 → 3 → Grow, human review → endorsing body → post-endorsement, reload
-persistence, both resets, logout / login with "keep me logged in" off,
-pending-unlock-after-signup, and a 400px pass via a same-origin iframe.
-
-Bugs found and fixed (`3cecf48`, `1286cf9`):
-- `data-open-chat` buttons rendered *by modules* were dead — listeners were
-  bound once at boot. Now delegated with the other `data-*` actions.
-- An auto-filled profile name didn't follow a new account on the same
-  browser → `S.nameAuto`; a name edited in My Profile stays put.
-- The app top bar overflowed at phone width (avatar pushed off-screen, badge
-  wrapping "Grow · Grow" onto three lines) → compact bar under 640px, badge
-  is the plan label only, launcher goes icon-only.
-
-Not bugs — know these before "fixing" them:
-- Smooth-scroll anchors don't visibly move in a **background** Chrome tab
-  (the animation is throttled). Instant scroll and the 84px `scroll-margin`
-  are correct; real users' tabs are foreground.
-- **GitHub Pages caches `index.html`.** After a push, verify with a
-  cache-busting query (`?v=<sha>`) or you will be testing the previous build.
-- `resize_window` will not go to 400px on this machine (it snapped to 1920).
-  Test mobile with a same-origin `<iframe style="width:400px">` and assert
-  inside `iframe.contentDocument`; use `contentWindow.eval()` to reach the
-  script-scope `S`.
-- With classic scrollbars the fullscreen widget measures 385px in a 400px
-  iframe — scrollbar, not layout.
-- The chip *"…start a company"* extracts no venture: there's nothing between
-  "a" and "company" to extract.
-
-The assertion scripts live in the session transcript, not the repo. Shape:
-`const T=(name,cond,detail)=>…` inside `javascript_tool` calls, batched with
-`browser_batch`. Worth lifting into `tools/qa.js` if this gets iterated.
+Driven against the local build with in-page assertion scripts (~150 checks):
+pre-login prefills → gate; sign-up → intake-first; skip; run assessment; P1
+checkout (validation, auto-format, receipt); expandable cards; both PDFs
+build (page counts checked); P2 plan generation, statuses, edits, "Based on"
+links; gaps from the assessment; P3 → endorsing body → final CTAs; all three
+request modals; logout/login; ↻ and Reset demo; 400px iframe pass over every
+module and both modals. GitHub Pages caches `index.html` — verify a push with
+`?v=<sha>`. A same-origin test iframe **shares localStorage** with the parent —
+reset inside the iframe before asserting first-run behaviour.

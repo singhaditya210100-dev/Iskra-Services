@@ -1,11 +1,10 @@
 <!-- ============================================================
-     POST-LOGIN APP — founder dashboard and the ten modules
+     POST-LOGIN APP — founder platform
      ============================================================ -->
 <div id="app" hidden>
   <div class="app-top">
     <div class="app-top-inner">
       <a class="logo" href="#" data-module-link="dashboard" aria-label="Iskra — dashboard"><span class="logo-name">Iskra<br>Services<i></i></span><span class="logo-tag"><svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 11V8M5 11V5M9 11V2"/><path d="M12 7l5-5M13 2h4v4"/></svg>Founder platform</span></a>
-      <div class="app-progress"><span>Your journey</span><div class="bar"><b id="app-bar" style="width:0%"></b></div><span class="num" id="app-pct">0%</span></div>
       <span class="plan-badge" id="plan-badge">Free</span>
       <div class="account" id="account">
         <button class="avatar" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Account"><span id="acct-initial">A</span></button>
@@ -16,64 +15,108 @@
         </div>
       </div>
     </div>
+    <div class="app-map"><nav class="map" id="map" aria-label="Your journey"></nav></div>
   </div>
 
   <div class="app-body">
     <nav class="rail" aria-label="Modules">
       <div class="rail-label">Your platform</div>
       <button class="rail-item" data-module="dashboard"><i class="dot"></i>Dashboard</button>
-      <button class="rail-item" data-module="advisor"><i class="dot"></i>AI Advisor</button>
       <button class="rail-item" data-module="profile"><i class="dot"></i>My Profile</button>
-      <button class="rail-item" data-module="journey"><i class="dot"></i>My Journey</button>
+      <div class="rail-label">Assess</div>
+      <button class="rail-item" data-module="assess"><i class="dot"></i>Founder Assessment</button>
+      <button class="rail-item" data-module="business"><i class="dot"></i>Business Assessment<span class="lock"></span></button>
       <div class="rail-label">Prepare</div>
-      <button class="rail-item" data-module="assessment"><i class="dot"></i>Business Assessment<span class="lock"></span></button>
-      <button class="rail-item" data-module="ivs"><i class="dot"></i>I/V/S Assessment<span class="lock"></span></button>
       <button class="rail-item" data-module="plan"><i class="dot"></i>Business Plan<span class="lock"></span></button>
       <button class="rail-item" data-module="gaps"><i class="dot"></i>Gap Analysis<span class="lock"></span></button>
       <button class="rail-item" data-module="evidence"><i class="dot"></i>Documents &amp; Evidence<span class="lock"></span></button>
       <div class="rail-label">Decide</div>
       <button class="rail-item" data-module="review"><i class="dot"></i>Human Review<span class="lock"></span></button>
-      <button class="rail-item" data-module="post"><i class="dot"></i>Post-Endorsement<span class="lock"></span></button>
     </nav>
 
     <!-- every pane is rendered by JS into its #m-* container -->
     <section class="pane" id="m-dashboard"></section>
-    <section class="pane" id="m-advisor" hidden>
-      <div class="pane-head"><div><h1>AI Advisor</h1><p>Your main conversational interface. Everything it learns lands in your profile once and is reused at every stage.</p></div></div>
-      <div id="advisor-dock"></div>
-    </section>
     <section class="pane" id="m-profile" hidden></section>
-    <section class="pane" id="m-journey" hidden></section>
-    <section class="pane" id="m-assessment" hidden></section>
-    <section class="pane" id="m-ivs" hidden></section>
+    <section class="pane" id="m-assess" hidden></section>
+    <section class="pane" id="m-business" hidden></section>
     <section class="pane" id="m-plan" hidden></section>
     <section class="pane" id="m-gaps" hidden></section>
     <section class="pane" id="m-evidence" hidden></section>
     <section class="pane" id="m-review" hidden></section>
-    <section class="pane" id="m-post" hidden></section>
   </div>
 </div><!-- /#app -->
 
-<!-- ============================================================ CHECKOUT (mock) ============================================================ -->
+<!-- ============================================================ CHECKOUT — Stripe-style, test mode ============================================================ -->
 <div class="modal-back" id="checkout" hidden>
-  <div class="modal checkout" role="dialog" aria-modal="true" aria-labelledby="co-title">
+  <div class="modal co" role="dialog" aria-modal="true" aria-labelledby="co-title">
     <button class="modal-x" id="co-x" aria-label="Close">×</button>
+    <div class="co-sum" id="co-sum">
+      <div class="brand">Iskra Services</div>
+      <div>
+        <div class="what" id="co-what">Package</div>
+        <div class="amt" id="co-amt">£0.00</div>
+      </div>
+      <div class="rows" id="co-rows"></div>
+      <span class="testmode">Test mode</span>
+      <p class="inc">This unlocks Iskra's preparation services. It does not purchase, guarantee or influence an endorsement, which an authorised endorsing body decides independently.</p>
+    </div>
+    <form class="co-pay" id="co-form" novalidate>
+      <h2 id="co-title">Pay with card</h2>
+      <label class="field"><span>Email</span><input type="email" name="email" autocomplete="email" inputmode="email"></label>
+      <label class="field" style="margin-bottom:6px"><span>Card information</span>
+        <div class="co-card">
+          <div class="co-num"><input class="num" type="text" name="card" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234" maxlength="19"><div class="co-brands"><span>VISA</span><span>MC</span><span>AMEX</span></div></div>
+          <div class="split"><input class="num" type="text" name="exp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" maxlength="7"><input class="num" type="text" name="cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" maxlength="4"></div>
+        </div>
+      </label>
+      <label class="field"><span>Name on card</span><input type="text" name="name" autocomplete="cc-name"></label>
+      <div class="co-row2">
+        <label class="field"><span>Country</span><input type="text" name="country" value="United Kingdom"></label>
+        <label class="field"><span>Postcode</span><input type="text" name="postcode" autocomplete="postal-code"></label>
+      </div>
+      <p class="auth-err" id="co-err" hidden></p>
+      <button class="btn btn-black auth-submit" id="co-pay" type="submit">Pay</button>
+      <div class="co-foot"><span>Powered by <b>stripe</b></span><span class="sep"></span><span>Terms</span><span>Privacy</span></div>
+      <p class="auth-note">Test mode — no card is charged and nothing leaves this page. The details are Stripe's test card.</p>
+    </form>
+    <div class="co-done" id="co-done" hidden>
+      <div class="auth-done">
+        <div class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></svg></div>
+        <h2 class="auth-title">Payment successful</h2>
+        <p class="auth-sub" id="co-done-sub"></p>
+        <div class="rcpt" id="co-rcpt"></div>
+        <button class="btn btn-black" id="co-done-btn" type="button" style="margin-top:22px;min-width:240px">Open</button>
+        <p class="auth-note">Test mode — a receipt would be emailed in production.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ REQUEST A SPECIALIST (mock) ============================================================ -->
+<div class="modal-back" id="req" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="req-title">
+    <button class="modal-x" id="req-x" aria-label="Close">×</button>
     <div class="auth-mark" aria-hidden="true"><i></i></div>
-    <div id="co-main">
-      <h2 class="auth-title" id="co-title">Unlock</h2>
-      <p class="auth-sub" id="co-sub"></p>
-      <div style="margin-top:20px" id="co-rows"></div>
-      <div class="row total"><span>Total today</span><b id="co-total"></b></div>
-      <p class="auth-legal">This unlocks Iskra's preparation services. It does not purchase, guarantee or influence an endorsement, which is decided independently by an authorised endorsing body.</p>
-      <button class="btn btn-black auth-submit" id="co-pay" type="button">Confirm</button>
+    <div id="req-main">
+      <h2 class="auth-title" id="req-title">Request a call</h2>
+      <p class="auth-sub" id="req-sub"></p>
+      <div class="req-what" id="req-what"></div>
+      <form id="req-form" novalidate style="margin-top:10px">
+        <label class="field"><span>Name</span><input type="text" name="name" autocomplete="name"></label>
+        <label class="field"><span>Email</span><input type="email" name="email" autocomplete="email"></label>
+        <label class="field"><span>Phone <span style="font-weight:400;color:var(--grey-2)">(optional)</span></span><input type="tel" name="phone" autocomplete="tel"></label>
+        <label class="field"><span>What would help</span><textarea name="msg" rows="3"></textarea></label>
+        <p class="auth-err" id="req-err" hidden></p>
+        <button class="btn btn-black auth-submit" type="submit">Send request</button>
+      </form>
     </div>
-    <div class="auth-done" id="co-done" hidden>
+    <div class="auth-done" id="req-done" hidden>
       <div class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></svg></div>
-      <h2 class="auth-title" id="co-done-title">Unlocked</h2>
-      <p class="auth-sub" id="co-done-sub"></p>
-      <button class="btn btn-black" id="co-done-btn" type="button" style="margin-top:22px;width:100%">Open</button>
+      <h2 class="auth-title">Request received</h2>
+      <p class="auth-sub" id="req-done-sub"></p>
+      <button class="btn btn-black" id="req-done-btn" type="button" style="margin-top:22px;width:100%">Back to my case</button>
     </div>
-    <p class="auth-note">Prototype — no payment is taken and no card details are requested.</p>
+    <p class="auth-note">Prototype — nothing is sent. In production this reaches Iskra's team and the specialist.</p>
   </div>
 </div>
 
@@ -138,6 +181,7 @@
   <div class="w-body">
     <div class="w-thread" id="thread" role="log" aria-live="polite"></div>
     <div class="w-chips" id="chips"></div>
+    <div class="w-prefill" id="w-prefill" hidden><i></i><span>Demo answer prefilled — press Send, or edit it</span></div>
     <div class="w-compose">
       <textarea id="input" rows="1" placeholder="Ask anything about starting in the UK…" aria-label="Message"></textarea>
       <button class="w-stop" id="stop" hidden>Stop</button>

@@ -16,11 +16,11 @@ The current Iskra site lists six services and leaves the visitor to work out
 which one they need. This prototype inverts that: the visitor states an
 objective, and an AI advisor works out the services.
 
-Three access levels, progressively unlocked: a public site with a limited free
-advisor, a free founder account with a dashboard and preliminary assessment, and
-three paid preparation packages — then an external, independent endorsing body.
-The advisor sits in a closable chat widget on the site and docks into its own
-module inside the app.
+Three access levels, progressively unlocked: a route-agnostic public site with a
+limited free advisor (the demo's answers are prefilled), a free founder account
+that starts with nine assessment questions, and three paid preparation packages
+— then an external, independent endorsing body. The advisor floats as a
+closable chat widget everywhere.
 
 ### The advisor
 
@@ -48,6 +48,18 @@ module inside the app.
 each of its requirements is met, the design direction, how the advisor is
 wired, the two-build gotcha, and what is still open. A Claude Code session
 started in this directory loads it automatically.
+
+## What's new in v4
+
+- Pre-login: generic homepage for every route; the advisor collects basics,
+  recommends Innovator Founder, and gates to sign-up naming the nine areas
+- Post-login: nine-question intake **before** the dashboard (skippable); a
+  horizontal milestone map; a dashboard that shows only the current step
+- Business Assessment with I/V/S inside it, every area expandable, PDF export
+- AI-generated business plan linked section-by-section to the assessment, PDF
+- "Strengthen your case": company formation, eight specialists, IAA adviser
+- Stripe-style test-mode checkout with receipts (no card is charged)
+- Post-Endorsement removed for now
 
 ## Running it
 
@@ -107,5 +119,5 @@ CLAUDE.md           working context for the next session
 
 ## Status
 
-Prototype, v3.0. Search engines are excluded via `robots` metadata so this
+Prototype, v4.0. Search engines are excluded via `robots` metadata so this
 cannot be confused with the live iskra.services site.
