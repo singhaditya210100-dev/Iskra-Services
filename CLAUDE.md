@@ -34,14 +34,14 @@ Payment unlocks **preparation**, never the endorsement.
 | --- | --- |
 | Live site (GitHub Pages) | https://singhaditya210100-dev.github.io/Iskra-Services/ |
 | Repo | https://github.com/singhaditya210100-dev/Iskra-Services |
-| Local clone | `~/iskra-services-site` |
+| Local clone | `~/Desktop/Iskra Services/Prototype` (project folder also holds Briefs, Proposal, Flow chart) |
 | **Artifact build (live AI)** | https://claude.ai/code/artifact/7f93ec36-a07f-48e1-a8a3-366295cbf6e6 |
 | Flow chart + step spec (v4.1) | `docs/flow.html` · artifact 5a08d09c-0360-4a45-9361-02c0b3ccc844 (inputs/outputs per step, case variables) |
-| v1 brief | `~/Downloads/Client req.docx` |
-| v3 brief | `~/Downloads/Udpated flow - pre login, Post login, Paid services, preparation_incubation narrative .docx` |
+| v1 brief | `~/Desktop/Iskra Services/Briefs/01 Client requirements (v1 brief).docx` |
+| v3 brief | `~/Desktop/Iskra Services/Briefs/02 Updated flow ... (v3 brief).docx` |
 | v4 change request | the user's message of 13 Sep 2026 (12 pre-/post-login items), all implemented |
 | v4.1 change request | the user's follow-up of 13 Sep 2026 (9 items), all implemented; see §15 |
-| Costed proposal | `~/Desktop/Iskra Services - Website & AI Advisor Platform - Proposal v2.xlsx` (13 Sep 2026, v4.1 scope; v1 kept alongside) |
+| Costed proposal | `~/Desktop/Iskra Services/Proposal/` (v2, 13 Sep 2026, v4.1 scope; v1 kept alongside) |
 
 ## 3. ⚠️ The regulatory boundary
 
@@ -76,7 +76,7 @@ online PSP; it is a mock, prefilled with Stripe's 4242 test card.
 `index.html` is assembled from `parts/`:
 
 ```sh
-cd ~/iskra-services-site
+cd "$HOME/Desktop/Iskra Services/Prototype"
 cat parts/01-head.html parts/02-site.html parts/03-app.html parts/04-js.html > index.html
 python3 tools/artifact-fragment.py index.html /tmp/frag.html   # artifact build
 git add -A && git commit -m "…" && git push                     # Pages serves index.html
