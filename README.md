@@ -1,4 +1,4 @@
-# Iskra Services — website & founder platform prototype
+# Iskra Services: website & founder platform prototype
 
 A concept website prototype for **Iskra Services** (a trading name of Indigenous
 Consultants Limited, Harrow), a UK business-services firm working with
@@ -18,27 +18,29 @@ objective, and an AI advisor works out the services.
 
 Three access levels, progressively unlocked: a route-agnostic public site with a
 limited free advisor (the demo's answers are prefilled), a free founder account
-that starts with nine assessment questions, and three paid preparation packages
-— then an external, independent endorsing body. The advisor floats as a
+that starts with nine assessment questions, and three paid preparation plans
+(Business Assessment, Business Plan & Preparation, Endorsement Readiness), then
+an external, independent endorsing body. Each route has its own page with the
+official GOV.UK sources. The advisor floats as a
 closable chat widget everywhere.
 
 ### The advisor
 
-- Conversational assessment — no forms; it picks the next two questions from
+- Conversational assessment, no forms; it picks the next two questions from
   what it still needs to know
 - One case file, built from the conversation and reused at every stage, so
   nothing is asked twice
 - Route scoring (Innovator Founder, Global Talent, self-sponsorship, Expansion
   Worker) with the reasoning shown behind every score
 - Business assessment, gap analysis and a prioritised action plan
-- Regulated-advice detection — it stops and routes to an IAA-registered adviser
+- Regulated-advice detection, it stops and routes to an IAA-registered adviser
   rather than answering
 - An adviser handover brief generated from the case file
 - Iskra's services ranked against the case rather than listed as a menu
 
 ### Also included
 
-- Login flow — email, Google, password reset, signed-in state (mocked; see below)
+- Login flow, email, Google, password reset, signed-in state (mocked; see below)
 - Demo reset controls, so the prototype can be presented repeatedly from a clean
   slate
 
@@ -85,7 +87,7 @@ else ships in the file.
 calls Claude through the artifact runtime (`window.claude`), which only exists
 inside the claude.ai viewer. On GitHub Pages that call returns nothing, so the
 widget switches to a pre-written walkthrough and says so in its own status line
-— *"Scripted demo · replies are pre-written"*. The conversation still
+,  *"Scripted demo · replies are pre-written"*. The conversation still
 demonstrates the full journey. For the live model, use the artifact build.
 
 **The login is a mock.** No account is created and nothing is sent anywhere.
@@ -108,7 +110,7 @@ Both buttons arm on the first click and act on the second.
 ## Structure
 
 ```
-index.html          the whole site + app — built from parts/, commit both
+index.html          the whole site + app, built from parts/, commit both
 parts/01-head.html  head and all CSS
 parts/02-site.html  pre-login marketing site
 parts/03-app.html   post-login app shell, modals, chat widget

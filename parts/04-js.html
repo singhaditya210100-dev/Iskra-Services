@@ -6,7 +6,8 @@
    REFERENCE DATA
    ============================================================ */
 const PLAN_RANK = {free:0, readiness:1, preparation:2, endorsement:3};
-const PLAN_LABEL = {free:"Free", readiness:"Package 1", preparation:"Package 2", endorsement:"Package 3"};
+const PLAN_LABEL = {free:"Free", readiness:"Business Assessment", preparation:"Business Plan & Preparation", endorsement:"Endorsement Readiness"};
+const FREE_PLAN = {name:"Free", stage:"Discover", price:0, unlocks:["AI advisor and route recommendation","Free Founder Assessment on nine areas","Where your case is weak, and who can help","Founder profile and saved progress"]};
 const VAT = 0.2;
 
 const PROFILE_GROUPS = [
@@ -28,17 +29,17 @@ const BODIES = [
   {key:"ukes", name:"UK Endorsing Services", note:"Sector-agnostic; structured application portal"},
   {key:"ii",   name:"Innovator International", note:"Founder-led review with an interview stage"},
   {key:"env",  name:"Envestors", note:"Investor-network lens on viability and scalability"},
-  {key:"gep",  name:"GEP", note:"Global Entrepreneur Programme — high-growth tech"}
+  {key:"gep",  name:"GEP", note:"Global Entrepreneur Programme, high-growth tech"}
 ];
 const SPECIALISTS = ["Accounting","Tax","Payroll","Compliance","Insurance","Corporate services","Immigration support","Business growth"];
 
-/* The nine areas — collected before any assessment, reused by every stage. */
+/* The nine areas: collected before any assessment, reused by every stage. */
 const AREAS = [
   {key:"problem",         label:"Problem",            q:"What problem does the business solve, and for whom?",        help:"Who has it, how they deal with it today, what it costs them."},
-  {key:"solution",        label:"Solution",           q:"What is the product or service, and how far along is it?",   help:"Idea, prototype, or paying customers — and what exists today."},
+  {key:"solution",        label:"Solution",           q:"What is the product or service, and how far along is it?",   help:"Idea, prototype, or paying customers, and what exists today."},
   {key:"market",          label:"Market",             q:"How big is the market, and how did you estimate it?",        help:"Numbers with sources beat adjectives."},
   {key:"model",           label:"Business model",     q:"How does the business make money?",                          help:"Pricing, who pays, and how you reach them."},
-  {key:"competition",     label:"Competition",        q:"Who else solves this, and how?",                             help:"Name them — including the 'do nothing' option."},
+  {key:"competition",     label:"Competition",        q:"Who else solves this, and how?",                             help:"Name them, including the 'do nothing' option."},
   {key:"differentiation", label:"Differentiation",    q:"What makes yours hard to copy?",                             help:"Technology, data, IP, process, relationships."},
   {key:"founder",         label:"Founder capability", q:"Why are you and your team the people to do this?",           help:"Relevant experience, roles, and who is missing."},
   {key:"funding",         label:"Funding",            q:"What money is behind the business, and for how long?",       help:"Committed versus interested; runway."},
@@ -46,9 +47,9 @@ const AREAS = [
 ];
 const AREA = Object.fromEntries(AREAS.map(a => [a.key, a]));
 
-/* Worked example — a fictional founder, consistent across the chat, the intake and the documents. */
+/* Worked example: a fictional founder, consistent across the chat, the intake and the documents. */
 const DEMO_INTAKE = {
-  problem:"UK SMEs that take payments through more than one provider — Stripe, GoCardless, card terminals — reconcile settlements by hand. Different cycles, different fees, and the errors only surface at year-end.",
+  problem:"UK SMEs that take payments through more than one provider (Stripe, GoCardless, card terminals) reconcile settlements by hand. Different cycles, different fees, and the errors only surface at year-end.",
   solution:"A reconciliation layer that ingests every provider's settlement feed, matches transactions to invoices and bank lines automatically, and flags exceptions daily. We have a working prototype that already handles three providers.",
   market:"UK SMEs with multi-provider payments. I estimate around 180,000 businesses, reached through the accountancy practices that already do their books.",
   model:"Per-seat SaaS at about £39 a month, sold through accountancy practices who earn a 15% referral in year one.",
@@ -62,14 +63,14 @@ const DEMO_ASSESSMENT = {
   route:"Innovator Founder",
   overall:"A real problem, a working product and directly relevant experience; the case is held back by evidence, not by the idea.",
   areas:[
-    {key:"problem", verdict:"strong", summary:"Real, specific, and you have felt it first-hand.", assessed:"Is the problem real, specific and painful enough that someone will pay to remove it?", evidence:["First-hand experience running the exact function inside a licensed PSP","Two accountancy practices signed letters of intent because of this problem"], gaps:["No quantified cost of the problem per SME — hours, error rate, year-end corrections"], move:"Put a number on it: hours per month lost, typical error rate, the cost of a year-end correction. One paragraph with a source."},
+    {key:"problem", verdict:"strong", summary:"Real, specific, and you have felt it first-hand.", assessed:"Is the problem real, specific and painful enough that someone will pay to remove it?", evidence:["First-hand experience running the exact function inside a licensed PSP","Two accountancy practices signed letters of intent because of this problem"], gaps:["No quantified cost of the problem per SME: hours, error rate, year-end corrections"], move:"Put a number on it: hours per month lost, typical error rate, the cost of a year-end correction. One paragraph with a source."},
     {key:"solution", verdict:"strong", summary:"A working prototype that already ingests three provider feeds.", assessed:"Does something exist, does it work, and is it clearly the answer to the problem stated?", evidence:["Prototype is demonstrable, not a slide deck","Daily exception flagging is a concrete, checkable output"], gaps:["No customer has run it on live data yet"], move:"One paid pilot on real data. A single invoice changes the character of the whole case."},
     {key:"market", verdict:"moderate", summary:"Sized top-down, with no sources.", assessed:"Is the market large enough, and is the estimate defensible?", evidence:["The accountancy-practice channel is plausible and already producing LOIs"], gaps:["The 180,000 figure is an estimate without a source","No bottom-up build","No split by number of providers used"], move:"Build it bottom-up: ONS business counts × share using two or more providers × reach through accountancy practices, with sources cited."},
     {key:"model", verdict:"moderate", summary:"A sensible shape, with an untested price.", assessed:"Does the way the business makes money fit the buyer, and has any of it been tested?", evidence:["Per-seat SaaS fits how SMEs buy software","A channel commission aligns the accountancy practice's incentive"], gaps:["£39 has never been tested with a paying customer","No churn, CAC or payback assumption"], move:"Price the pilot at the real number. Write down CAC and payback, even roughly."},
     {key:"competition", verdict:"moderate", summary:"Competitors named; the position is asserted, not evidenced.", assessed:"Do you know who you are up against, and can you show where you win?", evidence:["Correct that the incumbents reconcile within one provider only"], gaps:["No feature-by-feature comparison","Nothing on what happens if Xero adds cross-provider matching"], move:"A four-competitor comparison table, and one paragraph on why an incumbent adding the feature does not end the business."},
-    {key:"differentiation", verdict:"moderate", summary:"A real edge that is easy to copy.", assessed:"Is the advantage genuine, and is it hard to replicate?", evidence:["In-house matching engine","Works on partial data — genuinely useful in practice"], gaps:["No IP, no proprietary data","Replicable by a funded incumbent in months"], move:"Evidence a data advantage or a process moat — or file for protection. Endorsing bodies test 'not easily replicable' directly."},
+    {key:"differentiation", verdict:"moderate", summary:"A real edge that is easy to copy.", assessed:"Is the advantage genuine, and is it hard to replicate?", evidence:["In-house matching engine","Works on partial data, which is genuinely useful in practice"], gaps:["No IP, no proprietary data","Replicable by a funded incumbent in months"], move:"Evidence a data advantage or a process moat, or file for protection. Endorsing bodies test 'not easily replicable' directly."},
     {key:"founder", verdict:"strong", summary:"Directly relevant experience that is hard to fake.", assessed:"Can this team deliver this plan? Does the founder have a day-to-day role?", evidence:["Seven years at a licensed PSP","Led the exact function the product replaces","Technical co-founder with fintech infrastructure experience"], gaps:["Whole team is outside the UK today","No commercial or sales experience on the team"], move:"Name a UK-based commercial hire or adviser, even part-time. It answers both gaps at once."},
-    {key:"funding", verdict:"moderate", summary:"Enough to start; not enough to show.", assessed:"Is there enough money to execute the plan, and is the runway understood?", evidence:["£40,000 committed from the founder"], gaps:["The angel is uncommitted","No runway model","No 36-month projections"], move:"A 36-month model with hiring and runway. Get the angel to a term sheet — or take them out of the plan."},
+    {key:"funding", verdict:"moderate", summary:"Enough to start; not enough to show.", assessed:"Is there enough money to execute the plan, and is the runway understood?", evidence:["£40,000 committed from the founder"], gaps:["The angel is uncommitted","No runway model","No 36-month projections"], move:"A 36-month model with hiring and runway. Get the angel to a term sheet, or take them out of the plan."},
     {key:"uk", verdict:"strong", summary:"The business needs to be in the UK, not merely wants to.", assessed:"Is the UK the right place for this business, and is the connection real?", evidence:["UK customers, UK providers, UK tax rules","Both letters of intent are UK firms","Relocation intent is stated"], gaps:["No UK entity yet","No UK presence for the team"], move:"Incorporate on endorsement and line up a registered office. Iskra can do both."}
   ],
   ivs:{
@@ -84,14 +85,14 @@ const IVS_DETAIL = {
     {label:"USP",v:"strong",note:"Reconciliation across providers, not within one"},
     {label:"Genuine innovation",v:"strong",note:"Not offered by the incumbent SME accounting stack"},
     {label:"Competitive advantage",v:"moderate",note:"Speed to market, not a moat yet"},
-    {label:"Barriers to replication",v:"weak",note:"No IP, no proprietary data — copyable in months"},
+    {label:"Barriers to replication",v:"weak",note:"No IP, no proprietary data; copyable in months"},
     {label:"Internal innovation capability",v:"strong",note:"Core engine built in-house by the founders"}],
   viability:[
     {label:"Founder capability",v:"strong",note:"Operated inside a licensed PSP"},
     {label:"Market demand",v:"weak",note:"Two LOIs; no paid pilot"},
     {label:"Resources",v:"moderate",note:"Two founders, both outside the UK"},
     {label:"Funding",v:"moderate",note:"£40k own capital; angel uncommitted"},
-    {label:"Financial assumptions",v:"weak",note:"No model — nothing to defend"},
+    {label:"Financial assumptions",v:"weak",note:"No model, so nothing to defend"},
     {label:"Execution capability",v:"strong",note:"Prototype exists and works"}],
   scalability:[
     {label:"UK growth",v:"moderate",note:"Accountancy-practice channel plausible, unproven"},
@@ -121,7 +122,7 @@ const PLAN_SECTIONS = [
 ];
 const EVIDENCE = [
   {key:"loi",label:"Letters of intent (2)",crit:"Viability",have:true,desc:"Signed by two UK accountancy practices"},
-  {key:"pilot",label:"Paid pilot invoice",crit:"Viability",have:false,desc:"Evidence of demand — the single highest-value item"},
+  {key:"pilot",label:"Paid pilot invoice",crit:"Viability",have:false,desc:"Evidence of demand: the single highest-value item"},
   {key:"proto",label:"Prototype demonstration",crit:"Innovation",have:true,desc:"Recorded walkthrough and repository access"},
   {key:"cv",label:"Founder CV and PSP reference",crit:"Founder",have:true,desc:"Seven years' reconciliation engineering"},
   {key:"model",label:"36-month financial model",crit:"Viability",have:false,desc:"Revenue, costs, hiring, runway"},
@@ -132,14 +133,14 @@ const EVIDENCE = [
   {key:"funds",label:"Maintenance funds statement",crit:"Founder",have:true,desc:"£1,270 held 28 days"}
 ];
 const PACKAGES = {
-  readiness:  {name:"Business Assessment", stage:"Assess · Package 1", price:249, open:"business",
-               unlocks:["Nine areas in full detail","I/V/S criterion by criterion","Downloadable PDF document"],
-               blurb:"Every area expanded — what was assessed, the evidence in your answers, the gaps and what would move it — plus the three endorsement tests in detail. As a document you can download and share."},
-  preparation:{name:"Business Plan & Preparation", stage:"Prepare · Package 2", price:749, open:"plan",
-               unlocks:["AI-generated 17-section business plan","Linked to your assessment, editable","Gap analysis and 30/60/90 plan","Evidence map","PDF documents"],
-               blurb:"A business plan written from your assessment, each section tied to the area it rests on, so you can see what is strong and what needs evidence. Includes Package 1."},
-  endorsement:{name:"Endorsement Readiness", stage:"Review · Package 3 · Flagship", price:1490, open:"review",
-               unlocks:["Everything in Packages 1 and 2","Human consultant review","Referral pack for the endorsing body"],
+  readiness:  {name:"Business Assessment", stage:"Assess", price:249, open:"business",
+               unlocks:["Nine areas in full detail","I/V/S criterion by criterion","A document you can download and share"],
+               blurb:"Every area expanded: what was assessed, the evidence in your answers, the gaps and what would move it, plus the three endorsement tests in detail. As a document you can download and share."},
+  preparation:{name:"Business Plan & Preparation", stage:"Prepare", price:749, open:"plan",
+               unlocks:["AI-written 17-section business plan","Linked to your assessment, editable","Gap analysis and 30/60/90 plan","Evidence map"],
+               blurb:"A business plan written from your assessment, each section tied to the area it rests on, so you can see what is strong and what needs evidence. Includes the Business Assessment."},
+  endorsement:{name:"Endorsement Readiness", stage:"Review · Flagship", price:1490, open:"review",
+               unlocks:["Everything in the two plans before it","Human consultant review","Referral pack for the endorsing body"],
                blurb:"A qualified Iskra consultant reviews the whole case and either approves it for referral to an authorised endorsing body or returns it with what to fix."}
 };
 
@@ -175,16 +176,16 @@ const money0 = n => "£" + Number(n).toLocaleString("en-GB");
 const first = s => (String(s || "").split(/(?<=\.)\s+/)[0] || "").trim();
 
 /* ============================================================
-   JOURNEY — seven milestones, derived from state, shown as the map
+   JOURNEY: seven milestones, derived from state, shown as the map
    ============================================================ */
 const JOURNEY = [
-  {key:"profile",  label:"Profile",             module:"profile",  sub:"Free",      done:() => filled().length >= 5 || intakeDone() >= 9 || !!S.assessment},
-  {key:"assess",   label:"Free assessment",     module:"assess",   sub:"Free",      done:() => !!S.assessment},
-  {key:"business", label:"Business assessment", module:"business", sub:"Package 1", done:() => has("readiness")},
-  {key:"plan",     label:"Business plan",       module:"plan",     sub:"Package 2", done:() => has("preparation") && !!S.bplan},
-  {key:"gaps",     label:"Gap analysis",        module:"gaps",     sub:"Package 2", done:() => has("preparation") && !!S.bplan},
-  {key:"review",   label:"Human review",        module:"review",   sub:"Package 3", done:() => S.human.status === "approved"},
-  {key:"endorse",  label:"Endorsement",         module:"review",   sub:"External",  done:() => S.external.status === "approved", external:true}
+  {key:"profile",  label:"Profile",             module:"profile", done:() => filled().length >= 5 || intakeDone() >= 9 || !!S.assessment},
+  {key:"assess",   label:"Free assessment",     module:"assess",  done:() => !!S.assessment},
+  {key:"business", label:"Business assessment", module:"business",done:() => has("readiness")},
+  {key:"plan",     label:"Business plan",       module:"plan",    done:() => has("preparation") && !!S.bplan},
+  {key:"gaps",     label:"Gap analysis",        module:"gaps",    done:() => has("preparation") && !!S.bplan},
+  {key:"review",   label:"Human review",        module:"review",  done:() => S.human.status === "approved"},
+  {key:"endorse",  label:"Endorsement",         module:"review",  done:() => S.external.status === "approved", external:true}
 ];
 function journeyState(){
   const cur = currentStep(); let marked = false;
@@ -194,36 +195,36 @@ function journeyState(){
     return {...j, state:s};
   });
 }
-const MODULES = ["dashboard","profile","assess","business","plan","gaps","evidence","review"];
+const MODULES = ["dashboard","profile","assess","business","plan","gaps","evidence","review","myplan"];
 const NEEDS = {business:"readiness", plan:"preparation", gaps:"preparation", evidence:"preparation", review:"endorsement"};
 function locked(m){ return !!(NEEDS[m] && !has(NEEDS[m])); }
 
 /* ============================================================
-   ADVISOR — grounding for the live model
+   ADVISOR: grounding for the live model
    ============================================================ */
 const NINE = AREAS.map(a => a.label.toLowerCase()).join(", ");
 const GROUNDING = [
-"You are the Iskra advisor — the assistant on Iskra Services' founder platform. You help international founders find the right route into the UK and prepare their case. You are not a generic Q&A bot.",
+"You are the Iskra advisor, the assistant on Iskra Services' founder platform. You help international founders find the right route into the UK and prepare their case. You are not a generic Q&A bot.",
 "",
 "ISKRA SERVICES (trading name of Indigenous Consultants Limited, Harrow, London; company no. 16043340) is an AI-powered assessment, business-plan, incubation and endorsement-PREPARATION platform, with a specialist network for company formation, accounting, tax, payroll, compliance, insurance, corporate services, immigration support and business growth. Iskra is NOT an authorised endorsing body. Endorsement decisions and official letters come from an authorised endorsing body (UK Endorsing Services, Innovator International, Envestors, GEP); visa decisions are the Home Office's. Never imply Iskra endorses, never say payment unlocks an endorsement, never present a readiness view as a Home Office score.",
 "",
-"KNOWLEDGE — answer from this; say when something is outside it:",
+"KNOWLEDGE. Answer from this; say when something is outside it:",
 "• Innovator Founder: for a new, innovative UK business; endorsement on Innovative / Viable / Scalable; no minimum investment funds; £1,000 + VAT endorsement fee paid to the body; B2 English; £1,270 maintenance; checkpoints at 12 and 24 months; three years to settlement. Founder must have originated the plan, have a day-to-day role, be sole founder or instrumental.",
-"• Global Talent: recognition-led (awards, published work, senior roles others can cite). UK Expansion Worker: for an established overseas business opening a UK branch. Self-sponsorship: your own UK company obtains a sponsor licence — lawful, but scrutinised and refused often when pre-revenue.",
+"• Global Talent: recognition-led (awards, published work, senior roles others can cite). UK Expansion Worker: for an established overseas business opening a UK branch. Self-sponsorship: your own UK company obtains a sponsor licence; lawful, but scrutinised and refused often when pre-revenue.",
 "• Company setup: Companies House, SIC codes, registered office, share structure, PSC register, confirmation statement, VAT, PAYE, business banking before residency.",
-"• Iskra packages: Free (advisor + free nine-area Founder Assessment), Package 1 Business Assessment (detail + PDF), Package 2 Business Plan & Preparation (AI-generated plan linked to the assessment, gap analysis, evidence), Package 3 Endorsement Readiness (human review, referral pack). Pricing is illustrative.",
+"• Iskra plans: Free (advisor + free nine-area Founder Assessment), Business Assessment (every area in detail plus the three tests), Business Plan & Preparation (AI-written plan linked to the assessment, gap analysis, evidence), Endorsement Readiness (human review, referral pack). Say 'plan', never 'package'. Pricing is illustrative.",
 "",
 "HOW YOU BEHAVE:",
 "1. Converse; never present a form. Ask at most two questions per message. Never re-ask anything in the PROFILE below.",
-"2. Keep `reply` SHORT — 1–3 short paragraphs, under 120 words, plain prose, no bullet lists, no markdown.",
+"2. Keep `reply` SHORT: 1 to 3 short paragraphs, under 120 words, plain prose, no bullet lists, no markdown.",
 "3. British English. Address the user as 'you'. Never invent facts about the user. Figures are indicative; say so once when it matters.",
 "4. You do not give regulated immigration advice. When a question turns on prior refusals, overstays, adverse history, dependants' status, in-country switching, appeals, or anything legally consequential and case-specific, set regulated.triggered, explain why you are stopping, and route to an IAA-registered adviser.",
 "",
-"TIER RULES — obey the TIER line in the context:",
-"• visitor (not logged in): collect the basics IN THIS ORDER, one group per message — (1) nationality, current location and any previous UK visa; (2) what the business does and how far along it is; (3) the founder's relevant experience and who is on the team; (4) funding, UK connection and timeline. When you have all four, RECOMMEND A ROUTE — Innovator Founder where it fits a new innovative business led by an experienced founder — say in two sentences why, and one sentence on why the nearest alternatives fit less well. Then set \"gate\": true and invite a free account for the Free Founder Assessment, which scores the business on nine areas: " + NINE + ". Never score or assess in chat as a visitor.",
-"• free / paid (logged in): the founder has or will have a nine-area assessment (see context). Answer questions about it, explain what would move an area, and point to the right module or package. Do not produce scores in chat — the assessment lives in the platform.",
+"TIER RULES. Obey the TIER line in the context:",
+"• visitor (not logged in): collect the basics IN THIS ORDER, one group per message: (1) nationality, current location and any previous UK visa; (2) what the business does and how far along it is; (3) the founder's relevant experience and who is on the team; (4) funding, UK connection and timeline. When you have all four, RECOMMEND A ROUTE (Innovator Founder where it fits a new innovative business led by an experienced founder). Say in two sentences why, and one sentence on why the nearest alternatives fit less well. Then set \"gate\": true and invite a free account for the Free Founder Assessment, which scores the business on nine areas: " + NINE + ". Never score or assess in chat as a visitor.",
+"• free / paid (logged in): the founder has or will have a nine-area assessment (see context). Answer questions about it, explain what would move an area, and point to the right module or package. Do not produce scores in chat; the assessment lives in the platform.",
 "",
-"OUTPUT — reply with ONE JSON object and nothing else. Put \"reply\" first. Include ONLY keys you are adding or changing this turn.",
+"OUTPUT. Reply with ONE JSON object and nothing else. Put \"reply\" first. Include ONLY keys you are adding or changing this turn.",
 "{",
 '  "reply": "short message to the user",',
 '  "suggestions": ["up to 3 short things the user might say next, first person"],',
@@ -239,11 +240,11 @@ function context(){
   const p = S.profile, known = FIELDS.filter(f => p[f.key]).map(f => "  " + f.label + ": " + p[f.key]);
   const A = S.assessment;
   return ["", "TIER: " + tier() + (user ? " (plan: " + S.plan + ")" : ""),
-    "PROFILE — already known, do not ask again:", known.length ? known.join("\n") : "  (nothing yet)",
+    "PROFILE (already known, do not ask again):", known.length ? known.join("\n") : "  (nothing yet)",
     "Still unknown: " + FIELDS.filter(f => !p[f.key]).map(f => f.label).join(", "),
     "Stage: " + S.stage,
     user ? "Intake answered: " + intakeDone() + " of 9" : "",
-    A ? "ASSESSMENT: " + A.areas.map(a => AREA[a.key].label + " " + a.verdict).join("; ") + ". I/V/S: " + ["innovation","viability","scalability"].map(k => k + " " + A.ivs[k].verdict).join(", ") + "." : (user ? "No assessment yet — the founder should run the free Founder Assessment in the platform." : ""),
+    A ? "ASSESSMENT: " + A.areas.map(a => AREA[a.key].label + " " + a.verdict).join("; ") + ". I/V/S: " + ["innovation","viability","scalability"].map(k => k + " " + A.ivs[k].verdict).join(", ") + "." : (user ? "No assessment yet; the founder should run the free Founder Assessment in the platform." : ""),
     S.regulated.triggered ? "Already escalated for regulated advice: " + (S.regulated.specialism || "") : ""].join("\n");
 }
 function streamReply(raw){
@@ -270,7 +271,7 @@ function apply(env){
 }
 
 /* ============================================================
-   SCRIPTED FALLBACK — pre-login flow with the answers prefilled
+   SCRIPTED FALLBACK: pre-login flow with the answers prefilled
    ============================================================ */
 const COUNTRIES = ["indian","india","nigerian","nigeria","pakistani","pakistan","chinese","china","brazilian","brazil","turkish","turkey","egyptian","egypt","kenyan","kenya","south african","american","canadian","australian","german","french","spanish","italian","polish","ukrainian","emirati","uae","saudi","singaporean","malaysian","indonesian","filipino","vietnamese","bangladeshi","sri lankan","nepali","ghanaian","moroccan","mexican","colombian","japanese","korean"];
 const SECTORS = {fintech:"Fintech",payments:"Fintech / payments",saas:"B2B SaaS",software:"Software",ai:"AI",health:"Health tech",edtech:"Edtech",ecommerce:"E-commerce","e-commerce":"E-commerce",logistics:"Logistics",proptech:"Proptech",legaltech:"Legaltech",agritech:"Agritech",energy:"Energy / cleantech",biotech:"Biotech",gaming:"Games",food:"Food & beverage",manufacturing:"Manufacturing",consulting:"Consulting",retail:"Retail",marketing:"Marketing",travel:"Travel",insurance:"Insurtech"};
@@ -289,24 +290,24 @@ function extract(text){
 /* Every reply carries the founder's next answer, so a presenter only presses Send. */
 const PREFILL_OPEN = "I want to move to the UK and start a fintech company.";
 const VISITOR_SCRIPT = [
-  {reply:"Good — let's find the right route rather than the obvious one.\n\nFirst, the basics: what's your nationality, where are you living now, and have you held a UK visa before?",
+  {reply:"Good. Let's find the right route rather than the obvious one.\n\nFirst, the basics: what's your nationality, where are you living now, and have you held a UK visa before?",
    stage:"discovery", profile:{}, prefill:"I'm Indian, living in Bengaluru. I've never held a UK visa."},
-  {reply:"Thanks. Now the business: what does it do, and how far along is it — an idea, a prototype, or paying customers?",
+  {reply:"Thanks. Now the business: what does it do, and how far along is it: an idea, a prototype, or paying customers?",
    stage:"discovery", profile:{nationality:"Indian", location:"Bengaluru, India", immigration:"No previous UK visa"}, prefill:"Reconciliation software for UK SMEs that take payments through several providers. We have a working prototype and two signed letters of intent from UK accountancy practices."},
-  {reply:"That's further along than most. Your own background matters a great deal on founder routes — what's your experience in this field, and who else is on the team?",
-   stage:"profile", profile:{venture:"Reconciliation software for UK SMEs with multi-provider payments", sector:"Fintech / B2B SaaS", stage:"Working prototype", customers:"Two signed letters of intent from UK accountancy practices"}, prefill:"Seven years in payments engineering — I led the reconciliation team at a licensed PSP. Two of us: me and a technical co-founder, both in India."},
-  {reply:"Last two things: what funding is behind the business, and what's your connection to the UK — customers, an entity, a timeline?",
+  {reply:"That's further along than most. Your own background matters a great deal on founder routes. What's your experience in this field, and who else is on the team?",
+   stage:"profile", profile:{venture:"Reconciliation software for UK SMEs with multi-provider payments", sector:"Fintech / B2B SaaS", stage:"Working prototype", customers:"Two signed letters of intent from UK accountancy practices"}, prefill:"Seven years in payments engineering; I led the reconciliation team at a licensed PSP. Two of us: me and a technical co-founder, both in India."},
+  {reply:"Last two things: what funding is behind the business, and what's your connection to the UK: customers, an entity, a timeline?",
    stage:"profile", profile:{experience:"7 years payments engineering; led reconciliation at a licensed PSP", expertise:"Payments / reconciliation"}, prefill:"About £40,000 of my own money and an angel who's interested but not committed. No UK entity yet, but both letters of intent are UK firms. I'd like to be there within six months."},
-  {reply:"Based on all of that, the route I'd recommend is Innovator Founder.\n\nIt's built for exactly this: a new, innovative UK business led by someone with the experience to run it, and there's no minimum investment — the test is the business, not the bank balance. Global Talent would need public recognition you don't yet have, and Expansion Worker needs an established overseas company sending you here, which isn't your situation.\n\nYour free Founder Assessment scores the business on nine areas and tells you what to fix first. Create a free account and everything you've told me carries over.",
+  {reply:"Based on all of that, the route I'd recommend is Innovator Founder.\n\nIt's built for exactly this: a new, innovative UK business led by someone with the experience to run it, and there's no minimum investment; the test is the business, not the bank balance. Global Talent would need public recognition you don't yet have, and Expansion Worker needs an established overseas company sending you here, which isn't your situation.\n\nYour free Founder Assessment scores the business on nine areas and tells you what to fix first. Create a free account and everything you've told me carries over.",
    stage:"pathway", gate:true, profile:{funding:"£40,000 own capital; angel interested, uncommitted", ukTies:"Two UK LOIs; no entity yet; relocate within 6 months"}, prefill:""},
-  {reply:"I can keep answering general questions about the routes, the endorsement tests and Iskra's packages here. Your assessment itself runs in the platform once you have a free account — nothing you've told me will need repeating.",
+  {reply:"I can keep answering general questions about the routes, the endorsement tests and Iskra's packages here. Your assessment itself runs in the platform once you have a free account, and nothing you've told me will need repeating.",
    gate:true, suggestions:["What do endorsing bodies actually check?","How much does endorsement cost?","Create my free account"]}
 ];
 const MEMBER_SCRIPT = [
-  {reply:"Welcome back — your profile carried over from our conversation.\n\nYour next step is the free Founder Assessment: nine questions, and the answers become the assessment, the business plan and the referral pack. The demo answers are prefilled, so you can run it straight away or edit anything first.", stage:"business", suggestions:["What do the nine areas test?","What happens after the assessment?","Which package do I need?"]},
-  {reply:"Once the assessment is in, read it as an endorsing body would: the strong areas are the ones with evidence behind them, and the moderate ones are where a claim is made without proof.\n\nThe fastest single improvement for most founders is turning a letter of intent into a paid pilot — it moves viability more than anything else you can do in a month.", stage:"readiness", suggestions:["How do I turn an LOI into a pilot?","Who can help with the financial model?","I had a visa refused before — does that matter?"]},
-  {reply:"I have to stop there, and it's worth saying why.\n\nAnything turning on a previous refusal, an overstay, dependants, or switching from inside the UK is regulated immigration advice — only a registered adviser may give it. I've flagged your case; use 'Talk to an IAA-registered adviser' on your dashboard and you won't repeat any of this. Everything else — the plan, the evidence, the review — I can carry on with.", stage:"referral", regulated:{triggered:true,reason:"The question turns on prior immigration history or in-country switching — regulated immigration advice.",specialism:"prior history · in-country switching"}, suggestions:["Carry on with the business plan","What does the human review check?","Which specialists strengthen my case?"]},
-  {reply:"The specialists are listed on your dashboard under 'Strengthen your case', each next to the gap they close: an accountant for the financial model, a corporate-services adviser for incorporation and registrations, immigration support for the application itself. Requests go to Iskra's team, who introduce you.", stage:"plan", suggestions:["Generate my business plan","What does Package 3 include?","Start over"]}
+  {reply:"Welcome back. Your profile carried over from our conversation.\n\nYour next step is the free Founder Assessment: nine questions, and the answers become the assessment, the business plan and the referral pack. The demo answers are prefilled, so you can run it straight away or edit anything first.", stage:"business", suggestions:["What do the nine areas test?","What happens after the assessment?","Which package do I need?"]},
+  {reply:"Once the assessment is in, read it as an endorsing body would: the strong areas are the ones with evidence behind them, and the moderate ones are where a claim is made without proof.\n\nThe fastest single improvement for most founders is turning a letter of intent into a paid pilot; it moves viability more than anything else you can do in a month.", stage:"readiness", suggestions:["How do I turn an LOI into a pilot?","Who can help with the financial model?","I had a visa refused before. Does that matter?"]},
+  {reply:"I have to stop there, and it's worth saying why.\n\nAnything turning on a previous refusal, an overstay, dependants, or switching from inside the UK is regulated immigration advice, and only a registered adviser may give it. I've flagged your case; use 'Talk to an IAA-registered adviser' on your dashboard and you won't repeat any of this. Everything else (the plan, the evidence, the review) I can carry on with.", stage:"referral", regulated:{triggered:true,reason:"The question turns on prior immigration history or in-country switching, which is regulated immigration advice.",specialism:"prior history · in-country switching"}, suggestions:["Carry on with the business plan","What does the human review check?","Which specialists strengthen my case?"]},
+  {reply:"The specialists are listed on your dashboard under 'Strengthen your case', each next to the gap they close: an accountant for the financial model, a corporate-services adviser for incorporation and registrations, immigration support for the application itself. Requests go to Iskra's team, who introduce you.", stage:"plan", suggestions:["Generate my business plan","What does Endorsement Readiness include?","Start over"]}
 ];
 function runScript(text){
   const list = user ? MEMBER_SCRIPT : VISITOR_SCRIPT;
@@ -326,7 +327,7 @@ function bubble(role, text){
 }
 function gateBubble(){
   const d = document.createElement("div"); d.className = "bub-gate";
-  d.innerHTML = '<b>Create your free account to run your Free Founder Assessment</b><p>It scores your business on nine areas and shows what to fix first. Everything you\'ve told me carries over — nothing to repeat.</p><ul>' + AREAS.map(a => '<li>' + esc(a.label) + '</li>').join("") + '</ul><button class="btn btn-gold btn-sm" type="button" data-auth-open="signup">Create free account</button>';
+  d.innerHTML = '<b>Create your free account to run your Free Founder Assessment</b><p>It scores your business on nine areas and shows what to fix first. Everything you\'ve told me carries over; nothing to repeat.</p><ul>' + AREAS.map(a => '<li>' + esc(a.label) + '</li>').join("") + '</ul><button class="btn btn-gold btn-sm" type="button" data-auth-open="signup">Create free account</button>';
   return d;
 }
 function scrollThread(){ const t = $("#thread"); t.scrollTop = t.scrollHeight; }
@@ -335,7 +336,7 @@ function renderThread(){
   if(!S.turns.length){
     t.appendChild(bubble("ai", user
       ? "Welcome" + (user.name ? ", " + user.name.split(" ")[0] : "") + ". Ask me anything about your route, your assessment or what to do next."
-      : "Hello — I'm the Iskra advisor. Tell me what you want to do in the UK and I'll work out which route fits, then get you to your free assessment.\n\nA sentence is enough. I'll ask for the rest as we go."));
+      : "Hello, I'm the Iskra advisor. Tell me what you want to do in the UK and I'll work out which route fits, then get you to your free assessment.\n\nA sentence is enough. I'll ask for the rest as we go."));
     if(!user) setPrefill(PREFILL_OPEN);
   } else S.turns.forEach(x => t.appendChild(bubble(x.role === "user" ? "user" : "ai", x.content)));
   if(!user && S.gated) t.appendChild(gateBubble());
@@ -366,10 +367,10 @@ function renderChips(list){
 function setMode(m){
   mode = m; const st = $("#w-status"); st.dataset.mode = m === "live" ? "live" : m === "script" ? "script" : "idle";
   $("#w-status-label").textContent = m === "live" ? "Online · answers generated live" : m === "script" ? "Scripted demo · replies are pre-written" : "Connecting…";
-  $("#w-foot").textContent = m === "script" ? "Scripted walkthrough — not generated, not regulated advice." : "General information, not regulated immigration advice.";
+  $("#w-foot").textContent = m === "script" ? "Scripted walkthrough: not generated, not regulated advice." : "General information, not regulated immigration advice.";
 }
 function setBusy(b){ busy = b; renderTier(); $("#stop").hidden = !b || mode !== "live"; }
-const ERR = {rate_limited:"Too many requests just now — wait a minute and send it again.",session_expired:"Your session expired. Sign in again, then resend.",refused:"That one was declined. Try asking a different way.",empty_completion:"No answer came back. Ask for a bit less in one go.",invalid_json:"The answer came back malformed. Send it again.",upstream_error:"The connection dropped. Send it again when you're ready.",prompt_too_large:"This conversation is too long to send. Start over to continue.",invalid_request:"That couldn't be sent as written."};
+const ERR = {rate_limited:"Too many requests just now. Wait a minute and send it again.",session_expired:"Your session expired. Sign in again, then resend.",refused:"That one was declined. Try asking a different way.",empty_completion:"No answer came back. Ask for a bit less in one go.",invalid_json:"The answer came back malformed. Send it again.",upstream_error:"The connection dropped. Send it again when you're ready.",prompt_too_large:"This conversation is too long to send. Start over to continue.",invalid_request:"That couldn't be sent as written."};
 const FATAL = new Set(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"]);
 const userTurns = () => S.turns.filter(t => t.role === "user").length;
 /* the same answer sequence, used to prefill in live mode where the script isn't driving */
@@ -386,7 +387,7 @@ async function send(){
   scrollThread(); setBusy(true);
 
   const finish = env => {
-    const reply = (env && typeof env.reply === "string" && env.reply.trim()) ? env.reply.trim() : "I didn't manage to put that into words — ask me again, or narrow it down.";
+    const reply = (env && typeof env.reply === "string" && env.reply.trim()) ? env.reply.trim() : "I didn't manage to put that into words. Ask me again, or narrow it down.";
     ai.textContent = reply; S.turns.push({role:"assistant",content:reply}); apply(env);
     if(!user && !S.gated && userTurns() >= 6) S.gated = true;
     save();
@@ -426,7 +427,7 @@ function openChat(prefill){
 function closeChat(){ $("#widget").hidden = true; $("#launcher").hidden = false; }
 
 /* ============================================================
-   ASSESSMENT ENGINE — nine areas, live or scripted
+   ASSESSMENT ENGINE: nine areas, live or scripted
    ============================================================ */
 const VERDICTS = ["strong","moderate","weak"];
 function normaliseAssessment(env){
@@ -456,8 +457,8 @@ async function runAssessment(){
   let env = null, live = false;
   if(mode === "live" && sampleFn){
     try{
-      const prompt = "You are Iskra's assessment engine. Assess this founder's answers for the UK Innovator Founder route as an endorsing body would, honestly and specifically. In \"overall\" do not state a fit rating — the platform computes it; describe the case in one or two sentences. Iskra prepares; it does not endorse — this is a preparatory assessment, never a Home Office score.\n\nANSWERS:\n" +
-        AREAS.map(a => a.label + " — " + a.q + "\n" + (S.intake[a.key] || "")).join("\n\n") +
+      const prompt = "You are Iskra's assessment engine. Assess this founder's answers for the UK Innovator Founder route as an endorsing body would, honestly and specifically. In \"overall\" do not state a fit rating (the platform computes it); describe the case in one or two sentences. Iskra prepares; it does not endorse. This is a preparatory assessment, never a Home Office score.\n\nANSWERS:\n" +
+        AREAS.map(a => a.label + ": " + a.q + "\n" + (S.intake[a.key] || "")).join("\n\n") +
         "\n\nReply with ONLY this JSON: {\"route\":\"Innovator Founder\",\"overall\":\"one or two sentences\",\"areas\":[{\"key\":\"problem|solution|market|model|competition|differentiation|founder|funding|uk\",\"verdict\":\"strong|moderate|weak\",\"summary\":\"one line\",\"assessed\":\"what this area tests, one line\",\"evidence\":[\"what in the answer supports it\"],\"gaps\":[\"what is missing or asserted without proof\"],\"move\":\"the single most useful action, two sentences\"}],\"ivs\":{\"innovation\":{\"verdict\":\"strong|moderate|weak\",\"note\":\"one line\"},\"viability\":{...},\"scalability\":{...}}}. All nine keys, in order. British English.";
       env = await sampleFn.json(prompt, {modelTier:"default"}); live = true;
     }catch(err){ env = null; if(err && FATAL.has(err.code)) setMode("script"); }
@@ -468,7 +469,7 @@ async function runAssessment(){
 }
 
 /* ============================================================
-   PLAN ENGINE — written from the assessment, live or templated
+   PLAN ENGINE: written from the assessment, live or templated
    ============================================================ */
 function composePlan(){
   const I = S.intake, s1 = k => first(I[k]);
@@ -480,9 +481,9 @@ function composePlan(){
     gtm:"Channel-first. " + [I.uk, s1("model")].filter(Boolean).join(" "),
     ops:"Two-founder team for year one. " + s1("founder") + " Engineering remains offshore until the first UK hire; UK registered office and company secretarial via Iskra.",
     uk:I.uk,
-    intl:"Not yet evidenced. A staged plan — UK, then Ireland, then the EU — with the trigger for each step is needed to support Scalability, which endorsing bodies test directly.",
+    intl:"Not yet evidenced. A staged plan (UK, then Ireland, then the EU) with the trigger for each step is needed to support Scalability, which endorsing bodies test directly.",
     financials:(I.funding || "") + " A 36-month financial model covering revenue, costs, hiring and runway is still to be built; Viability cannot be argued without it.",
-    hiring:"Not yet evidenced. Endorsing bodies look for skilled UK job creation: name the roles, the months and the salaries — a UK-based commercial hire first.",
+    hiring:"Not yet evidenced. Endorsing bodies look for skilled UK job creation: name the roles, the months and the salaries, with a UK-based commercial hire first.",
     milestones:"Paid pilot in the next quarter · incorporation on endorsement · first UK hire by month nine · ten paying customers by month twelve · 24-month checkpoint at forty customers.",
     risks:"Provider API changes; an incumbent adds cross-provider matching; slower accountancy-channel adoption than assumed; single-founder execution risk until the first UK hire."
   };
@@ -500,8 +501,8 @@ async function generatePlan(){
   if(mode === "live" && sampleFn){
     try{
       const A = S.assessment;
-      const prompt = "You are Iskra's business-plan writer. Write a UK Innovator Founder business plan for this founder from their answers and Iskra's assessment. Honest, specific, British English, 50–90 words per section. Where the answers do not support a section, write two sentences beginning 'Not yet evidenced.' saying exactly what is missing — do not invent facts.\n\nANSWERS:\n" +
-        AREAS.map(a => a.label + ": " + (S.intake[a.key] || "")).join("\n") + "\n\nASSESSMENT:\n" + A.areas.map(a => AREA[a.key].label + " — " + a.verdict + ": " + a.summary).join("\n") +
+      const prompt = "You are Iskra's business-plan writer. Write a UK Innovator Founder business plan for this founder from their answers and Iskra's assessment. Honest, specific, British English, 50–90 words per section. Where the answers do not support a section, write two sentences beginning 'Not yet evidenced.' saying exactly what is missing. Do not invent facts.\n\nANSWERS:\n" +
+        AREAS.map(a => a.label + ": " + (S.intake[a.key] || "")).join("\n") + "\n\nASSESSMENT:\n" + A.areas.map(a => AREA[a.key].label + " (" + a.verdict + "): " + a.summary).join("\n") +
         "\n\nReply with ONLY this JSON: {\"sections\":{" + PLAN_SECTIONS.map(s => '"' + s.key + '":"..."').join(",") + "}}";
       const env = await sampleFn.json(prompt, {modelTier:"default"});
       if(env && env.sections && typeof env.sections === "object"){ sections = {}; PLAN_SECTIONS.forEach(s => { sections[s.key] = String(env.sections[s.key] || "").trim(); }); live = true; }
@@ -513,7 +514,7 @@ async function generatePlan(){
 }
 
 /* ============================================================
-   PDF DOCUMENTS — jsPDF, saved through the platform where available
+   PDF DOCUMENTS: jsPDF, saved through the platform where available
    ============================================================ */
 const pdfText = s => String(s || "").replace(/→/g,"-").replace(/✓/g,"").replace(/[‘’]/g,"'").replace(/[“”]/g,'"');
 function pdfDoc(title, subtitle){
@@ -532,7 +533,7 @@ function pdfDoc(title, subtitle){
 }
 function pdfAssessment(){
   const A = S.assessment, P = pdfDoc("Business Assessment", (S.profile.name || "Founder") + " · " + S.ref + " · " + new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}));
-  P.heading(A.route + " — preparatory readiness " + readinessScore() + " / 100", 15); P.para(A.overall, 10.5, [80,84,90]);
+  P.heading(A.route + ": preparatory readiness " + readinessScore() + " / 100", 15); P.para(A.overall, 10.5, [80,84,90]);
   P.label("Innovation / Viability / Scalability");
   ["innovation","viability","scalability"].forEach(k => P.para(k[0].toUpperCase()+k.slice(1) + ": " + LIGHT_WORD[A.ivs[k].verdict] + " - " + A.ivs[k].note));
   P.rule();
@@ -567,7 +568,7 @@ async function savePdf(doc, filename){
   const blob = doc.output("blob");
   if(downloadsFn){
     try{ const r = await downloadsFn.save({filename, data:blob}); toast(r && r.status === "saved" ? "Saved " + filename : "Sent"); return; }
-    catch(err){ if(err && err.code === "cancelled") return; if(!err || err.code !== "unavailable"){ toast("Couldn't save — try again"); return; } }
+    catch(err){ if(err && err.code === "cancelled") return; if(!err || err.code !== "unavailable"){ toast("Couldn't save. Try again"); return; } }
   }
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast("Downloading " + filename);
@@ -577,8 +578,8 @@ async function shareDoc(doc, filename, summary){
     const file = new File([doc.output("blob")], filename, {type:"application/pdf"});
     if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], title:filename, text:summary}); return; }
   }catch(e){ if(e && e.name === "AbortError") return; }
-  try{ await navigator.clipboard.writeText(summary + "\n" + location.href.split("?")[0]); toast("Summary and link copied — share them anywhere"); }
-  catch(e){ toast("Sharing isn't available here — use Download"); }
+  try{ await navigator.clipboard.writeText(summary + "\n" + location.href.split("?")[0]); toast("Summary and link copied. Share them anywhere"); }
+  catch(e){ toast("Sharing isn't available here. Use Download"); }
 }
 
 /* ============================================================
@@ -596,7 +597,7 @@ function openRequest(kind, pre){
   $("#req-what").innerHTML = R.items.map(it => '<label><input type="checkbox" name="it" value="' + esc(it) + '"' + (pre && it === pre ? " checked" : "") + '>' + esc(it) + '</label>').join("");
   const f = $("#req-form"); f.name.value = (user && user.name) || S.profile.name || ""; f.email.value = (user && user.email) || ""; f.phone.value = "";
   const weak = weakAreas().map(a => AREA[a.key].label.toLowerCase());
-  f.msg.value = kind === "regulated" ? "" : (weak.length ? "Following my free assessment — the areas needing work are " + weak.join(", ") + "." : "");
+  f.msg.value = kind === "regulated" ? "" : (weak.length ? "Following my free assessment, the areas needing work are " + weak.join(", ") + "." : "");
   $("#req-err").hidden = true; $("#req").dataset.kind = kind; $("#req").hidden = false;
   setTimeout(() => f.msg.focus(), 40);
 }
@@ -616,7 +617,7 @@ function wireRequest(){
 }
 
 /* ============================================================
-   CHECKOUT — Stripe-style, test mode, nothing charged
+   CHECKOUT: Stripe-style, test mode, nothing charged
    ============================================================ */
 let coKey = null;
 function openCheckout(key){
@@ -659,9 +660,10 @@ function wireCheckout(){
 }
 
 /* ============================================================
-   APP — views, map, rail, modules
+   APP: views, map, rail, modules
    ============================================================ */
 function setView(v){
+  if(v === "app"){ $("#nudge").hidden = true; }
   const app = v === "app";
   if(app && !user) return openAuth("login");
   $("#site").hidden = app; $("#app").hidden = !app;
@@ -680,22 +682,21 @@ function currentStep(){
   const n = intakeDone();
   if(!S.assessment && n < 9) return {key:"intake", module:"assess", title: n ? "Finish the nine assessment questions" : "Answer the nine assessment questions", desc:"Your answers become the free assessment, the business plan and the referral pack. You won't be asked twice.", cta:"Continue", act:'data-go="assess"', prog:n/9};
   if(!S.assessment) return {key:"run", module:"assess", title:"Run your free Founder Assessment", desc:"All nine answers are in. The assessment scores each area strong, moderate or needs work, and tells you what to fix first.", cta:"Run assessment", act:'data-run-assess'};
-  if(!has("readiness")) return {key:"p1", module:"business", title:"Unlock your Business Assessment", desc:"Every area expanded — evidence, gaps and what would move it — plus the three endorsement tests in detail, as a PDF you can share.", cta:"Unlock Package 1", act:'data-unlock="readiness"'};
-  if(!has("preparation")) return {key:"p2", module:"plan", title:"Build your business plan", desc:"An AI-written plan from your assessment, each section tied to the area it rests on, with a gap analysis and evidence map.", cta:"Unlock Package 2", act:'data-unlock="preparation"'};
+  if(!has("readiness")) return {key:"p1", module:"business", title:"Unlock your Business Assessment", desc:"Every area expanded: evidence, gaps and what would move it, plus the three endorsement tests in detail, as a document you can share.", cta:"Unlock Business Assessment", act:'data-unlock="readiness"'};
+  if(!has("preparation")) return {key:"p2", module:"plan", title:"Build your business plan", desc:"An AI-written plan from your assessment, each section tied to the area it rests on, with a gap analysis and evidence map.", cta:"Unlock Business Plan & Preparation", act:'data-unlock="preparation"'};
   if(!S.bplan) return {key:"gen", module:"plan", title:"Generate your business plan", desc:"Seventeen sections written from your assessment. You can edit every one, and the weak sections are flagged against the areas that need evidence.", cta:"Open Business Plan", act:'data-go="plan"'};
-  if(!has("endorsement")) return {key:"p3", module:"review", title:"Get a human review", desc:"A qualified Iskra consultant reviews the whole case before you approach an authorised endorsing body.", cta:"Unlock Package 3", act:'data-unlock="endorsement"'};
+  if(!has("endorsement")) return {key:"p3", module:"review", title:"Get a human review", desc:"A qualified Iskra consultant reviews the whole case before you approach an authorised endorsing body.", cta:"Unlock Endorsement Readiness", act:'data-unlock="endorsement"'};
   if(S.human.status === "none") return {key:"req", module:"review", title:"Request human review", desc:"Your preparation is complete. A consultant reviews profile, plan, evidence and gap closure, and approves the case for referral or returns it.", cta:"Open Human Review", act:'data-go="review"'};
   if(S.human.status === "pending") return {key:"pend", module:"review", title:"Your case is under review", desc:"An Iskra consultant is reading it now.", cta:"Open Human Review", act:'data-go="review"'};
   if(S.external.status === "none") return {key:"submit", module:"review", title:"Submit to an authorised endorsing body", desc:"Approved for referral. Choose a body; they assess independently and decide.", cta:"Open handoff", act:'data-go="review"'};
   if(S.external.status !== "approved") return {key:"ext", module:"review", title:"With the endorsing body", desc:"They are assessing your case independently. Iskra answers information requests only.", cta:"Open handoff", act:'data-go="review"'};
-  return {key:"done", module:"review", title:"Endorsed — next, the visa application", desc:"Your official endorsement letter comes from the endorsing body. The application itself is regulated work: we connect you to an IAA-registered adviser, and Iskra sets up the company.", cta:"Talk to an IAA-registered adviser", act:'data-request="regulated"'};
+  return {key:"done", module:"review", title:"Endorsed. Next, the visa application", desc:"Your official endorsement letter comes from the endorsing body. The application itself is regulated work: we connect you to an IAA-registered adviser, and Iskra sets up the company.", cta:"Talk to an IAA-registered adviser", act:'data-request="regulated"'};
 }
 function renderApp(){
   const js = journeyState(), step = currentStep();
-  $("#plan-badge").textContent = PLAN_LABEL[S.plan];
   $("#map").innerHTML = js.map((j,i) => {
     const lk = locked(j.module);
-    return '<button class="ms" type="button" data-state="' + j.state + '" data-key="' + j.key + '" data-ms="' + j.module + '"' + (lk ? ' data-ms-unlock="' + NEEDS[j.module] + '"' : '') + '><span class="dot">' + (j.state === "done" ? "✓" : (i+1)) + '</span><span class="lbl">' + esc(j.label) + '</span><span class="sub">' + (j.state === "now" ? "Now" : esc(j.sub)) + '</span></button>';
+    return '<button class="ms" type="button" data-state="' + j.state + '" data-key="' + j.key + '" data-ms="' + j.module + '"' + (lk ? ' data-ms-unlock="' + NEEDS[j.module] + '"' : '') + '><span class="dot">' + (j.state === "done" ? "✓" : (i+1)) + '</span><span class="lbl">' + esc(j.label) + '</span><span class="sub">' + (j.state === "now" ? "Now" : j.state === "done" ? "Done" : j.external ? "External" : "Ahead") + '</span></button>';
   }).join("");
   $$(".rail-item").forEach(b => {
     const m = b.dataset.module, lk = locked(m);
@@ -709,7 +710,7 @@ function renderApp(){
 /* ---- shared fragments ---- */
 const lightRow = (label, v, note) => '<div class="light-row" data-v="' + v + '"><i class="light light-' + LIGHT[v] + '"></i><b>' + esc(label) + '</b><span>' + esc(note || "") + '</span><span class="verdict">' + LIGHT_WORD[v] + '</span></div>';
 const pillFor = v => '<span class="pill pill-' + LIGHT[v] + '">' + LIGHT_WORD[v] + '</span>';
-const notHO = '<div class="score-label">Iskra Readiness Assessment — a preparatory view to help you prepare. It is not a Home Office score and not a guarantee of endorsement, which an authorised endorsing body decides independently.</div>';
+const notHO = '<div class="score-label">Iskra Readiness Assessment: a preparatory view to help you prepare. It is not a Home Office score and not a guarantee of endorsement, which an authorised endorsing body decides independently.</div>';
 function lockCard(need){
   const p = PACKAGES[need];
   return '<div class="lock-card"><div><div class="n">' + esc(p.stage) + '</div><h3>' + esc(p.name) + '</h3><p>' + esc(p.blurb) + '</p><ul>' + p.unlocks.map(u => '<li>' + esc(u) + '</li>').join("") + '</ul></div>' +
@@ -719,31 +720,31 @@ function workingPanel(kind){
   const lines = kind === "plan" ? ["Reading your assessment…","Writing the sections that have evidence…","Marking the ones that don't…","Linking each section to its area…"] : ["Reading your nine answers…","Assessing problem, solution and market…","Checking founder capability and funding…","Scoring innovation, viability, scalability…"];
   const id = "wk-" + Date.now();
   setTimeout(() => { let i = 0; const el = document.getElementById(id); if(!el) return; const t = setInterval(() => { const e = document.getElementById(id); if(!e){ clearInterval(t); return; } i = (i+1) % lines.length; e.textContent = lines[i]; }, 700); }, 0);
-  return '<div class="panel"><div class="working"><div class="ring"></div><b>' + (kind === "plan" ? "Generating your business plan" : "Running your Founder Assessment") + '</b><span id="' + id + '">' + lines[0] + '</span><p class="tiny">' + (mode === "live" ? "Generated live by the AI — usually 10–40 seconds." : "Scripted demo — the worked example loads in a moment.") + '</p></div></div>';
+  return '<div class="panel"><div class="working"><div class="ring"></div><b>' + (kind === "plan" ? "Generating your business plan" : "Running your Founder Assessment") + '</b><span id="' + id + '">' + lines[0] + '</span><p class="tiny">' + (mode === "live" ? "Generated live by the AI, usually 10 to 40 seconds." : "Scripted demo: the worked example loads in a moment.") + '</p></div></div>';
 }
 function strengthenPanel(){
   const weak = weakAreas();
   return '<div class="panel"><h3>Strengthen your case <small>the people who close the gaps</small></h3><div class="strengthen">' +
-    '<div class="sv"><h4>UK company formation &amp; registrations</h4><p>Companies House incorporation, registered office, VAT, PAYE and a business bank account — set up by Iskra\'s team so the company is real on the day you\'re endorsed.</p><button class="btn btn-black btn-sm" type="button" data-request="formation">Start company formation</button></div>' +
+    '<div class="sv"><h4>UK company formation &amp; registrations</h4><p>Companies House incorporation, registered office, VAT, PAYE and a business bank account, set up by Iskra\'s team so the company is real on the day you\'re endorsed.</p><button class="btn btn-black btn-sm" type="button" data-request="formation">Start company formation</button></div>' +
     '<div class="sv"><h4>Connect with a specialist</h4><p>' + (weak.length ? "Your assessment points at " + weak.slice(0,3).map(a => AREA[a.key].label.toLowerCase()).join(", ") + ". These are the people who fix that." : "The specialists who make a case stronger.") + '</p><div class="spec">' + SPECIALISTS.map(s => '<button type="button" data-request="specialist" data-spec="' + esc(s) + '">' + esc(s) + '</button>').join("") + '</div></div>' +
-    '<div class="sv navy" style="grid-column:1/-1"><h4>Need regulated immigration advice?</h4><p>Refusals, switching, dependants, the application itself — these need a registered person, not an AI. Iskra connects you to an IAA-registered adviser or lawyer and sends your case file with your consent.</p><button class="btn btn-sm" type="button" data-request="regulated">Talk to an IAA-registered adviser</button></div>' +
+    '<div class="sv navy" style="grid-column:1/-1"><h4>Need regulated immigration advice?</h4><p>Refusals, switching, dependants, the application itself: these need a registered person, not an AI. Iskra connects you to an IAA-registered adviser or lawyer and sends your case file with your consent.</p><button class="btn btn-sm" type="button" data-request="regulated">Talk to an IAA-registered adviser</button></div>' +
     '</div>' + (S.requests.length ? '<p class="tiny" style="margin-top:12px">Requested: ' + S.requests.map(r => esc(r.items.join(", "))).join(" · ") + '</p>' : '') + '</div>';
 }
 function intakeForm(firstRun){
   const n = intakeDone();
   if(!n && !S.intakeTouched){ S.intake = Object.assign({}, DEMO_INTAKE); S.intakeTouched = true; save(); }
   const done = intakeDone();
-  return '<div class="panel"><div class="intake-bar"><span class="num"><b>' + done + '</b> of 9 answered</span><div class="bar"><b style="width:' + Math.round(done/9*100) + '%"></b></div><span class="demo-note"><i></i>Answers prefilled for the demo — edit freely</span></div>' +
+  return '<div class="panel"><div class="intake-bar"><span class="num"><b>' + done + '</b> of 9 answered</span><div class="bar"><b style="width:' + Math.round(done/9*100) + '%"></b></div><span class="demo-note"><i></i>Answers prefilled for the demo. Edit freely</span></div>' +
     AREAS.map((a,i) => '<div class="iq"><div class="n">' + String(i+1).padStart(2,"0") + '</div><div><label for="iq-' + a.key + '">' + esc(a.label) + ((S.intake[a.key]||"").trim() ? '<span class="ok">✓ answered</span>' : '') + '</label><p class="q">' + esc(a.q) + '</p><textarea id="iq-' + a.key + '" data-iq="' + a.key + '" placeholder="Your answer…">' + esc(S.intake[a.key] || "") + '</textarea><small>' + esc(a.help) + '</small></div></div>').join("") +
-    '<div class="intake-actions"><button class="btn btn-black" type="button" id="run-assess"' + (done < 9 ? " disabled" : "") + '>Run Free Founder Assessment</button>' + (firstRun ? '<button class="btn btn-line" type="button" id="skip-intake">Skip for now — go to my dashboard</button>' : (S.assessment ? '<button class="btn btn-line" type="button" id="cancel-edit">Cancel</button>' : '')) + '<span class="tiny">Answers save as you type. You can come back and finish later.</span></div></div>';
+    '<div class="intake-actions"><button class="btn btn-black" type="button" id="run-assess"' + (done < 9 ? " disabled" : "") + '>Run Free Founder Assessment</button>' + (firstRun ? '<button class="btn btn-line" type="button" id="skip-intake">Skip for now and go to my dashboard</button>' : (S.assessment ? '<button class="btn btn-line" type="button" id="cancel-edit">Cancel</button>' : '')) + '<span class="tiny">Answers save as you type. You can come back and finish later.</span></div></div>';
 }
 function assessmentResult(){
   const A = S.assessment, weak = weakAreas();
-  return '<div class="overall"><div><b>' + esc(A.route) + ' — preliminary fit: ' + (weak.length <= 3 ? "good" : weak.length <= 6 ? "possible" : "needs work") + '</b><p>' + esc(A.overall) + '</p></div><span class="pill">Further assessment recommended</span></div>' +
+  return '<div class="overall"><div><b>' + esc(A.route) + ' · preliminary fit: ' + (weak.length <= 3 ? "good" : weak.length <= 6 ? "possible" : "needs work") + '</b><p>' + esc(A.overall) + '</p></div><span class="pill">Further assessment recommended</span></div>' +
     '<div class="grid-2" style="margin-top:18px"><div class="panel"><h3>Nine areas <small>' + (S.assessedLive ? "assessed live by the AI" : "scripted worked example") + '</small></h3><div class="lights">' + A.areas.map(a => lightRow(AREA[a.key].label, a.verdict, a.summary)).join("") + '</div>' + notHO + '</div>' +
-    '<div class="stack"><div class="panel"><h3>The three endorsement tests</h3><div class="lights">' + ["innovation","viability","scalability"].map(k => lightRow(k[0].toUpperCase()+k.slice(1), A.ivs[k].verdict, A.ivs[k].note)).join("") + '</div><p class="tiny" style="margin-top:10px">Innovation rests on problem, solution and differentiation · viability on business model, founder and funding · scalability on market, UK opportunity and competition.</p></div>' +
-    '<div class="panel"><h3>Where your case is weak <small>' + weak.length + ' of 9</small></h3>' + (weak.length ? '<div class="weak">' + weak.map(a => '<div><b><i class="light light-' + LIGHT[a.verdict] + '"></i>' + esc(AREA[a.key].label) + '</b><p>' + esc(a.gaps[0] || a.summary) + (a.move ? ' <b style="display:inline;font-weight:600">Fix:</b> ' + esc(first(a.move)) : '') + '</p></div>').join("") + '</div>' : '<p class="muted">Every area is strong. Unusual — a consultant should confirm it.</p>') +
-    '<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">' + (has("readiness") ? '<button class="btn btn-black btn-sm" type="button" data-go="business">See the full Business Assessment</button>' : '<button class="btn btn-black btn-sm" type="button" data-unlock="readiness">Unlock the detail · Package 1</button>') + '<button class="btn btn-line btn-sm" type="button" id="edit-intake">Edit answers &amp; re-run</button></div></div></div></div>' +
+    '<div class="panel"><h3>The three endorsement tests</h3><div class="lights">' + ["innovation","viability","scalability"].map(k => lightRow(k[0].toUpperCase()+k.slice(1), A.ivs[k].verdict, A.ivs[k].note)).join("") + '</div><p class="tiny" style="margin-top:10px">Innovation rests on problem, solution and differentiation · viability on business model, founder and funding · scalability on market, UK opportunity and competition.</p></div>' +
+    '</div><div class="panel" style="margin-top:18px"><h3>Where your case is weak <small>' + weak.length + ' of 9</small></h3>' + (weak.length ? '<div class="weak">' + weak.map(a => '<div><b><i class="light light-' + LIGHT[a.verdict] + '"></i>' + esc(AREA[a.key].label) + '</b><p>' + esc(a.gaps[0] || a.summary) + (a.move ? ' <b style="display:inline;font-weight:600">Fix:</b> ' + esc(first(a.move)) : '') + '</p></div>').join("") + '</div>' : '<p class="muted">Every area is strong. Unusual; a consultant should confirm it.</p>') +
+    '<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">' + (has("readiness") ? '<button class="btn btn-black btn-sm" type="button" data-go="business">See the full Business Assessment</button>' : '<button class="btn btn-black btn-sm" type="button" data-unlock="readiness">Unlock the full assessment</button>') + '<button class="btn btn-line btn-sm" type="button" id="edit-intake">Edit answers &amp; re-run</button></div></div>' +
     '<div style="margin-top:18px">' + strengthenPanel() + '</div>';
 }
 
@@ -756,7 +757,7 @@ function renderModule(m, opts){
     host.innerHTML = '<div class="pane-head"><div><h1 class="welcome">Welcome, ' + esc(firstName) + '.</h1><p>' + (S.assessment ? "Your assessment is in. One thing to do next, and the people who can help." : "One thing to do next. Everything else waits for it.") + '</p></div></div>' +
       '<div class="now-card"><div><div class="n">Your current step</div><h2>' + esc(step.title) + '</h2><p>' + esc(step.desc) + '</p>' + (step.prog != null ? '<div class="prog"><div class="bar"><b style="width:' + Math.round(step.prog*100) + '%"></b></div><span>' + intakeDone() + ' of 9 answered</span></div>' : '') + '</div><button class="btn btn-white" type="button" ' + step.act + '>' + esc(step.cta) + '</button></div>' +
       (S.assessment ? '<div class="grid-2" style="margin-top:18px"><div class="panel"><h3>Your assessment at a glance <small>readiness ' + readinessScore() + ' / 100 · preparatory</small></h3><div class="lights compact">' + S.assessment.areas.map(a => lightRow(AREA[a.key].label, a.verdict, "")).join("") + '</div></div>' +
-        '<div class="panel"><h3>Where your case is weak</h3>' + (weakAreas().length ? '<div class="weak">' + weakAreas().slice(0,4).map(a => '<div><b><i class="light light-' + LIGHT[a.verdict] + '"></i>' + esc(AREA[a.key].label) + '</b><p>' + esc(first(a.move) || a.gaps[0] || a.summary) + '</p></div>').join("") + '</div>' : '<p class="muted">No weak areas.</p>') + '<div style="margin-top:14px"><button class="btn btn-line btn-sm" type="button" data-go="assess">Open the full result</button></div></div></div>' +
+        '<div class="panel"><h3>Where your case is weak <small>' + weakAreas().length + ' of 9</small></h3>' + (weakAreas().length ? '<div class="weak list">' + weakAreas().slice(0,3).map(a => '<div><b><i class="light light-' + LIGHT[a.verdict] + '"></i>' + esc(AREA[a.key].label) + '</b><p>' + esc(first(a.move) || a.gaps[0] || a.summary) + '</p></div>').join("") + '</div>' : '<p class="muted">No weak areas.</p>') + '<div style="margin-top:14px"><button class="btn btn-line btn-sm" type="button" data-go="assess">Open the full result</button></div></div></div>' +
         '<div style="margin-top:18px">' + strengthenPanel() + '</div>' : '');
   }
 
@@ -773,63 +774,63 @@ function renderModule(m, opts){
     const firstRun = opts && opts.firstRun;
     if(working === "assess"){ host.innerHTML = '<div class="pane-head"><div><h1>Free Founder Assessment</h1></div></div>' + workingPanel("assess"); return; }
     if(!S.assessment || S.editIntake){
-      host.innerHTML = '<div class="pane-head"><div><h1>Free Founder Assessment</h1><p>Nine questions. Your answers become the assessment, the business plan and the referral pack — you won\'t be asked twice.</p></div>' + (firstRun ? '<span class="pill pill-gold">First step</span>' : '') + '</div>' + intakeForm(firstRun);
+      host.innerHTML = '<div class="pane-head"><div><h1>Free Founder Assessment</h1><p>Nine questions. Your answers become the assessment, the business plan and the referral pack. You won\'t be asked twice.</p></div>' + (firstRun ? '<span class="pill pill-gold">First step</span>' : '') + '</div>' + intakeForm(firstRun);
       $$("[data-iq]").forEach(t => { t.addEventListener("input", () => { S.intake[t.dataset.iq] = t.value; S.intakeTouched = true; save(); const done = intakeDone(); $("#run-assess").disabled = done < 9; const bar = host.querySelector(".intake-bar"); if(bar){ bar.querySelector("b").textContent = done; bar.querySelector(".bar b").style.width = Math.round(done/9*100) + "%"; } const lab = host.querySelector('label[for="iq-' + t.dataset.iq + '"] .ok'); if(t.value.trim() && !lab) host.querySelector('label[for="iq-' + t.dataset.iq + '"]').insertAdjacentHTML("beforeend", '<span class="ok">✓ answered</span>'); else if(!t.value.trim() && lab) lab.remove(); }); });
       $("#run-assess").addEventListener("click", runAssessment);
       const sk = $("#skip-intake"); if(sk) sk.addEventListener("click", () => { S.intakeSeen = true; save(); renderApp(); showModule("dashboard"); });
       const ce = $("#cancel-edit"); if(ce) ce.addEventListener("click", () => { S.editIntake = false; save(); renderModule("assess"); });
       return;
     }
-    host.innerHTML = '<div class="pane-head"><div><h1>Free Founder Assessment</h1><p>Scored from your nine answers' + (S.assessedLive ? " by the AI" : "") + '. Strong areas have evidence behind them; moderate ones make a claim without proof.</p></div><span class="pill pill-grey">Free</span></div>' + assessmentResult();
+    host.innerHTML = '<div class="pane-head"><div><h1>Free Founder Assessment</h1><p>Scored from your nine answers' + (S.assessedLive ? " by the AI" : "") + '. Strong areas have evidence behind them; moderate ones make a claim without proof.</p></div></div>' + assessmentResult();
     $("#edit-intake").addEventListener("click", () => { S.editIntake = true; save(); renderModule("assess"); });
   }
 
   if(m === "business"){
-    if(locked(m)){ host.innerHTML = '<div class="pane-head"><div><h1>Business Assessment</h1><p>Every area in detail, the three endorsement tests, and a document you can download and share.</p></div></div>' + (S.assessment ? '' : '<div class="panel" style="margin-bottom:18px"><p class="muted">Run the free Founder Assessment first — Package 1 expands it.</p><button class="btn btn-black btn-sm" style="margin-top:12px" type="button" data-go="assess">Open the free assessment</button></div>') + lockCard("readiness"); return; }
-    if(!S.assessment){ host.innerHTML = '<div class="pane-head"><div><h1>Business Assessment</h1></div></div><div class="panel"><p class="muted">Run the free Founder Assessment first — this module expands it.</p><button class="btn btn-black btn-sm" style="margin-top:12px" type="button" data-go="assess">Open the free assessment</button></div>'; return; }
+    if(locked(m)){ host.innerHTML = '<div class="pane-head"><div><h1>Business Assessment</h1><p>Every area in detail, the three endorsement tests, and a document you can download and share.</p></div></div>' + (S.assessment ? '' : '<div class="panel" style="margin-bottom:18px"><p class="muted">Run the free Founder Assessment first; this plan expands it.</p><button class="btn btn-black btn-sm" style="margin-top:12px" type="button" data-go="assess">Open the free assessment</button></div>') + lockCard("readiness"); return; }
+    if(!S.assessment){ host.innerHTML = '<div class="pane-head"><div><h1>Business Assessment</h1></div></div><div class="panel"><p class="muted">Run the free Founder Assessment first; this module expands it.</p><button class="btn btn-black btn-sm" style="margin-top:12px" type="button" data-go="assess">Open the free assessment</button></div>'; return; }
     const A = S.assessment, open = opts && opts.area, openKeys = open ? [open] : A.areas.filter(a => a.verdict !== "strong").slice(0,3).map(a => a.key);
-    host.innerHTML = '<div class="pane-head"><div><h1>Business Assessment</h1><p>Nine areas, each expanded: what we assessed, the evidence in your answer, the gaps, and what would move it. Then the three endorsement tests, criterion by criterion.</p></div><div class="pane-actions"><button class="btn btn-line btn-sm" type="button" id="ba-share">Share</button><button class="btn btn-black btn-sm" type="button" id="ba-pdf">Download PDF</button><span class="pill pill-navy">Package 1</span></div></div>' +
+    host.innerHTML = '<div class="pane-head"><div><h1>Business Assessment</h1><p>Nine areas, each expanded: what we assessed, the evidence in your answer, the gaps, and what would move it. Then the three endorsement tests, criterion by criterion.</p></div><div class="pane-actions"><button class="btn btn-line btn-sm" type="button" id="ba-share">Share</button><button class="btn btn-black btn-sm" type="button" id="ba-pdf">Download PDF</button></div></div>' +
       '<div class="overall" style="margin-bottom:18px"><div><b>Preparatory readiness ' + readinessScore() + ' / 100</b><p>' + esc(A.overall) + '</p></div><span class="pill">' + esc(A.route) + '</span></div>' +
       A.areas.map((a,i) => '<details class="ba" id="ba-' + a.key + '"' + (openKeys.includes(a.key) ? " open" : "") + '><summary><span class="n">' + String(i+1).padStart(2,"0") + '</span><div><b>' + esc(AREA[a.key].label) + '</b><small>' + esc(a.summary) + '</small></div>' + pillFor(a.verdict) + '<span class="chev">›</span></summary>' +
         '<div class="body"><div><h5>What we assessed</h5><p>' + esc(a.assessed || AREA[a.key].q) + '</p></div><div><h5>Evidence in your answer</h5>' + (a.evidence.length ? '<ul>' + a.evidence.map(e => '<li>' + esc(e) + '</li>').join("") + '</ul>' : '<p class="muted">Nothing specific yet.</p>') + '</div>' +
-        '<div><h5>Gaps</h5>' + (a.gaps.length ? '<ul>' + a.gaps.map(e => '<li>' + esc(e) + '</li>').join("") + '</ul>' : '<p class="muted">None found.</p>') + '</div><div><h5>Verdict</h5><p>' + LIGHT_WORD[a.verdict] + ' — ' + esc(a.summary) + '</p></div>' +
+        '<div><h5>Gaps</h5>' + (a.gaps.length ? '<ul>' + a.gaps.map(e => '<li>' + esc(e) + '</li>').join("") + '</ul>' : '<p class="muted">None found.</p>') + '</div><div><h5>Verdict</h5><p>' + LIGHT_WORD[a.verdict] + '. ' + esc(a.summary) + '</p></div>' +
         (a.move ? '<div class="move"><b>What would move it:</b> ' + esc(a.move) + '</div>' : '') + '<div class="ans">Your answer: ' + esc(a.answer) + '</div></div></details>').join("") +
       '<div class="panel" style="margin-top:18px"><h3>Innovation / Viability / Scalability <small>the three tests an endorsing body applies</small></h3><div class="grid-3">' + ["innovation","viability","scalability"].map(k => '<div class="ivs-test"><h4><i class="light light-' + LIGHT[A.ivs[k].verdict] + '"></i>' + k[0].toUpperCase()+k.slice(1) + '</h4><div class="from">Rests on ' + IVS_MAP[k].map(ak => AREA[ak].label.toLowerCase()).join(", ") + '</div><ul>' + IVS_DETAIL[k].map(c => '<li><i class="light light-' + LIGHT[c.v] + '"></i><div><b>' + esc(c.label) + '</b><br><span>' + esc(c.note) + '</span></div></li>').join("") + '</ul></div>').join("") + '</div>' + notHO + '</div>';
     $("#ba-pdf").addEventListener("click", () => savePdf(pdfAssessment(), "Iskra-Business-Assessment-" + S.ref + ".pdf"));
-    $("#ba-share").addEventListener("click", () => shareDoc(pdfAssessment(), "Iskra-Business-Assessment-" + S.ref + ".pdf", "Iskra Business Assessment for " + (S.profile.name || "a founder") + " — " + A.route + ", preparatory readiness " + readinessScore() + "/100. " + A.overall));
+    $("#ba-share").addEventListener("click", () => shareDoc(pdfAssessment(), "Iskra-Business-Assessment-" + S.ref + ".pdf", "Iskra Business Assessment for " + (S.profile.name || "a founder") + ": " + A.route + ", preparatory readiness " + readinessScore() + "/100. " + A.overall));
     if(open){ const el = document.getElementById("ba-" + open); if(el) setTimeout(() => el.scrollIntoView({block:"center"}), 60); }
   }
 
   if(m === "plan"){
     if(locked(m)){ host.innerHTML = '<div class="pane-head"><div><h1>Business Plan</h1><p>Written by the AI from your assessment, linked to it section by section.</p></div></div>' + lockCard("preparation"); return; }
     if(working === "plan"){ host.innerHTML = '<div class="pane-head"><div><h1>Business Plan</h1></div></div>' + workingPanel("plan"); return; }
-    if(!S.assessment){ host.innerHTML = '<div class="pane-head"><div><h1>Business Plan</h1></div></div><div class="panel"><p class="muted">The plan is written from your assessment — run the free Founder Assessment first.</p><button class="btn btn-black btn-sm" style="margin-top:12px" type="button" data-go="assess">Open the free assessment</button></div>'; return; }
-    if(!S.bplan){ host.innerHTML = '<div class="pane-head"><div><h1>Business Plan</h1><p>Seventeen sections built around the endorsement criteria.</p></div><span class="pill pill-navy">Package 2</span></div><div class="gen"><div><h3>Generate your business plan from the assessment</h3><p>The AI writes each section from your nine answers and Iskra\'s assessment. Sections that rest on a moderate or weak area are flagged, and where your answers don\'t support a section it says so rather than inventing. You can edit everything afterwards.</p></div><button class="btn btn-gold" type="button" id="gen-plan">Generate business plan</button></div>'; $("#gen-plan").addEventListener("click", generatePlan); return; }
+    if(!S.assessment){ host.innerHTML = '<div class="pane-head"><div><h1>Business Plan</h1></div></div><div class="panel"><p class="muted">The plan is written from your assessment. Run the free Founder Assessment first.</p><button class="btn btn-black btn-sm" style="margin-top:12px" type="button" data-go="assess">Open the free assessment</button></div>'; return; }
+    if(!S.bplan){ host.innerHTML = '<div class="pane-head"><div><h1>Business Plan</h1><p>Seventeen sections built around the endorsement criteria.</p></div></div><div class="gen"><div><h3>Generate your business plan from the assessment</h3><p>The AI writes each section from your nine answers and Iskra\'s assessment. Sections that rest on a moderate or weak area are flagged, and where your answers don\'t support a section it says so rather than inventing. You can edit everything afterwards.</p></div><button class="btn btn-gold" type="button" id="gen-plan">Generate business plan</button></div>'; $("#gen-plan").addEventListener("click", generatePlan); return; }
     const secs = PLAN_SECTIONS.map(s => ({...s, st:planStatus(s), text:(S.bplanEdits[s.key] ?? S.bplan.sections[s.key] ?? "")}));
     const needs = secs.filter(s => s.st !== "strong");
-    host.innerHTML = '<div class="pane-head"><div><h1>Business Plan</h1><p>' + (S.bplan.live ? "Generated by the AI" : "Drafted") + ' from your assessment · v' + S.bplan.version + '. Each section names the area it rests on; edit anything, and the flags update with your assessment.</p></div><div class="pane-actions"><button class="btn btn-line btn-sm" type="button" id="bp-regen">Regenerate</button><button class="btn btn-line btn-sm" type="button" id="bp-share">Share</button><button class="btn btn-black btn-sm" type="button" id="bp-pdf">Download PDF</button><span class="pill pill-navy">Package 2</span></div></div>' +
-      '<div class="panel"><h3>AI review <small>' + secs.filter(s => s.st === "strong").length + ' strong · ' + needs.length + ' need evidence</small></h3><p class="muted">' + (needs.length ? "Weak evidence in " + needs.slice(0,4).map(s => s.label.toLowerCase()).join(", ") + (needs.length > 4 ? " and " + (needs.length-4) + " more" : "") + " — each rests on an assessment area that isn't strong yet. Fix the area and the section follows." : "Every section rests on a strong area.") + '</p></div>' +
+    host.innerHTML = '<div class="pane-head"><div><h1>Business Plan</h1><p>' + (S.bplan.live ? "Generated by the AI" : "Drafted") + ' from your assessment · v' + S.bplan.version + '. Each section names the area it rests on; edit anything, and the flags update with your assessment.</p></div><div class="pane-actions"><button class="btn btn-line btn-sm" type="button" id="bp-regen">Regenerate</button><button class="btn btn-line btn-sm" type="button" id="bp-share">Share</button><button class="btn btn-black btn-sm" type="button" id="bp-pdf">Download PDF</button></div></div>' +
+      '<div class="panel"><h3>AI review <small>' + secs.filter(s => s.st === "strong").length + ' strong · ' + needs.length + ' need evidence</small></h3><p class="muted">' + (needs.length ? "Weak evidence in " + needs.slice(0,4).map(s => s.label.toLowerCase()).join(", ") + (needs.length > 4 ? " and " + (needs.length-4) + " more" : "") + ". Each rests on an assessment area that isn't strong yet. Fix the area and the section follows." : "Every section rests on a strong area.") + '</p></div>' +
       '<div class="panel"><h3>Sections</h3><div class="bp-list">' + secs.map((s,i) => '<details class="bp"' + (s.st !== "strong" && i < 8 ? " open" : "") + '><summary><span class="n">' + String(i+1).padStart(2,"0") + '</span><b>' + esc(s.label) + '</b><span class="st pill ' + (s.st === "strong" ? "pill-ok" : s.st === "needs" ? "pill-warn" : "pill-bad") + '">' + (s.st === "strong" ? "Strong" : s.st === "needs" ? "Needs evidence" : "Empty") + '</span></summary>' +
         '<div class="body"><div class="based">Based on:' + s.basedOn.map(k => { const a = areaOf(k); return '<button type="button" data-area="' + k + '"><i class="light light-' + (a ? LIGHT[a.verdict] : "grey") + '"></i>' + esc(AREA[k].label) + (a ? ' · ' + LIGHT_WORD[a.verdict] : '') + '</button>'; }).join("") + '</div>' +
-        '<textarea data-bp="' + s.key + '" placeholder="Write this section…">' + esc(s.text) + '</textarea>' + (s.st === "needs" ? '<div class="review"><b>AI review:</b> ' + esc(s.basedOn.filter(k => areaOf(k) && areaOf(k).verdict !== "strong").map(k => AREA[k].label + " — " + (areaOf(k).gaps[0] || areaOf(k).summary)).join(" · ")) + '</div>' : '') + '</div></details>').join("") + '</div></div>';
+        '<textarea data-bp="' + s.key + '" placeholder="Write this section…">' + esc(s.text) + '</textarea>' + (s.st === "needs" ? '<div class="review"><b>AI review:</b> ' + esc(s.basedOn.filter(k => areaOf(k) && areaOf(k).verdict !== "strong").map(k => AREA[k].label + ": " + (areaOf(k).gaps[0] || areaOf(k).summary)).join(" · ")) + '</div>' : '') + '</div></details>').join("") + '</div></div>';
     $$("[data-bp]").forEach(t => t.addEventListener("change", () => { S.bplanEdits[t.dataset.bp] = t.value; save(); }));
     $$("[data-area]").forEach(b => b.addEventListener("click", () => showModule("business", {area:b.dataset.area})));
     $("#bp-regen").addEventListener("click", generatePlan);
     $("#bp-pdf").addEventListener("click", () => savePdf(pdfPlan(), "Iskra-Business-Plan-" + S.ref + "-v" + S.bplan.version + ".pdf"));
-    $("#bp-share").addEventListener("click", () => shareDoc(pdfPlan(), "Iskra-Business-Plan-" + S.ref + ".pdf", "Iskra Business Plan v" + S.bplan.version + " for " + (S.profile.name || "a founder") + " — " + secs.filter(s => s.st === "strong").length + " of 17 sections strong."));
+    $("#bp-share").addEventListener("click", () => shareDoc(pdfPlan(), "Iskra-Business-Plan-" + S.ref + ".pdf", "Iskra Business Plan v" + S.bplan.version + " for " + (S.profile.name || "a founder") + ": " + secs.filter(s => s.st === "strong").length + " of 17 sections strong."));
   }
 
   if(m === "gaps"){
     if(locked(m)){ host.innerHTML = '<div class="pane-head"><div><h1>Gap Analysis</h1><p>What is missing, and the plan to fix it.</p></div></div>' + lockCard("preparation"); return; }
     if(!S.assessment){ host.innerHTML = '<div class="pane-head"><div><h1>Gap Analysis</h1></div></div><div class="panel"><p class="muted">Run the free Founder Assessment first.</p><button class="btn btn-black btn-sm" style="margin-top:12px" type="button" data-go="assess">Open the free assessment</button></div>'; return; }
     const A = S.assessment, weak = weakAreas(), top = weak.slice(0,5), ev = EVIDENCE.filter(e => S.evidence[e.key] ?? e.have).length;
-    host.innerHTML = '<div class="pane-head"><div><h1>Gap Analysis</h1><p>What must improve before human review, in priority order — derived from your assessment.</p></div><span class="pill pill-navy">Package 2</span></div>' +
-      '<div class="grid-2"><div class="panel"><h3>Your Innovator Founder readiness</h3><div class="score"><b class="num">' + readinessScore() + '</b><span>/ 100 — preparation assessment</span></div>' + notHO +
+    host.innerHTML = '<div class="pane-head"><div><h1>Gap Analysis</h1><p>What must improve before human review, in priority order, derived from your assessment.</p></div></div>' +
+      '<div class="grid-2"><div class="panel"><h3>Your Innovator Founder readiness</h3><div class="score"><b class="num">' + readinessScore() + '</b><span>/ 100, preparation assessment</span></div>' + notHO +
         '<table class="areas-t" style="margin-top:16px">' + A.areas.map(a => '<tr><td>' + esc(AREA[a.key].label) + '</td><td>' + pillFor(a.verdict) + '</td></tr>').join("") + '</table>' +
         '<p class="muted" style="margin-top:14px">Evidence completeness: <b>' + Math.round(ev / EVIDENCE.length * 100) + '%</b></p></div>' +
-      '<div class="panel"><h3>Top gaps</h3>' + (top.length ? top.map((a,i) => '<div class="gap"><div class="n">' + (i+1) + '</div><div><b>' + esc(AREA[a.key].label) + '</b><p>' + esc(a.gaps[0] || a.summary) + '</p><div class="rec"><b>Recommended action</b>' + esc(a.move || "See the Business Assessment.") + '</div></div></div>').join("") : '<p class="muted">No gaps — a consultant should confirm.</p>') + '</div></div>' +
+      '<div class="panel"><h3>Top gaps</h3>' + (top.length ? top.map((a,i) => '<div class="gap"><div class="n">' + (i+1) + '</div><div><b>' + esc(AREA[a.key].label) + '</b><p>' + esc(a.gaps[0] || a.summary) + '</p><div class="rec"><b>Recommended action</b>' + esc(a.move || "See the Business Assessment.") + '</div></div></div>').join("") : '<p class="muted">No gaps; a consultant should confirm.</p>') + '</div></div>' +
       '<div class="panel"><h3>30 / 60 / 90-day remediation plan</h3><div class="plan-30"><div><b>Next 30 days</b><ul>' + ["Book the B2 English test","Draft the 36-month financial model with an accountant","Approach LOI #1 for a paid pilot"].map(x => '<li>' + x + '</li>').join("") + '</ul></div><div><b>Days 31–60</b><ul>' + ["Bottom-up market sizing with sources","Four-competitor comparison","Pilot live and invoiced"].map(x => '<li>' + x + '</li>').join("") + '</ul></div><div><b>Days 61–90</b><ul>' + ["Staged international expansion plan","Hiring plan with three UK roles","Evidence pack complete for human review"].map(x => '<li>' + x + '</li>').join("") + '</ul></div></div>' +
-        '<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-black" type="button" data-go="evidence">Start fixing gaps</button>' + (has("endorsement") ? '<button class="btn btn-line" type="button" data-go="review">Request human review</button>' : '<button class="btn btn-line" type="button" data-unlock="endorsement">Get human review · Package 3</button>') + '</div></div>';
+        '<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-black" type="button" data-go="evidence">Start fixing gaps</button>' + (has("endorsement") ? '<button class="btn btn-line" type="button" data-go="review">Request human review</button>' : '<button class="btn btn-line" type="button" data-unlock="endorsement">Get a human review</button>') + '</div></div>';
   }
 
   if(m === "evidence"){
@@ -837,8 +838,17 @@ function renderModule(m, opts){
     const have = EVIDENCE.filter(e => S.evidence[e.key] ?? e.have).length;
     host.innerHTML = '<div class="pane-head"><div><h1>Documents &amp; Evidence</h1><p>Every claim in the plan needs something behind it. Each item is mapped to the test it supports.</p></div><span class="pill pill-grey">' + have + ' of ' + EVIDENCE.length + ' on file</span></div>' +
       '<div class="panel">' + EVIDENCE.map(e => { const h = S.evidence[e.key] ?? e.have; return '<div class="ev"><div><b>' + esc(e.label) + '</b><small>' + esc(e.desc) + '</small></div><span class="crit">' + esc(e.crit) + '</span>' + (h ? '<span class="pill pill-ok">On file</span>' : '<button class="btn btn-line btn-sm" type="button" data-ev="' + e.key + '">Mark as uploaded</button>') + '</div>'; }).join("") + '</div>' +
-      '<p class="tiny" style="margin-top:14px">Prototype — nothing is uploaded; marking an item records it in your case only.</p>';
+      '<p class="tiny" style="margin-top:14px">Prototype: nothing is uploaded; marking an item records it in your case only.</p>';
     $$("[data-ev]").forEach(b => b.addEventListener("click", () => { S.evidence[b.dataset.ev] = true; save(); renderModule("evidence"); toast("Recorded"); }));
+  }
+
+  if(m === "myplan"){
+    const plans = [["free", FREE_PLAN], ["readiness", PACKAGES.readiness], ["preparation", PACKAGES.preparation], ["endorsement", PACKAGES.endorsement]];
+    host.innerHTML = '<div class="pane-head"><div><h1>My plan</h1><p>What your account includes today, and what each further plan adds. Payment unlocks preparation, never the endorsement decision.</p></div></div>' +
+      '<div class="panel"><h3>Current plan</h3><div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap"><span style="font-size:26px;font-weight:300;font-stretch:112%">' + esc(PLAN_LABEL[S.plan]) + '</span>' + (S.plan === "free" ? '' : '<span class="pill pill-ok">Active</span>') + '</div><p class="muted" style="margin-top:8px">' + (S.plan === "free" ? "Free account: advisor, free assessment, and the specialists who strengthen a case." : "Includes everything in the plans before it.") + '</p></div>' +
+      '<div class="mp-grid" style="margin-top:18px">' + plans.map(([k,p]) => '<div class="mp" data-current="' + (S.plan === k ? 1 : 0) + '"><div class="stage"><span>' + esc(p.stage) + '</span>' + (S.plan === k ? '<span class="pill pill-navy">Current</span>' : has(k) ? '<span class="pill pill-ok">Included</span>' : '') + '</div><h4>' + esc(p.name) + '</h4><div class="price">' + (p.price ? money0(p.price) : "£0") + (p.price ? '<small style="font-size:12px;color:var(--grey);margin-left:6px">+ VAT</small>' : '') + '</div><ul>' + p.unlocks.map(u => '<li>' + esc(u) + '</li>').join("") + '</ul>' + (has(k) ? '' : '<button class="btn btn-black btn-sm" type="button" data-unlock="' + k + '">Unlock</button>') + '</div>').join("") + '</div>' +
+      '<p class="tiny" style="margin-top:14px">Illustrative pricing, to be set by Iskra. The £1,000 + VAT endorsement fee is paid to the endorsing body directly.</p>';
+    return;
   }
 
   if(m === "review"){
@@ -847,33 +857,86 @@ function renderModule(m, opts){
     const tracker = '<div class="panel"><h3>Endorsement</h3><ol class="tracker">' +
       '<li data-s="done"><span class="mark">✓</span><div>Preparation<small>Assessment, plan, evidence and gap analysis</small></div><span class="who">Iskra + you</span></li>' +
       '<li data-s="' + (H.status === "approved" ? "done" : H.status === "pending" ? "pending" : "locked") + '"><span class="mark">' + (H.status === "approved" ? "✓" : H.status === "pending" ? "…" : "") + '</span><div>Human review<small>' + (H.status === "approved" ? "Approved for referral" : H.status === "pending" ? "Under review" : H.status === "returned" ? "Returned for remediation" : "Not yet requested") + '</small></div><span class="who">Iskra consultant</span></li>' +
-      '<li data-s="' + (X.status === "approved" ? "done" : (X.status === "submitted" || X.status === "pending") ? "pending" : "locked") + '"><span class="mark">' + (X.status === "approved" ? "✓" : (X.status === "submitted" || X.status === "pending") ? "…" : "") + '</span><div>Authorised body<small>' + (X.body ? esc(BODIES.find(b => b.key === X.body).name) + " — " : "") + (X.status === "none" ? "Pending your submission" : X.status === "submitted" ? "Submitted" : X.status === "pending" ? "Independent assessment in progress" : "Assessment complete") + '</small></div><span class="who">External</span></li>' +
-      '<li data-s="' + (X.status === "approved" ? "done" : "locked") + '"><span class="mark">' + (X.status === "approved" ? "✓" : "") + '</span><div>Endorsement decision<small>' + (X.status === "approved" ? "Approved" : "Pending — approve / further information / decline") + '</small></div><span class="who">External</span></li>' +
+      '<li data-s="' + (X.status === "approved" ? "done" : (X.status === "submitted" || X.status === "pending") ? "pending" : "locked") + '"><span class="mark">' + (X.status === "approved" ? "✓" : (X.status === "submitted" || X.status === "pending") ? "…" : "") + '</span><div>Authorised body<small>' + (X.body ? esc(BODIES.find(b => b.key === X.body).name) + ": " : "") + (X.status === "none" ? "Pending your submission" : X.status === "submitted" ? "Submitted" : X.status === "pending" ? "Independent assessment in progress" : "Assessment complete") + '</small></div><span class="who">External</span></li>' +
+      '<li data-s="' + (X.status === "approved" ? "done" : "locked") + '"><span class="mark">' + (X.status === "approved" ? "✓" : "") + '</span><div>Endorsement decision<small>' + (X.status === "approved" ? "Approved" : "Pending: approve, further information or decline") + '</small></div><span class="who">External</span></li>' +
       '<li data-s="' + (X.status === "approved" ? "done" : "locked") + '"><span class="mark">' + (X.status === "approved" ? "✓" : "🔒") + '</span><div>Endorsement letter<small>' + (X.status === "approved" ? "Issued by the endorsing body" : "Available after authorised-body approval") + '</small></div><span class="who">External</span></li></ol></div>';
     let main = "";
-    if(H.status === "none") main = '<div class="panel"><h3>Ready for professional review</h3><p class="muted">A qualified Iskra team member reviews your founder profile, business plan, assessment, evidence and gap closure — and either approves the case for referral or returns it for remediation.</p>' + (!S.bplan ? '<p class="tiny" style="margin-top:8px">Your business plan hasn\'t been generated yet — reviewers will ask for it.</p>' : '') + '<button class="btn btn-black" style="margin-top:16px" type="button" id="req-review">Request human review</button></div>';
-    else if(H.status === "pending") main = '<div class="panel"><h3>Under review</h3><p class="muted">An Iskra consultant is reviewing your case. You\'ll be notified of the outcome.</p><span class="sim"><i></i>Simulated for the prototype — the outcome arrives in a moment</span></div>';
-    else if(X.status === "none") main = '<div class="panel"><h3>Ready for endorsement review</h3><p class="muted"><b>Your Innovator Founder preparation is complete.</b> ' + esc(H.note || "") + '</p><p class="muted" style="margin-top:10px">Choose an authorised endorsing body. They assess the referral pack independently and decide — approve, further information, or decline. The £1,000 + VAT fee is paid to them directly.</p>' +
+    if(H.status === "none") main = '<div class="panel"><h3>Ready for professional review</h3><p class="muted">A qualified Iskra team member reviews your founder profile, business plan, assessment, evidence and gap closure, and either approves the case for referral or returns it for remediation.</p>' + (!S.bplan ? '<p class="tiny" style="margin-top:8px">Your business plan hasn\'t been generated yet; reviewers will ask for it.</p>' : '') + '<button class="btn btn-black" style="margin-top:16px" type="button" id="req-review">Request human review</button></div>';
+    else if(H.status === "pending") main = '<div class="panel"><h3>Under review</h3><p class="muted">An Iskra consultant is reviewing your case. You\'ll be notified of the outcome.</p><span class="sim"><i></i>Simulated for the prototype; the outcome arrives in a moment</span></div>';
+    else if(X.status === "none") main = '<div class="panel"><h3>Ready for endorsement review</h3><p class="muted"><b>Your Innovator Founder preparation is complete.</b> ' + esc(H.note || "") + '</p><p class="muted" style="margin-top:10px">Choose an authorised endorsing body. They assess the referral pack independently and decide: approve, further information, or decline. The £1,000 + VAT fee is paid to them directly.</p>' +
         '<div class="body-pick">' + BODIES.map((b,i) => '<label><input type="radio" name="body" value="' + b.key + '"' + (i === 0 ? " checked" : "") + '><div>' + esc(b.name) + '<small>' + esc(b.note) + '</small></div></label>').join("") + '</div>' +
         '<button class="btn btn-black" style="margin-top:16px" type="button" id="submit-body">Submit to the endorsing body</button><p class="tiny" style="margin-top:10px">Requires your explicit consent to share the referral pack: founder profile, business plan, evidence map, assessment, gap analysis and version history.</p></div>';
     else if(X.status === "submitted" || X.status === "pending") main = '<div class="panel"><h3>With the endorsing body</h3><p class="muted">' + esc(BODIES.find(b => b.key === X.body).name) + ' is assessing your case independently. Iskra can respond to requests for further information but does not influence the decision.</p><span class="sim"><i></i>Simulated for the prototype</span><div style="margin-top:14px"><button class="btn btn-line btn-sm" type="button" id="sim-decide">Simulate the endorsing body\'s decision</button></div></div>';
-    else main = '<div class="panel"><h3>Endorsed</h3><p class="muted"><b>' + esc(BODIES.find(b => b.key === X.body).name) + ' has approved your endorsement.</b> Your official endorsement letter is issued by them and notified to the Home Office by them.</p><p class="muted" style="margin-top:10px">What happens next is regulated work and real-world set-up — the people, not the platform:</p><div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-black btn-sm" type="button" data-request="regulated">Talk to an IAA-registered adviser about the visa application</button><button class="btn btn-line btn-sm" type="button" data-request="formation">Start UK company formation</button></div></div>';
-    host.innerHTML = '<div class="pane-head"><div><h1>Human Review</h1><p>Confidence before you approach an authorised endorsing body — then the handoff itself.</p></div><span class="pill pill-navy">Package 3</span></div><div class="grid-2"><div>' + main + '</div><div>' + tracker + '</div></div>';
+    else main = '<div class="panel"><h3>Endorsed</h3><p class="muted"><b>' + esc(BODIES.find(b => b.key === X.body).name) + ' has approved your endorsement.</b> Your official endorsement letter is issued by them and notified to the Home Office by them.</p><p class="muted" style="margin-top:10px">What happens next is regulated work and real-world set-up, done by people rather than the platform:</p><div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-black btn-sm" type="button" data-request="regulated">Talk to an IAA-registered adviser about the visa application</button><button class="btn btn-line btn-sm" type="button" data-request="formation">Start UK company formation</button></div></div>';
+    host.innerHTML = '<div class="pane-head"><div><h1>Human Review</h1><p>Confidence before you approach an authorised endorsing body, then the handoff itself.</p></div></div><div class="grid-2"><div>' + main + '</div><div>' + tracker + '</div></div>';
     const rq = $("#req-review"); if(rq) rq.addEventListener("click", () => { S.human = {status:"pending"}; save(); renderApp(); toast("Review requested");
       setTimeout(() => { S.human = {status:"approved", note:"Reviewer: strong founder-market fit and a working product; demand evidence and the financial model are the items to keep pushing. Approved for referral."}; save(); renderApp(); toast("Human review: approved for referral"); }, 2600); });
-    const sb = $("#submit-body"); if(sb) sb.addEventListener("click", () => { const body = (document.querySelector('input[name="body"]:checked') || {}).value || "ukes"; S.external = {status:"submitted", body}; save(); renderApp(); toast("Submitted — the endorsing body assesses independently");
-      setTimeout(() => { S.external.status = "pending"; save(); renderApp(); }, 1800); });
+    const sb = $("#submit-body"); if(sb) sb.addEventListener("click", () => { const body = (document.querySelector('input[name="body"]:checked') || {}).value || "ukes"; S.external = {status:"submitted", body}; save(); renderApp(); toast("Submitted. The endorsing body assesses independently");
+      setTimeout(() => { if(S.external.status === "submitted"){ S.external.status = "pending"; save(); renderApp(); } }, 1800); });
     const sd = $("#sim-decide"); if(sd) sd.addEventListener("click", () => { S.external.status = "approved"; save(); renderApp(); toast("Endorsement approved by the endorsing body"); });
   }
 }
 
 /* ============================================================
-   LOGIN (prototype — nothing leaves the page; passwords are never stored)
+   ROUTE PAGES: one per route, addressed as #route/<key>
+   ============================================================ */
+const ROUTES = {
+  "innovator-founder": {name:"Innovator Founder", tag:"Most common", lede:"For founders setting up a new, innovative business in the UK. There is no minimum investment: an authorised endorsing body tests the business, not the bank balance.",
+    who:["You want to establish a new business in the UK, or one that is not yet trading here","The idea is genuinely new to the UK market, viable from your resources, and built to scale","You originated the plan, will run it day to day, and are the founder or an instrumental member of the team"],
+    need:["An endorsement letter from an authorised endorsing body, assessed as innovative, viable and scalable","English at B2 in all four components","£1,270 in maintenance funds held for 28 days, unless you have been in the UK for 12 months","Agreement to contact-point meetings with the endorsing body at 12 and 24 months","A tuberculosis certificate where your country requires one"],
+    facts:[["Endorsement fee","£1,000 + VAT, paid to the endorsing body"],["Visa length","3 years, extendable"],["Settlement","After 3 years, if the business meets its success criteria"],["Dependants","Partner and children can apply with you"],["Work","Your own business, plus other work at graduate level"],["Decides","The endorsing body endorses; the Home Office grants the visa"]],
+    iskra:["Free assessment on the nine areas an endorsing body probes","Business Assessment and an AI-written plan built for the three tests","Gap analysis, evidence map and a human review before you approach a body","Referral pack for the endorsing body you choose","After endorsement: company formation, accounting, and an IAA-registered adviser for the application"],
+    links:[["Innovator Founder visa: eligibility","https://www.gov.uk/innovator-founder-visa/eligibility"],["Documents you'll need to apply","https://www.gov.uk/innovator-founder-visa/documents-youll-need-to-apply"],["Immigration Rules: Appendix Innovator Founder","https://www.gov.uk/guidance/immigration-rules/immigration-rules-appendix-innovator-founder"],["Guidance for endorsing bodies","https://www.gov.uk/government/publications/scale-up-and-innovator-founder-visa-endorsing-bodies-guidance/innovator-founder-and-scale-up-visas-guidance-for-endorsing-bodies-accessible"],["Authorised endorsing bodies","https://www.gov.uk/government/publications/endorsing-bodies-innovator-founder-and-scale-up-visas/innovator-founder-and-scale-up-visas-endorsing-bodies"],["Caseworker guidance","https://www.gov.uk/government/publications/innovator-appendix-w-workers/innovator-founder-caseworker-guidance-accessible"]],
+    prefill:"Am I a fit for the Innovator Founder visa?"},
+  "global-talent": {name:"Global Talent", tag:"Selective", lede:"For leaders, or potential leaders, in digital technology, academia and research, or arts and culture. Endorsement rests on recognition you already have, not on a business plan.",
+    who:["Your field is digital technology, academia or research, or arts and culture","Others can already vouch for your work: awards, published work, senior roles, notable products or funding","You want to work in the UK without a sponsor or a job offer"],
+    need:["An endorsement from the body for your field, or an eligible prize","Evidence of exceptional talent or exceptional promise, with referees who are recognised in the field","No English requirement at application, and no maintenance funds"],
+    facts:[["Application","Endorsement first, then the visa"],["Visa length","Up to 5 years per grant"],["Settlement","After 3 or 5 years, depending on your endorsement"],["Dependants","Partner and children can apply with you"],["Work","Any work in your field, employed or self-employed"],["Decides","The endorsing body endorses; the Home Office grants the visa"]],
+    iskra:["Profile the evidence of recognition you have today","An honest view of whether it reaches the bar, or whether Innovator Founder fits better","Business setup, accounting and specialists once you are here","An IAA-registered adviser for the application itself"],
+    links:[["Global Talent visa","https://www.gov.uk/global-talent"],["Eligibility","https://www.gov.uk/global-talent/eligibility"],["Digital technology endorsement","https://www.gov.uk/global-talent-digital-technology"],["Apply for an endorsement","https://www.gov.uk/global-talent/apply"]],
+    prefill:"Could I qualify for Global Talent?"},
+  "expansion-worker": {name:"UK Expansion Worker", tag:"Expansion", lede:"For senior staff or founders of an established overseas business that is opening its first UK branch. The business sends you; a sponsor licence for the UK branch is the mechanism.",
+    who:["You run or work for a business that is trading abroad and has no UK presence yet","The business wants a UK branch or subsidiary, and you will set it up","You have worked for the business for at least 12 months, unless you are a high earner"],
+    need:["The overseas business must be active and trading, typically for at least 3 years","A UK footprint and a provisional sponsor licence for the UK branch","A job at the required skill level, meeting the salary requirement","No English requirement, but maintenance funds apply"],
+    facts:[["Visa length","12 months, extendable to 2 years in total"],["Settlement","None on this route; switch to another route to settle"],["Dependants","Partner and children can apply with you"],["Sponsor","The UK branch, once licensed"],["Decides","The Home Office"]],
+    iskra:["Sponsor licence preparation for the UK branch","UK entity, registered office and registrations","Planning the switch to a route that leads to settlement","Accounting, payroll and compliance from day one"],
+    links:[["UK Expansion Worker visa","https://www.gov.uk/uk-expansion-worker-visa"],["Eligibility","https://www.gov.uk/uk-expansion-worker-visa/eligibility"],["Apply for a sponsor licence","https://www.gov.uk/apply-sponsor-licence"]],
+    prefill:"I already run a company abroad and want to expand to the UK."},
+  "self-sponsorship": {name:"Self-sponsorship", tag:"Fallback", lede:"A structure, not a visa: you set up a UK company, the company obtains a sponsor licence, and it sponsors you on a Skilled Worker visa. Lawful, but scrutinised, and hardest to make stick before revenue.",
+    who:["You want to run a UK business but do not fit an endorsed route","The company can show a genuine, skilled role for you that it needs filled","You can fund the company, the licence and the salary threshold from the start"],
+    need:["A UK company with a real trading presence and suitable key personnel for the licence","A sponsor licence, granted after Home Office scrutiny of the business","A genuine vacancy at the required skill level, paid at or above the salary threshold","English at B1, and maintenance funds unless the sponsor certifies them"],
+    facts:[["Visa length","Up to 5 years"],["Settlement","After 5 years"],["Dependants","Partner and children can apply with you"],["Scrutiny","High for single-founder, pre-revenue companies"],["Decides","The Home Office, on both the licence and the visa"]],
+    iskra:["A frank assessment of whether this is really the best route for you","Company formation, registered office and the licence application file","Payroll set up for the sponsored salary, with accounting and compliance behind it","An IAA-registered adviser for the licence and visa applications"],
+    links:[["Skilled Worker visa","https://www.gov.uk/skilled-worker-visa"],["Apply for a sponsor licence","https://www.gov.uk/apply-sponsor-licence"],["Sponsor licence: eligibility","https://www.gov.uk/apply-sponsor-licence/eligibility"]],
+    prefill:"How does self-sponsorship through my own UK company work?"}
+};
+function routeFromHash(){ const m = /^#route\/([a-z-]+)/.exec(location.hash || ""); return m && ROUTES[m[1]] ? m[1] : null; }
+function showRoute(key){
+  const view = $("#routeview"), main = $("#site > main");
+  if(!key){ view.hidden = true; main.hidden = false; return; }
+  const r = ROUTES[key];
+  view.innerHTML = '<div class="dark rp-hero"><div class="blob blob-gold" style="right:-220px;top:-120px"></div><div class="wrap"><a class="rp-back" href="#routes">← All routes</a><div class="eyebrow" style="opacity:.75">Route · ' + esc(r.tag) + '</div><h1 class="display" style="margin-top:14px">' + esc(r.name) + '</h1><p class="lede">' + esc(r.lede) + '</p><div class="hero-actions"><button class="btn btn-white" type="button" data-open-chat data-prefill="' + esc(r.prefill) + '">Check my fit</button><a class="btn btn-outline-light" href="#pricing">See plans</a></div></div></div>' +
+    '<div class="wrap rp-body"><div class="rp-grid"><div><h2>Who it\'s for</h2><ul class="rp-list">' + r.who.map(x => '<li>' + esc(x) + '</li>').join("") + '</ul><h2>What you need</h2><ul class="rp-list">' + r.need.map(x => '<li>' + esc(x) + '</li>').join("") + '</ul></div>' +
+    '<aside><div class="rp-facts">' + r.facts.map(([k,v]) => '<div class="rp-fact"><small>' + esc(k) + '</small><span>' + esc(v) + '</span></div>').join("") + '</div><p class="rp-note" style="margin-top:14px">Figures and rules are indicative and change with GOV.UK guidance. Confirm the current position before relying on them. Iskra prepares cases; endorsing bodies and the Home Office decide.</p></aside></div>' +
+    '<h2>How Iskra helps on this route</h2><div class="rp-steps">' + r.iskra.map((x,i) => '<div class="rp-step"><b>' + String(i+1).padStart(2,"0") + '</b>' + esc(x) + '</div>').join("") + '</div>' +
+    '<h2>Official sources</h2><ul class="rp-links">' + r.links.map(([t,u]) => '<li><a href="' + esc(u) + '" target="_blank" rel="noopener"><span>' + esc(t) + '</span><span>GOV.UK ↗</span></a></li>').join("") + '</ul>' +
+    '<div style="margin-top:36px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-black" type="button" data-open-chat data-prefill="' + esc(r.prefill) + '">Check my fit with the advisor</button><a class="btn btn-line" href="#routes">Compare routes</a></div></div>';
+  main.hidden = true; view.hidden = false; window.scrollTo({top:0});
+}
+function onHash(){
+  const key = routeFromHash();
+  if(key){ if(!$("#app").hidden) setView("site"); showRoute(key); return; }
+  const wasRoute = !$("#routeview").hidden; showRoute(null);
+  if(wasRoute && location.hash && location.hash.length > 1){ let el = null; try{ el = document.querySelector(location.hash); }catch(e){} if(el) setTimeout(() => el.scrollIntoView({block:"start"}), 0); }
+}
+
+/* ============================================================
+   LOGIN (prototype: nothing leaves the page; passwords are never stored)
    ============================================================ */
 let authMode = "login";
 const AUTH = {
   login: {title:"Welcome back", sub:"Log in to pick up your case where you left it.", submit:"Log in", name:false, pw:true, google:true, row:true, legal:false, sw:'New to Iskra? <button type="button" class="auth-link" data-auth="signup">Create a free account</button>'},
-  signup:{title:"Create your free account", sub:"Your Founder Assessment, profile and journey — saved and reused at every stage.", submit:"Create account", name:true, pw:true, google:true, row:false, legal:true, sw:'Already have an account? <button type="button" class="auth-link" data-auth="login">Log in</button>'},
+  signup:{title:"Create your free account", sub:"Your Founder Assessment, profile and journey, saved and reused at every stage.", submit:"Create account", name:true, pw:true, google:true, row:false, legal:true, sw:'Already have an account? <button type="button" class="auth-link" data-auth="login">Log in</button>'},
   google:{title:"Continue with Google", sub:"Enter the email on your Google account.", submit:"Continue", name:false, pw:false, google:false, row:false, legal:false, sw:'<button type="button" class="auth-link" data-auth="login">Back to log in</button>'},
   forgot:{title:"Reset your password", sub:"We'll email you a link to set a new one.", submit:"Send reset link", name:false, pw:false, google:false, row:false, legal:false, sw:'<button type="button" class="auth-link" data-auth="login">Back to log in</button>'}
 };
@@ -924,7 +987,7 @@ function wireAuth(){
     const g = e.target.closest("[data-go]"); if(g){ setView("app"); showModule(g.dataset.go); return; }
     const ms = e.target.closest("[data-ms]"); if(ms){ if(ms.dataset.msUnlock) openCheckout(ms.dataset.msUnlock); else showModule(ms.dataset.ms); return; }
     const ml = e.target.closest("[data-module-link]"); if(ml){ e.preventDefault(); showModule(ml.dataset.moduleLink); return; }
-    const m = e.target.closest("[data-menu]"); if(m){ $("#acct-menu").hidden = true; if(m.dataset.menu === "logout") signOut(); else setView("site"); return; }
+    const m = e.target.closest("[data-menu]"); if(m){ $("#acct-menu").hidden = true; if(m.dataset.menu === "logout") signOut(); else if(m.dataset.menu === "plan"){ setView("app"); showModule("myplan"); } else setView("site"); return; }
     if(!e.target.closest("#account")){ $("#acct-menu").hidden = true; $("#acct-btn").setAttribute("aria-expanded","false"); }
   });
   $("#acct-btn").addEventListener("click", e => { e.stopPropagation(); const mm = $("#acct-menu"); mm.hidden = !mm.hidden; $("#acct-btn").setAttribute("aria-expanded", String(!mm.hidden)); });
@@ -967,7 +1030,7 @@ function resetConversation(){
 }
 function resetEverything(){
   clearStored(true); user = null; S = blank(); scriptStep = 0; working = null; save(); clearComposer();
-  renderAccount(); setView("site"); renderThread(); renderChips(); closeChat(); closeAuth(); closeCheckout(); closeRequest(); $("#nudge").hidden = true; toast("Demo reset — clean slate");
+  renderAccount(); setView("site"); renderThread(); renderChips(); closeChat(); closeAuth(); closeCheckout(); closeRequest(); $("#nudge").hidden = true; toast("Demo reset. Clean slate");
 }
 function armConfirm(btn, label, go){
   if(!btn) return; const idle = btn.innerHTML; let armed = false, t = null;
@@ -997,12 +1060,26 @@ function boot(){
     else if(!$("#acct-menu").hidden) $("#acct-menu").hidden = true; else if(!$("#widget").hidden) closeChat();
   });
   let dismissed = false; try{ dismissed = sessionStorage.getItem("iskra-nudge") === "1"; }catch(e){}
-  if(!dismissed && !S.turns.length && !user) setTimeout(() => { if($("#widget").hidden && $("#app").hidden) $("#nudge").hidden = false; }, 6000);
+  if(!dismissed && !S.turns.length && !user) setTimeout(() => { if($("#widget").hidden && $("#app").hidden){ $("#nudge").hidden = false; setTimeout(() => { $("#nudge").hidden = true; }, 15000); } }, 6000);
   $("#nudge-x").addEventListener("click", () => { $("#nudge").hidden = true; try{ sessionStorage.setItem("iskra-nudge","1"); }catch(e){} });
   $("#nudge").addEventListener("click", e => { if(e.target.id !== "nudge-x") openChat(""); });
-  const r = $("#routes"), stepW = () => (r.querySelector(".route")?.offsetWidth || 360) + 18;
-  $("#prev").addEventListener("click", () => r.scrollBy({left:-stepW(), behavior:"smooth"}));
-  $("#next").addEventListener("click", () => r.scrollBy({left:stepW(), behavior:"smooth"}));
+  /* Route carousel. Smooth programmatic scrolling is unreliable on a scroll-snap container,
+     so the arrows animate scrollLeft themselves with snapping paused for the duration. */
+  const r = $("#routes-track"), stepW = () => (r.querySelector(".route")?.offsetWidth || 360) + 18;
+  const arrows = () => { const max = r.scrollWidth - r.clientWidth - 2; $("#prev").disabled = r.scrollLeft <= 2; $("#next").disabled = r.scrollLeft >= max; };
+  const slide = dir => {
+    const step = stepW(), max = r.scrollWidth - r.clientWidth, from = r.scrollLeft;
+    const target = Math.max(0, Math.min(max, (Math.round(from / step) + dir) * step));
+    if(Math.abs(target - from) < 1) return;
+    r.style.scrollSnapType = "none";
+    const t0 = performance.now(), D = 380, ease = x => 1 - Math.pow(1 - x, 3);
+    const frame = now => { const p = Math.min(1, (now - t0) / D); r.scrollLeft = from + (target - from) * ease(p); if(p < 1) requestAnimationFrame(frame); else { r.scrollLeft = target; r.style.scrollSnapType = ""; arrows(); } };
+    requestAnimationFrame(frame);
+  };
+  $("#prev").addEventListener("click", () => slide(-1));
+  $("#next").addEventListener("click", () => slide(1));
+  r.addEventListener("scroll", arrows, {passive:true}); window.addEventListener("resize", arrows); setTimeout(arrows, 50);
+  window.addEventListener("hashchange", onHash); onHash();
   if(user) enterApp();
   capabilities();
 }
