@@ -185,9 +185,8 @@ with the scripted versions as fallback; the result panel says which.
 
 ## 13. Known gaps / open items
 
-- [ ] `docs/flow.html` still draws **v3.1** (AI Advisor module, My Journey,
-      Post-Endorsement, Grow), it carries a banner saying so. Redraw for v4
-      when the flow settles.
+- [x] `docs/flow.html` redrawn for v4.1 (13 Sep 2026) with a step-by-step
+      input/output spec; keep it in step with flow changes.
 - [ ] Proposal spreadsheet pre-dates v3/v4 scope, re-cut before it goes out.
 - [ ] Prices (£249 / £749 / £1,490) illustrative; VAT shown at 20%.
 - [ ] Live-mode assessment/plan prompts are untested against a real model in
