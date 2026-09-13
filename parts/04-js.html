@@ -342,9 +342,11 @@ function renderThread(){
   if(!user && S.gated) t.appendChild(gateBubble());
   renderTier(); scrollThread();
 }
+/* The composer grows with its content (76 to 190 px) so a prefilled or typed answer is fully visible. */
+function autosize(){ const b = $("#input"); if(!b || $("#widget").hidden) return; b.style.height = "auto"; b.style.height = Math.max(76, Math.min(b.scrollHeight + 2, 190)) + "px"; }
 function setPrefill(text){
   const box = $("#input"), hint = $("#w-prefill");
-  if(text){ box.value = text; box.style.height = "auto"; box.style.height = Math.min(box.scrollHeight, 140) + "px"; hint.hidden = false; $("#chips").innerHTML = ""; }
+  if(text){ box.value = text; autosize(); hint.hidden = false; $("#chips").innerHTML = ""; }
   else { hint.hidden = true; }
 }
 function renderTier(){
@@ -422,7 +424,8 @@ async function send(){
 function openChat(prefill){
   $("#widget").hidden = false; $("#launcher").hidden = true; $("#nudge").hidden = true;
   if(prefill){ setPrefill(""); $("#input").value = prefill; }
-  setTimeout(() => { $("#input").focus(); scrollThread(); }, 60);
+  autosize();
+  setTimeout(() => { $("#input").focus(); autosize(); scrollThread(); }, 60);
 }
 function closeChat(){ $("#widget").hidden = true; $("#launcher").hidden = false; }
 
@@ -1023,7 +1026,7 @@ function demoResetCheck(){
   if(!/(^|[?&#])(demo|reset)\b/i.test(q)) return;
   clearStored(true); user = null; try{ history.replaceState(null, "", location.pathname); }catch(e){}
 }
-function clearComposer(){ const b = $("#input"); if(b){ b.value = ""; b.style.height = "auto"; } setPrefill(""); }
+function clearComposer(){ const b = $("#input"); if(b){ b.value = ""; b.style.height = "auto"; } setPrefill(""); autosize(); }
 function resetConversation(){
   const keep = {plan:S.plan, module:S.module, intake:S.intake, intakeSeen:S.intakeSeen, intakeTouched:S.intakeTouched}; S = Object.assign(blank(), keep); scriptStep = 0; clearStored(false); save(); clearComposer();
   renderThread(); renderChips(); if(user) renderApp(); setTimeout(() => $("#input").focus(), 40);
@@ -1065,6 +1068,7 @@ function boot(){
   $("#nudge").addEventListener("click", e => { if(e.target.id !== "nudge-x") openChat(""); });
   /* Route carousel. Smooth programmatic scrolling is unreliable on a scroll-snap container,
      so the arrows animate scrollLeft themselves with snapping paused for the duration. */
+  $("#input").addEventListener("input", autosize);
   const r = $("#routes-track"), stepW = () => (r.querySelector(".route")?.offsetWidth || 360) + 18;
   const arrows = () => { const max = r.scrollWidth - r.clientWidth - 2; $("#prev").disabled = r.scrollLeft <= 2; $("#next").disabled = r.scrollLeft >= max; };
   const slide = dir => {

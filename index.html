@@ -656,7 +656,9 @@ table.areas-t td:last-child{text-align:right;font-weight:600}
 .w-prefill{display:flex;align-items:center;gap:8px;padding:8px 18px 0;font-size:11.5px;color:#7A5410}
 .w-prefill i{width:6px;height:6px;border-radius:50%;background:var(--warn);flex:none}
 .w-compose{border-top:1px solid var(--line);padding:12px 12px 10px 16px;display:flex;gap:10px;align-items:flex-end}
-.w-compose textarea{flex:1;resize:none;border:none;outline:none;font-size:14.5px;line-height:1.45;padding:8px 0;max-height:140px;background:transparent}
+.w-compose textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:10px;outline:none;font-size:14.5px;line-height:1.45;padding:10px 12px;min-height:76px;max-height:190px;background:var(--light);overflow-y:auto}
+.w-compose textarea:focus{border-color:var(--black);background:var(--white)}
+.w-compose textarea:disabled{background:var(--light);color:var(--grey-2)}
 .w-compose textarea::placeholder{color:var(--grey-2)}
 .w-send{width:38px;height:38px;border-radius:50%;background:var(--black);color:var(--white);border:none;display:grid;place-items:center;flex:none}
 .w-send:disabled{background:var(--line);color:var(--grey-2);cursor:default}
@@ -1523,9 +1525,11 @@ function renderThread(){
   if(!user && S.gated) t.appendChild(gateBubble());
   renderTier(); scrollThread();
 }
+/* The composer grows with its content (76 to 190 px) so a prefilled or typed answer is fully visible. */
+function autosize(){ const b = $("#input"); if(!b || $("#widget").hidden) return; b.style.height = "auto"; b.style.height = Math.max(76, Math.min(b.scrollHeight + 2, 190)) + "px"; }
 function setPrefill(text){
   const box = $("#input"), hint = $("#w-prefill");
-  if(text){ box.value = text; box.style.height = "auto"; box.style.height = Math.min(box.scrollHeight, 140) + "px"; hint.hidden = false; $("#chips").innerHTML = ""; }
+  if(text){ box.value = text; autosize(); hint.hidden = false; $("#chips").innerHTML = ""; }
   else { hint.hidden = true; }
 }
 function renderTier(){
@@ -1603,7 +1607,8 @@ async function send(){
 function openChat(prefill){
   $("#widget").hidden = false; $("#launcher").hidden = true; $("#nudge").hidden = true;
   if(prefill){ setPrefill(""); $("#input").value = prefill; }
-  setTimeout(() => { $("#input").focus(); scrollThread(); }, 60);
+  autosize();
+  setTimeout(() => { $("#input").focus(); autosize(); scrollThread(); }, 60);
 }
 function closeChat(){ $("#widget").hidden = true; $("#launcher").hidden = false; }
 
@@ -2204,7 +2209,7 @@ function demoResetCheck(){
   if(!/(^|[?&#])(demo|reset)\b/i.test(q)) return;
   clearStored(true); user = null; try{ history.replaceState(null, "", location.pathname); }catch(e){}
 }
-function clearComposer(){ const b = $("#input"); if(b){ b.value = ""; b.style.height = "auto"; } setPrefill(""); }
+function clearComposer(){ const b = $("#input"); if(b){ b.value = ""; b.style.height = "auto"; } setPrefill(""); autosize(); }
 function resetConversation(){
   const keep = {plan:S.plan, module:S.module, intake:S.intake, intakeSeen:S.intakeSeen, intakeTouched:S.intakeTouched}; S = Object.assign(blank(), keep); scriptStep = 0; clearStored(false); save(); clearComposer();
   renderThread(); renderChips(); if(user) renderApp(); setTimeout(() => $("#input").focus(), 40);
@@ -2246,6 +2251,7 @@ function boot(){
   $("#nudge").addEventListener("click", e => { if(e.target.id !== "nudge-x") openChat(""); });
   /* Route carousel. Smooth programmatic scrolling is unreliable on a scroll-snap container,
      so the arrows animate scrollLeft themselves with snapping paused for the duration. */
+  $("#input").addEventListener("input", autosize);
   const r = $("#routes-track"), stepW = () => (r.querySelector(".route")?.offsetWidth || 360) + 18;
   const arrows = () => { const max = r.scrollWidth - r.clientWidth - 2; $("#prev").disabled = r.scrollLeft <= 2; $("#next").disabled = r.scrollLeft >= max; };
   const slide = dir => {

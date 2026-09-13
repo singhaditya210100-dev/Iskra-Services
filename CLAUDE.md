@@ -36,12 +36,12 @@ Payment unlocks **preparation**, never the endorsement.
 | Repo | https://github.com/singhaditya210100-dev/Iskra-Services |
 | Local clone | `~/iskra-services-site` |
 | **Artifact build (live AI)** | https://claude.ai/code/artifact/7f93ec36-a07f-48e1-a8a3-366295cbf6e6 |
-| Flow chart (**reflects v3.1**, see §13) | `docs/flow.html` · artifact 5a08d09c-0360-4a45-9361-02c0b3ccc844 |
+| Flow chart + step spec (v4.1) | `docs/flow.html` · artifact 5a08d09c-0360-4a45-9361-02c0b3ccc844 (inputs/outputs per step, case variables) |
 | v1 brief | `~/Downloads/Client req.docx` |
 | v3 brief | `~/Downloads/Udpated flow - pre login, Post login, Paid services, preparation_incubation narrative .docx` |
 | v4 change request | the user's message of 13 Sep 2026 (12 pre-/post-login items), all implemented |
 | v4.1 change request | the user's follow-up of 13 Sep 2026 (9 items), all implemented; see §15 |
-| Costed proposal | `~/Desktop/Iskra Services - Website & AI Advisor Proposal.xlsx` (pre-dates v3/v4 scope) |
+| Costed proposal | `~/Desktop/Iskra Services - Website & AI Advisor Platform - Proposal v2.xlsx` (13 Sep 2026, v4.1 scope; v1 kept alongside) |
 
 ## 3. ⚠️ The regulatory boundary
 
@@ -222,3 +222,5 @@ reset inside the iframe before asserting first-run behaviour.
 Also fixed: the endorsing-body simulation could be overwritten by the 1.8 s "pending" timer if clicked quickly (now guarded).
 
 QA (13 Sep 2026, v4.1): homepage sections and route pages at desktop and 400 px; arrows with real clicks; sign-up → intake → assessment → all three checkouts → plan generation → gaps → evidence → review → endorsement → post-endorsement requests; My plan; pre-login chat to the gate; no console errors; em-dash and "Package" counts zero in `index.html`.
+
+Composer (13 Sep 2026): the widget textarea auto-grows 76 to 190 px (`autosize()`), so prefilled and typed answers are fully visible.
